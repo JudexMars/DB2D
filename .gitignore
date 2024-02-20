@@ -59,3 +59,7 @@ typings/
 .yarn-integrity
 
 .DS_Store
+
+.idea/
+
+.gnupg/
