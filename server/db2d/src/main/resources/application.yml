@@ -13,5 +13,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/db2d
     username: admin
     password: ${postgres-password:12345}
+  profiles:
+    include: prod
 
 
