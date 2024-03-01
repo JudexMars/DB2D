@@ -10,6 +10,10 @@ public record SignupRequestDto(
         @NotBlank
         String email,
         @NotBlank
+        String firstname,
+        @NotBlank
+        String lastname,
+        @NotBlank
         String password,
         @NotBlank
         @JsonProperty("confirm_password")

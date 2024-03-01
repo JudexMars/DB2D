@@ -1,10 +1,9 @@
 package org.judexmars.db2d.utils;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.judexmars.db2d.config.JwtProperties;
@@ -61,24 +60,24 @@ public class JwtTokenUtils {
         return getAllClaimsFromToken(token, getSecretKey(jwtProperties.getRefreshSecret())).getSubject();
     }
 
-    private boolean validateToken(@NonNull String token, @NonNull SecretKey secret) {
-        try {
-            Jwts.parser()
-                    .verifyWith(secret)
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (ExpiredJwtException expEx) {
-            log.error("Token expired", expEx);
-        } catch (UnsupportedJwtException unsEx) {
-            log.error("Unsupported jwt", unsEx);
-        } catch (MalformedJwtException mjEx) {
-            log.error("Malformed jwt", mjEx);
-        } catch (SignatureException sEx) {
-            log.error("Invalid signature", sEx);
-        } catch (Exception e) {
-            log.error("invalid token", e);
-        }
-        return false;
-    }
+//    private boolean validateToken(@NonNull String token, @NonNull SecretKey secret) {
+//        try {
+//            Jwts.parser()
+//                    .verifyWith(secret)
+//                    .build()
+//                    .parseSignedClaims(token);
+//            return true;
+//        } catch (ExpiredJwtException expEx) {
+//            log.error("Token expired", expEx);
+//        } catch (UnsupportedJwtException unsEx) {
+//            log.error("Unsupported jwt", unsEx);
+//        } catch (MalformedJwtException mjEx) {
+//            log.error("Malformed jwt", mjEx);
+//        } catch (SignatureException sEx) {
+//            log.error("Invalid signature", sEx);
+//        } catch (Exception e) {
+//            log.error("invalid token", e);
+//        }
+//        return false;
+//    }
 }

@@ -27,6 +27,12 @@ public class AccountEntity implements UserDetails {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Column(name = "lastname")
+    private String lastname;
+
     @Column(name = "password")
     private String password;
 

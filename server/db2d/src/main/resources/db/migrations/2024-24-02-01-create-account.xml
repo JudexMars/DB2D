@@ -10,10 +10,16 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="account_pk"/>
             </column>
             <column name="email" type="varchar">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="username" type="VARCHAR">
                 <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="firstname" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="varchar">
+                <constraints nullable="false"/>
             </column>
             <column name="password" type="varchar">
                 <constraints nullable="false"/>

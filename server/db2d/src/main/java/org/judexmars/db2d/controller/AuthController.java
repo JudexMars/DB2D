@@ -1,5 +1,9 @@
 package org.judexmars.db2d.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -109,8 +113,11 @@ public class AuthController {
         );
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ProblemDetail handleAccessDenied(AccessDeniedException accessDeniedException) {
+    @ExceptionHandler(
+            {AccessDeniedException.class, ExpiredJwtException.class,
+            UnsupportedJwtException.class,
+            MalformedJwtException.class, SignatureException.class})
+    public ProblemDetail handleAccessDenied(Exception accessDeniedException) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, accessDeniedException.getMessage());
     }
 

@@ -2,6 +2,7 @@ package org.judexmars.db2d.service;
 
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.exception.AccountAlreadyExistsException;
+import org.judexmars.db2d.exception.EmailTakenException;
 import org.judexmars.db2d.exception.ResourceNotFoundException;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.repository.AccountRepository;
@@ -55,6 +56,9 @@ public class AccountService implements UserDetailsService {
     public AccountEntity createAccount(AccountEntity account) throws AccountAlreadyExistsException {
         if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
             throw new AccountAlreadyExistsException(account.getUsername());
+        }
+        if (accountRepository.findByEmail(account.getEmail()).isPresent()) {
+            throw new EmailTakenException(account.getEmail());
         }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         return accountRepository.save(account);

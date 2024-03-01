@@ -45,6 +45,7 @@ public class AuthService {
      * @return {accessToken, refreshToken, userId, username}
      */
     public String[] refresh(String refreshToken) {
+
         var username = jwtTokenUtils.getUsernameFromRefreshToken(refreshToken);
         var id = new RefreshTokenId(username, refreshToken);
         var savedToken = refreshTokenRepository.findById(id);
