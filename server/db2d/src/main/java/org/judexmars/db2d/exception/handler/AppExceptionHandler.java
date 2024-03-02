@@ -1,6 +1,7 @@
 package org.judexmars.db2d.exception.handler;
 
 import org.judexmars.db2d.exception.AccountAlreadyExistsException;
+import org.judexmars.db2d.exception.EmailTakenException;
 import org.judexmars.db2d.exception.ResourceNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ public class AppExceptionHandler {
     @ExceptionHandler(AccountAlreadyExistsException.class)
     public ProblemDetail handleAccountAlreadyExists(AccountAlreadyExistsException accountAlreadyExistsException) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, accountAlreadyExistsException.getMessage());
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    public ProblemDetail handleAccountAlreadyExists(EmailTakenException emailTakenException) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, emailTakenException.getMessage());
     }
 
     @ExceptionHandler(BadCredentialsException.class)

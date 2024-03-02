@@ -52,8 +52,9 @@ public class AccountService implements UserDetailsService {
      * @param account account to be created
      * @return created account
      * @throws AccountAlreadyExistsException if account with such username already exists
+     * @throws EmailTakenException if account with such email already exists
      */
-    public AccountEntity createAccount(AccountEntity account) throws AccountAlreadyExistsException {
+    public AccountEntity createAccount(AccountEntity account) throws AccountAlreadyExistsException, EmailTakenException {
         if (accountRepository.findByUsername(account.getUsername()).isPresent()) {
             throw new AccountAlreadyExistsException(account.getUsername());
         }
