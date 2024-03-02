@@ -40,7 +40,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler(EmailTakenException.class)
-    public ProblemDetail handleAccountAlreadyExists(EmailTakenException emailTakenException) {
+    public ProblemDetail handleEmailTaken(EmailTakenException emailTakenException) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, emailTakenException.getMessage());
     }
 
