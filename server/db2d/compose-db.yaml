@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres
+    container_name: "db2d-postgres"
+    restart: always
+    secrets:
+      - postgres-password
+    networks:
+      - spring-postgres
+    environment:
+      - POSTGRES_DB=db2d
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
+      - PG_DATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+secrets:
+  postgres-password:
+    file: src/main/resources/db/postgres_password.txt
+networks:
+  spring-postgres:
+    driver: bridge
+
+volumes:
+  postgres-volume:

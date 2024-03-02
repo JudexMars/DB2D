@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-24-02-02-create-refresh-storage" author="JudexMars">
+        <createTable remarks="Refresh-токены" tableName="refresh_token">
+            <column name="username" type="varchar">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="token" type="varchar">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+
+
+        <addForeignKeyConstraint baseTableName="account" baseColumnNames="username"
+                                 constraintName="refresh_token_account_username_fk" referencedTableName="account"
+                                 referencedColumnNames="username" onDelete="CASCADE"/>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1"
+                        maxValue="9223372036854775807" minValue="1" sequenceName="account_seq" startValue="1"/>
+    </changeSet>
+</databaseChangeLog>
