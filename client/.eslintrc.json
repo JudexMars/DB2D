@@ -8,6 +8,8 @@
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "parserOptions": {
@@ -15,23 +17,28 @@
     "sourceType": "module"
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "react-hooks", "prettier", "import"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "import"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "spaced-comment": "warn",
-    "no-console": "warn",
     "consistent-return": "error",
     "func-names": "off",
     "object-shorthand": "off",
+    "no-console": "warn",
     "no-undef": "off",
     "no-param-reassign": "error",
     "no-return-await": "off",
-    "prefer-destructuring": ["error", { "object": true, "array": false }],
+    "no-unused-vars": "off",
     "react/display-name": "off",
-    "no-unused-vars": [
-      "error",
-      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-    ],
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
     "import/order": [
       "error",
       {
