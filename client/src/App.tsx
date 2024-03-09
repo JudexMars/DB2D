@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import logo from "./logo.svg";
+import Icon from "./components/Icon";
 
 const StyledApp = styled.div`
   text-align: center;
@@ -21,7 +21,7 @@ const Header = styled.header`
   }
 `;
 
-const Img = styled.img`
+const StyledIcon = styled(Icon)`
   height: 40vmin;
   pointer-events: none;
 
@@ -43,7 +43,7 @@ function App() {
   return (
     <StyledApp>
       <Header>
-        <Img src={logo} alt="logo" />
+        <StyledIcon type="Logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

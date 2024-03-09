@@ -14,6 +14,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "parser": "@typescript-eslint/parser",
   "plugins": ["react", "react-hooks", "prettier", "import"],
   "rules": {
     "prettier/prettier": "error",
@@ -22,10 +23,15 @@
     "consistent-return": "error",
     "func-names": "off",
     "object-shorthand": "off",
+    "no-undef": "off",
     "no-param-reassign": "error",
     "no-return-await": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-unused-vars": ["error"],
+    "react/display-name": "off",
+    "no-unused-vars": [
+      "error",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
     "import/order": [
       "error",
       {
