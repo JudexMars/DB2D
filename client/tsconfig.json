@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5", // Specify ECMAScript target version
+    "target": "es6", // Specify ECMAScript target version
     "lib": ["dom", "dom.iterable", "esnext"], // List of library files to be included in the compilation
     "allowJs": true, // Allow JavaScript files to be compiled
     "skipLibCheck": true, // Skip type checking of all declaration files
@@ -8,24 +8,25 @@
     "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
     "strict": true, // Enable all strict type checking options
     "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+    "jsx": "react-jsx", // Support JSX in .tsx files
     "module": "esnext", // Specify module code generation
     "moduleResolution": "node", // Resolve modules using Node.js style
     "isolatedModules": true, // Unconditionally emit imports for unresolved files
     "resolveJsonModule": true, // Include modules imported with .json extension
     "noEmit": true, // Do not emit output (meaning do not compile code, only perform type checking)
-    "jsx": "react-jsx", // Support JSX in .tsx files
     "sourceMap": true, // Generate corrresponding .map file
     "declaration": true, // Generate corresponding .d.ts file
     "allowUnreachableCode": false,
     "noUnusedParameters": true, // Report errors on unused parameters
     "incremental": true, // Enable incremental compilation by reading/writing information from prior compilations to a file on disk
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement
+    "baseUrl": "src",
     "paths": {
-      "components/*": ["./src/components/*"],
-      "containers/*": ["./src/containers"],
-      "pages/*": ["./src/pages"]
+      "components/*": ["components/*"],
+      "containers/*": ["/containers/*"],
+      "pages/*": ["/pages/*"]
     }
   },
-  "include": ["src", "react-app-env.d.ts"], // The files TypeScript should type check
+  "include": ["src", "react-app-env.d.ts", "styled-components.d.ts"], // The files TypeScript should type check
   "exclude": ["node_modules", "build"] // The files to not type check
 }

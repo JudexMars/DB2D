@@ -1,10 +1,28 @@
 export interface Theme {
+  colors: {
+    background: string;
+    border: string;
+    font: string;
+  };
+
   borderRadius: number;
 
-  colors: {
-    primary: string;
+  input: {
+    colors: {
+      border: string;
+      font: string;
+      placeholder: string;
+    };
+  };
 
-    background: string;
-    font: string;
+  button: {
+    primary: {
+      color: string;
+      background: string;
+    };
+  };
+
+  link: {
+    primary: string;
   };
 }

@@ -2,18 +2,36 @@ import { forwardRef } from "react";
 
 import styled from "styled-components";
 
-const StyledButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.primary};
+enum ButtonVariant {
+  Primary = "primary",
+}
+
+interface StyledButtonProps {
+  $variant: ButtonVariant;
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
+  padding: 15px 20px;
+  color: ${({ theme, $variant }) => theme.button[$variant].color};
+  background-color: ${({ theme, $variant }) =>
+    theme.button[$variant].background};
+  border: none;
   border-radius: ${(props) => props.theme.borderRadius}px;
-  height: 40px;
+  font-size: 24px;
+  font-weight: 600;
 `;
 
-interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {}
+interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+  variant?: ButtonVariant;
+}
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, ...rest }: ButtonProps, ref): JSX.Element => {
+  (
+    { variant = ButtonVariant.Primary, children, ...rest }: ButtonProps,
+    ref,
+  ): JSX.Element => {
     return (
-      <StyledButton ref={ref} {...rest}>
+      <StyledButton ref={ref} $variant={variant} {...rest}>
         {children}
       </StyledButton>
     );
