@@ -5,8 +5,9 @@ import org.judexmars.db2d.dto.account.AccountDto;
 import org.judexmars.db2d.dto.account.AccountSettingsDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
 import org.judexmars.db2d.exception.AccountAlreadyExistsException;
+import org.judexmars.db2d.exception.AccountNotFoundException;
 import org.judexmars.db2d.exception.EmailTakenException;
-import org.judexmars.db2d.exception.ResourceNotFoundException;
+import org.judexmars.db2d.exception.LanguageNotFoundException;
 import org.judexmars.db2d.mapper.AccountMapper;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.model.AccountSettingsEntity;
@@ -35,7 +36,7 @@ public class AccountService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return accountRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("Аккаунт", username));
+                .orElseThrow(() -> new AccountNotFoundException(username));
     }
 
     /**
@@ -56,7 +57,7 @@ public class AccountService implements UserDetailsService {
      */
     public AccountDto getById(Long id) {
         return accountMapper.toAccountDto(accountRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Аккаунт", id)));
+                .orElseThrow(() -> new AccountNotFoundException( id)));
     }
 
     /**
@@ -90,7 +91,7 @@ public class AccountService implements UserDetailsService {
      */
     public AccountSettingsDto getAccountSettingsById(Long accountId) {
         return accountMapper.toAccountSettingsDto(accountSettingsRepository.findById(accountId)
-                .orElseThrow(() -> new ResourceNotFoundException("Аккаунт", accountId)));
+                .orElseThrow(() -> new AccountNotFoundException(accountId)));
     }
 
     /**
@@ -100,7 +101,7 @@ public class AccountService implements UserDetailsService {
      */
     public AccountSettingsDto getAccountSettingsByUsername(String username) {
         return accountMapper.toAccountSettingsDto(accountRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("Аккаунт", username))
+                .orElseThrow(() -> new AccountNotFoundException(username))
                 .getAccountSettings());
     }
 
@@ -112,7 +113,7 @@ public class AccountService implements UserDetailsService {
      */
     public AccountSettingsDto updateAccountSettingsById(Long id, AccountSettingsDto accountSettingsDto) {
         var accountSettings = accountMapper.toAccountSettings(accountSettingsDto, id);
-        var language = interfaceLanguageRepository.findByName(accountSettingsDto.language()).orElseThrow(() -> new ResourceNotFoundException("Language", accountSettingsDto.language()));
+        var language = interfaceLanguageRepository.findByName(accountSettingsDto.language()).orElseThrow(() -> new LanguageNotFoundException(accountSettingsDto.language()));
         accountSettings.getLanguage().setId(language.getId());
         return accountMapper.toAccountSettingsDto(accountSettingsRepository.save(accountSettings));
     }
@@ -130,6 +131,6 @@ public class AccountService implements UserDetailsService {
     }
 
     private InterfaceLanguageEntity getDefaultLanguage() {
-        return interfaceLanguageRepository.findById(1).orElseThrow(() -> new ResourceNotFoundException("Language", 1));
+        return interfaceLanguageRepository.findById(1).orElseThrow(() -> new LanguageNotFoundException(1));
     }
 }
