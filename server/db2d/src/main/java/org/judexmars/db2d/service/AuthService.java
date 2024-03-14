@@ -1,7 +1,7 @@
 package org.judexmars.db2d.service;
 
 import lombok.RequiredArgsConstructor;
-import org.judexmars.db2d.exception.AccessDeniedException;
+import org.judexmars.db2d.exception.InvalidJwtException;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.model.RefreshTokenEntity;
 import org.judexmars.db2d.model.RefreshTokenId;
@@ -57,6 +57,6 @@ public class AuthService {
             refreshTokenRepository.save(new RefreshTokenEntity(username, refreshToken));
             return new String[]{accessToken, refreshToken, String.valueOf(account.getId()), account.getUsername()};
         }
-        throw new AccessDeniedException("JWT is not valid");
+        throw new InvalidJwtException("JWT is not valid");
     }
 }

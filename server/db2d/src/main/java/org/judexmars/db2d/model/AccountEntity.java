@@ -36,6 +36,9 @@ public class AccountEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "account")
+    public AccountSettingsEntity accountSettings;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

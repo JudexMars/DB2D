@@ -1,12 +1,10 @@
 package org.judexmars.db2d.exception;
 
-public class AccountAlreadyExistsException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class AccountAlreadyExistsException extends BaseException {
 
     public AccountAlreadyExistsException(String accountName) {
-        super("Аккаунт с именем " + accountName + " уже существует");
-    }
-
-    public AccountAlreadyExistsException(String accountName, Throwable cause) {
-        super("Аккаунт с именем " + accountName + " уже существует", cause);
+        super(HttpStatus.CONFLICT, "exception.account_already_exists", accountName);
     }
 }

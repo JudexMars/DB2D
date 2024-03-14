@@ -1,9 +1,5 @@
 package org.judexmars.db2d.controller;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,16 +13,16 @@ import org.judexmars.db2d.dto.auth.request.JwtRefreshRequestDto;
 import org.judexmars.db2d.dto.auth.request.JwtRequestDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
 import org.judexmars.db2d.dto.auth.response.JwtResponseDto;
-import org.judexmars.db2d.exception.AccessDeniedException;
-import org.judexmars.db2d.exception.SignUpException;
-import org.judexmars.db2d.mapper.AccountMapper;
+import org.judexmars.db2d.exception.ConfirmPasswordException;
+import org.judexmars.db2d.exception.handler.ErrorResponse;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.service.AccountService;
 import org.judexmars.db2d.service.AuthService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,7 +33,6 @@ public class AuthController {
 
     private final AuthService authService;
     private final AccountService accountService;
-    private final AccountMapper accountMapper;
 
     @Operation(description = "Вход в аккаунт")
     @ApiResponses({
@@ -45,10 +40,10 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetail.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             }),
-            @ApiResponse(responseCode = "403", description = "Некорректные реквизиты", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetail.class))
+            @ApiResponse(responseCode = "401", description = "Некорректные реквизиты", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PostMapping("/login")
@@ -64,19 +59,20 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetail.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             }),
-            @ApiResponse(responseCode = "403", description = "Некорректные реквизиты", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetail.class))
+            @ApiResponse(responseCode = "401", description = "Некорректные реквизиты", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PostMapping("/signup")
     public ResponseEntity<JwtResponseDto> signUp(@RequestBody @Valid SignupRequestDto requestDto) {
         if (!requestDto.password().equals(requestDto.confirmPassword())) {
-            throw new SignUpException("Пароли не совпадают");
+            throw new ConfirmPasswordException();
         }
-        AccountEntity createdAccount = accountService.createAccount(accountMapper.toAccount(requestDto));
-        JwtResponseDto jwtResponseDto = getResponseDto(createdAccount, requestDto.username(), requestDto.password());
+        var createdAccount = accountService.createAccount(requestDto);
+        var userDetails = accountService.loadUserByUsername(createdAccount.username());
+        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails, requestDto.username(), requestDto.password());
         return ResponseEntity.ok(jwtResponseDto);
     }
 
@@ -86,10 +82,10 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetail.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             }),
-            @ApiResponse(responseCode = "403", description = "Некорректные реквизиты", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetail.class))
+            @ApiResponse(responseCode = "401", description = "Некорректные реквизиты", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PostMapping("/refresh")
@@ -111,18 +107,5 @@ public class AuthController {
                 tokens[0],
                 tokens[1]
         );
-    }
-
-    @ExceptionHandler(
-            {AccessDeniedException.class, ExpiredJwtException.class,
-            UnsupportedJwtException.class,
-            MalformedJwtException.class, SignatureException.class})
-    public ProblemDetail handleAccessDenied(Exception accessDeniedException) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, accessDeniedException.getMessage());
-    }
-
-    @ExceptionHandler(SignUpException.class)
-    public ProblemDetail handleSignUp(SignUpException signUpException) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, signUpException.getMessage());
     }
 }
