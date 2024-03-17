@@ -3,13 +3,13 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
+// import { useNavigate } from "react-router-dom";
 
 export interface SignIn {
   login: string;
@@ -46,7 +46,7 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [user, setUser] = useState<User>();
 
@@ -83,18 +83,18 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     },
   });
 
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard", { replace: true });
-    } else {
-      navigate("/auth/signIn", { replace: true });
-    }
-    /**
-     * navigate is removed from dependencies to avoid
-     * triggering the hook after navigating to another url
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/dashboard", { replace: true });
+  //   } else {
+  //     navigate("/auth/signIn", { replace: true });
+  //   }
+  //   /**
+  //    * navigate is removed from dependencies to avoid
+  //    * triggering the hook after navigating to another url
+  //    */
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user]);
 
   const signIn = useCallback(
     (props: SignIn) => {
