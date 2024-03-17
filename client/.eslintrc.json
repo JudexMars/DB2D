@@ -38,6 +38,7 @@
     "react/display-name": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-explicit-any": ["off"],
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "import/order": [
       "error",

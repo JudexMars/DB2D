@@ -9,6 +9,10 @@ export const baseTheme: Theme = {
 
   borderRadius: 8,
 
+  auth: {
+    backgroundImage: "linear-gradient(90deg, #677fff, #aa9cbb)",
+  },
+
   input: {
     colors: {
       border: "#E1E1E1",

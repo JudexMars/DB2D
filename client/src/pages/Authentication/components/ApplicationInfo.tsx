@@ -10,7 +10,7 @@ const StyledApplicationInfo = styled.div`
   gap: 30px;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(90deg, #677fff, #aa9cbb);
+  background-image: ${({ theme }) => theme.auth.backgroundImage};
   color: #ffffff;
   clip-path: circle(76% at 82% 34%);
 `;

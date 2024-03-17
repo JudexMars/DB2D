@@ -19,6 +19,10 @@ const StyledButton = styled.button<StyledButtonProps>`
   border-radius: ${(props) => props.theme.borderRadius}px;
   font-size: 24px;
   font-weight: 600;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
@@ -31,7 +35,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ): JSX.Element => {
     return (
-      <StyledButton ref={ref} $variant={variant} {...rest}>
+      <StyledButton ref={ref} $variant={variant} type="button" {...rest}>
         {children}
       </StyledButton>
     );

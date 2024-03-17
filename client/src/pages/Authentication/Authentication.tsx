@@ -25,8 +25,8 @@ const Authentication = (): JSX.Element => {
     <StyledAuthentication>
       <WrapperForm>
         <Routes>
-          <Route path="login" element={<AuthorizationForm />} />
-          <Route path="registration" element={<RegistrationForm />} />
+          <Route path="signin" element={<AuthorizationForm />} />
+          <Route path="register" element={<RegistrationForm />} />
         </Routes>
       </WrapperForm>
       <ApplicationInfo />

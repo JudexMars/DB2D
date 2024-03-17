@@ -7,6 +7,10 @@ export interface Theme {
 
   borderRadius: number;
 
+  auth: {
+    backgroundImage: string;
+  };
+
   input: {
     colors: {
       border: string;
