@@ -21,9 +21,6 @@ public class AccountEntity implements UserDetails {
     @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "email")
     private String email;
 
@@ -36,6 +33,9 @@ public class AccountEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "account")
+    public AccountSettingsEntity accountSettings;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -43,7 +43,7 @@ public class AccountEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     @Override

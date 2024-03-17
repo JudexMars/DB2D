@@ -52,32 +52,11 @@ public class JwtTokenUtils {
                 .getPayload();
     }
 
-    public String getUsernameFromAccessToken(String token) {
+    public String getEmailFromAccessToken(String token) {
         return getAllClaimsFromToken(token, getSecretKey(jwtProperties.getAccessSecret())).getSubject();
     }
 
-    public String getUsernameFromRefreshToken(String token) {
+    public String getEmailFromRefreshToken(String token) {
         return getAllClaimsFromToken(token, getSecretKey(jwtProperties.getRefreshSecret())).getSubject();
     }
-
-//    private boolean validateToken(@NonNull String token, @NonNull SecretKey secret) {
-//        try {
-//            Jwts.parser()
-//                    .verifyWith(secret)
-//                    .build()
-//                    .parseSignedClaims(token);
-//            return true;
-//        } catch (ExpiredJwtException expEx) {
-//            log.error("Token expired", expEx);
-//        } catch (UnsupportedJwtException unsEx) {
-//            log.error("Unsupported jwt", unsEx);
-//        } catch (MalformedJwtException mjEx) {
-//            log.error("Malformed jwt", mjEx);
-//        } catch (SignatureException sEx) {
-//            log.error("Invalid signature", sEx);
-//        } catch (Exception e) {
-//            log.error("invalid token", e);
-//        }
-//        return false;
-//    }
 }

@@ -3,6 +3,7 @@ package org.judexmars.db2d.security;
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.service.AccountService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity
+@ComponentScan(basePackages = {"org.judexmars"})
 public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;

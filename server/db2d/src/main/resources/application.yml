@@ -15,5 +15,6 @@ spring:
     password: ${postgres-password:12345}
   profiles:
     include: prod
-
+  messages:
+    basename: i18n/messages
 
