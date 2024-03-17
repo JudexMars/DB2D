@@ -4,32 +4,16 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="2024-03-09-01-create-account-settings" author="JudexMars">
-        <createTable remarks="Системные настройки аккаунта" tableName="account_settings">
-            <column name="account_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="account_settings_pk"/>
-            </column>
-            <column name="language_id" type="int">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable remarks="Язык интерфейса приложения" tableName="interface_language">
-            <column name="id" type="int">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="interface_language_pk"/>
-            </column>
-            <column name="name" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
+    <changeSet id="2024-03-17-02-add-cascade-to-account-settings" author="JudexMars">
+        <dropForeignKeyConstraint baseTableName="account_settings" constraintName="account_settings_account_id_fk"/>
+        <dropForeignKeyConstraint baseTableName="account_settings" constraintName="account_settings_interface_language_id_fk"/>
         <addForeignKeyConstraint baseTableName="account_settings" baseColumnNames="account_id"
                                  constraintName="account_settings_account_id_fk" referencedTableName="account"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="account_settings" baseColumnNames="language_id"
                                  constraintName="account_settings_interface_language_id_fk"
                                  referencedTableName="interface_language"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id" onDelete="SET NULL"/>
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1"
                         maxValue="9223372036854775807" minValue="1" sequenceName="interface_language_seq" startValue="1"/>
     </changeSet>
