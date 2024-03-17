@@ -52,11 +52,11 @@ public class JwtTokenUtils {
                 .getPayload();
     }
 
-    public String getUsernameFromAccessToken(String token) {
+    public String getEmailFromAccessToken(String token) {
         return getAllClaimsFromToken(token, getSecretKey(jwtProperties.getAccessSecret())).getSubject();
     }
 
-    public String getUsernameFromRefreshToken(String token) {
+    public String getEmailFromRefreshToken(String token) {
         return getAllClaimsFromToken(token, getSecretKey(jwtProperties.getRefreshSecret())).getSubject();
     }
 }

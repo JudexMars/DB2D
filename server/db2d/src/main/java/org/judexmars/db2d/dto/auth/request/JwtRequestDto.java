@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record JwtRequestDto(
         @NotBlank
-        String username,
+        String email,
         @NotBlank
         String password
 ) {

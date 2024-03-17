@@ -9,12 +9,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.judexmars.db2d.dto.BaseResponseDto;
 import org.judexmars.db2d.dto.auth.request.JwtRefreshRequestDto;
 import org.judexmars.db2d.dto.auth.request.JwtRequestDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
 import org.judexmars.db2d.dto.auth.response.JwtResponseDto;
 import org.judexmars.db2d.exception.ConfirmPasswordException;
-import org.judexmars.db2d.exception.handler.ErrorResponse;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.service.AccountService;
 import org.judexmars.db2d.service.AuthService;
@@ -40,16 +40,16 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),
             @ApiResponse(responseCode = "401", description = "Некорректные реквизиты", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             })
     })
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody @Valid JwtRequestDto requestDto) {
-        var userDetails = accountService.loadUserByUsername(requestDto.username());
-        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails, requestDto.username(), requestDto.password());
+        var userDetails = accountService.loadUserByUsername(requestDto.email());
+        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails, requestDto.email(), requestDto.password());
         return ResponseEntity.ok(jwtResponseDto);
     }
 
@@ -59,10 +59,10 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),
             @ApiResponse(responseCode = "401", description = "Некорректные реквизиты", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             })
     })
     @PostMapping("/signup")
@@ -71,8 +71,8 @@ public class AuthController {
             throw new ConfirmPasswordException();
         }
         var createdAccount = accountService.createAccount(requestDto);
-        var userDetails = accountService.loadUserByUsername(createdAccount.username());
-        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails, requestDto.username(), requestDto.password());
+        var userDetails = accountService.loadUserByUsername(createdAccount.email());
+        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails, requestDto.email(), requestDto.password());
         return ResponseEntity.ok(jwtResponseDto);
     }
 
@@ -82,10 +82,10 @@ public class AuthController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),
             @ApiResponse(responseCode = "401", description = "Некорректные реквизиты", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             })
     })
     @PostMapping("/refresh")

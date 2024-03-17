@@ -12,6 +12,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class RefreshTokenId implements Serializable {
-    private String username;
+    private String email;
     private String token;
 }

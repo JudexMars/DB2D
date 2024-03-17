@@ -14,8 +14,8 @@ import lombok.*;
 public class RefreshTokenEntity {
 
     @Id
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
 
 
     @Id

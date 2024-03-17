@@ -39,6 +39,22 @@ public class AuthService {
     }
 
     /**
+     * Simply checks if the user can be authenticated with provided credentials
+     * @param username username
+     * @param password password
+     * @return {@code true} if the user is authenticated
+     */
+    public boolean authenticate(String username, String password) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return true;
+        }
+        catch (Exception ex) {
+            return false;
+        }
+    }
+
+    /**
      * Generate new JWT tokens (access and refresh) based on provided refresh token
      *
      * @param refreshToken provided refresh token
@@ -46,7 +62,7 @@ public class AuthService {
      */
     public String[] refresh(String refreshToken) {
 
-        var username = jwtTokenUtils.getUsernameFromRefreshToken(refreshToken);
+        var username = jwtTokenUtils.getEmailFromRefreshToken(refreshToken);
         var id = new RefreshTokenId(username, refreshToken);
         var savedToken = refreshTokenRepository.findById(id);
         if (savedToken.isPresent() && savedToken.get().getToken().equals(refreshToken)) {

@@ -2,9 +2,10 @@ package org.judexmars.db2d.dto.account;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AccountSettingsDto(
-        Long accountId,
+public record UpdateAccountDto(
         @NotBlank
-        String language
+        String firstname,
+        @NotBlank
+        String lastname
 ) {
 }

@@ -9,5 +9,6 @@
     <include file="/db/migrations/2024-02-24-01-create-account.xml"/>
     <include file="/db/migrations/2024-02-24-02-create-refresh-storage.xml"/>
     <include file="/db/migrations/2024-03-09-01-create-account-settings.xml"/>
+    <include file="/db/migrations/2024-03-17-01-delete-username.xml"/>
 
 </databaseChangeLog>
