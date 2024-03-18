@@ -9,5 +9,7 @@
     <include file="/db/migrations/2024-02-24-01-create-account.xml"/>
     <include file="/db/migrations/2024-02-24-02-create-refresh-storage.xml"/>
     <include file="/db/migrations/2024-03-09-01-create-account-settings.xml"/>
+    <include file="/db/migrations/2024-03-15-01-create-role-privilege.xml"/>
+    <include file="/db/migrations/2024-03-15-02-create-account-role.xml"/>
 
 </databaseChangeLog>

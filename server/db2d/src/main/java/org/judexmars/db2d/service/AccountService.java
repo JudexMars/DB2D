@@ -4,17 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.dto.account.AccountDto;
 import org.judexmars.db2d.dto.account.AccountSettingsDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
-import org.judexmars.db2d.exception.AccountAlreadyExistsException;
-import org.judexmars.db2d.exception.AccountNotFoundException;
-import org.judexmars.db2d.exception.EmailTakenException;
-import org.judexmars.db2d.exception.LanguageNotFoundException;
+import org.judexmars.db2d.exception.*;
 import org.judexmars.db2d.mapper.AccountMapper;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.model.AccountSettingsEntity;
 import org.judexmars.db2d.model.InterfaceLanguageEntity;
+import org.judexmars.db2d.model.RoleEntity;
 import org.judexmars.db2d.repository.AccountRepository;
 import org.judexmars.db2d.repository.AccountSettingsRepository;
 import org.judexmars.db2d.repository.InterfaceLanguageRepository;
+import org.judexmars.db2d.repository.RoleRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,6 +30,7 @@ public class AccountService implements UserDetailsService {
     private final AccountSettingsRepository accountSettingsRepository;
     private final InterfaceLanguageRepository interfaceLanguageRepository;
     private final AccountMapper accountMapper;
+    private final RoleRepository roleRepository;
 
 
     @Override
@@ -132,5 +132,22 @@ public class AccountService implements UserDetailsService {
 
     private InterfaceLanguageEntity getDefaultLanguage() {
         return interfaceLanguageRepository.findById(1).orElseThrow(() -> new LanguageNotFoundException(1));
+    }
+
+    /**
+     * Get role entity by its name
+     * @param name name of the role
+     * @return {@link RoleEntity}
+     */
+    public RoleEntity getRoleByName(String name) {
+        return roleRepository.findByName(name).orElseThrow(() -> new NoSuchRoleException(name));
+    }
+
+    /**
+     * Get default role entity
+     * @return {@link RoleEntity}
+     */
+    public RoleEntity getDefaultRole() {
+        return getRoleByName("ROLE_USER");
     }
 }

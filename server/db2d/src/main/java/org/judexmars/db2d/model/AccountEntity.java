@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,9 +41,18 @@ public class AccountEntity implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "account")
     public AccountSettingsEntity accountSettings;
 
+    @ManyToMany
+    @JoinTable(
+            name = "account_role",
+            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    @ToString.Exclude
+    private Set<RoleEntity> roles = new LinkedHashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles.stream().flatMap(RoleEntity::getAuthorities).toList();
     }
 
     @Override
