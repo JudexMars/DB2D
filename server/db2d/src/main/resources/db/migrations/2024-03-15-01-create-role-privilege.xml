@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-03-15-01-create-role-privilege" author="JudexMars">
+        <createTable remarks="Роль аккаунта" tableName="role">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_pk"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50"
+                        maxValue="9223372036854775807" minValue="1" sequenceName="role_seq" startValue="1"/>
+
+        <createTable remarks="Привилегия роли" tableName="privilege">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="privilege_pk"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50"
+                        maxValue="9223372036854775807" minValue="1" sequenceName="privilege_seq" startValue="1"/>
+
+        <createTable remarks="Связь роли и привилегии" tableName="role_privilege">
+            <column name="privilege_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="role_privilege"
+                       columnNames="role_id, privilege_id"
+                       constraintName="role_privilege_pk"/>
+        <addForeignKeyConstraint baseTableName="role_privilege"
+                                 baseColumnNames="role_id"
+                                 constraintName="role_privilege_role_fk"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="role_privilege"
+                                 baseColumnNames="privilege_id"
+                                 constraintName="role_privilege_privilege_fk"
+                                 referencedTableName="privilege"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

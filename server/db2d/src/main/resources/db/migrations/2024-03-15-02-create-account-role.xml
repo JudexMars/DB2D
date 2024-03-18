@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-03-15-02-create-account-role" author="JudexMars">
+        <createTable remarks="Связь аккаунта и роли" tableName="account_role">
+            <column name="account_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="account_role_pk"/>
+            </column>
+
+            <column name="role_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="account_role_pk"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="account_role" baseColumnNames="account_id"
+                                 constraintName="account_role_account_id_fk" referencedTableName="account"
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="account_role" baseColumnNames="role_id"
+                                 constraintName="account_role_role_id_fk" referencedTableName="role"
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>
