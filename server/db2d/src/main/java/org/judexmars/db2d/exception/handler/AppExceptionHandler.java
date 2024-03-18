@@ -5,6 +5,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import org.judexmars.db2d.dto.BaseResponseDto;
 import org.judexmars.db2d.exception.*;
 import org.judexmars.db2d.service.MessageRenderer;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -37,47 +38,47 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler(BaseNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(BaseNotFoundException ex) {
+    public ResponseEntity<BaseResponseDto> handleResourceNotFound(BaseNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(404, messageRenderer.render(ex.getMessageCode(), ex.getArgs())));
-    }
-
-    @ExceptionHandler(AccountAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAccountAlreadyExists(AccountAlreadyExistsException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(409, messageRenderer.render(ex.getMessageCode(), ex.getArgs())));
+                .body(new BaseResponseDto(404, messageRenderer.render(ex.getMessageCode(), ex.getArgs())));
     }
 
     @ExceptionHandler(EmailTakenException.class)
-    public ResponseEntity<ErrorResponse> handleEmailTaken(EmailTakenException ex) {
+    public ResponseEntity<BaseResponseDto> handleEmailTaken(EmailTakenException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(409, messageRenderer.render(ex.getMessageCode(), ex.getArgs())));
+                .body(new BaseResponseDto(409, messageRenderer.render(ex.getMessageCode(), ex.getArgs())));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleBadCredentials() {
+    public ResponseEntity<BaseResponseDto> handleBadCredentials() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorResponse(401, messageRenderer.render("exception.bad_credentials")));
+                .body(new BaseResponseDto(401, messageRenderer.render("exception.bad_credentials")));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDeniedException() {
+    public ResponseEntity<BaseResponseDto> handleAccessDeniedException() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponse(403, messageRenderer.render("exception.access_denied")));
+                .body(new BaseResponseDto(403, messageRenderer.render("exception.access_denied")));
     }
 
     @ExceptionHandler(ConfirmPasswordException.class)
-    public ResponseEntity<ErrorResponse> handleConfirmPasswordException(ConfirmPasswordException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponse(400, messageRenderer.render(ex.getMessageCode())));
+    public ResponseEntity<BaseResponseDto> handleConfirmPasswordException(ConfirmPasswordException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new BaseResponseDto(401, messageRenderer.render(ex.getMessageCode())));
+    }
+
+    @ExceptionHandler(WrongPasswordException.class)
+    public ResponseEntity<BaseResponseDto> handleWrongPasswordException(WrongPasswordException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new BaseResponseDto(401, messageRenderer.render(ex.getMessageCode())));
     }
 
     @ExceptionHandler(
             {InvalidJwtException.class, ExpiredJwtException.class,
                     UnsupportedJwtException.class,
                     MalformedJwtException.class, SignatureException.class})
-    public ResponseEntity<ErrorResponse> handleAccountJwtException() {
+    public ResponseEntity<BaseResponseDto> handleAccountJwtException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorResponse(401, messageRenderer.render("exception.jwt")));
+                .body(new BaseResponseDto(401, messageRenderer.render("exception.jwt")));
     }
 }

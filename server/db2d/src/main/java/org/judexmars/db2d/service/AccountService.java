@@ -2,7 +2,9 @@ package org.judexmars.db2d.service;
 
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.dto.account.AccountDto;
+import org.judexmars.db2d.dto.account.AccountPasswordDto;
 import org.judexmars.db2d.dto.account.AccountSettingsDto;
+import org.judexmars.db2d.dto.account.UpdateAccountDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
 import org.judexmars.db2d.exception.*;
 import org.judexmars.db2d.mapper.AccountMapper;
@@ -35,7 +37,7 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return accountRepository.findByUsername(username)
+        return accountRepository.findByEmail(username)
                 .orElseThrow(() -> new AccountNotFoundException(username));
     }
 
@@ -45,7 +47,7 @@ public class AccountService implements UserDetailsService {
      * @param username account's username
      * @return {@link AccountDto}
      */
-    public AccountDto getByUsername(String username) {
+    public AccountDto getByEmail(String username) {
         return accountMapper.toAccountDto(((AccountEntity) loadUserByUsername(username)));
     }
 
@@ -65,13 +67,9 @@ public class AccountService implements UserDetailsService {
      *
      * @param signupRequestDto account to be created
      * @return created account
-     * @throws AccountAlreadyExistsException if account with such username already exists
      * @throws EmailTakenException if account with such email already exists
      */
-    public AccountDto createAccount(SignupRequestDto signupRequestDto) throws AccountAlreadyExistsException, EmailTakenException {
-        if (accountRepository.findByUsername(signupRequestDto.username()).isPresent()) {
-            throw new AccountAlreadyExistsException(signupRequestDto.username());
-        }
+    public AccountDto createAccount(SignupRequestDto signupRequestDto) throws EmailTakenException {
         if (accountRepository.findByEmail(signupRequestDto.email()).isPresent()) {
             throw new EmailTakenException(signupRequestDto.email());
         }
@@ -96,12 +94,12 @@ public class AccountService implements UserDetailsService {
 
     /**
      * Get account settings by account's username
-     * @param username username of the account
+     * @param email username of the account
      * @return {@link AccountSettingsDto}
      */
-    public AccountSettingsDto getAccountSettingsByUsername(String username) {
-        return accountMapper.toAccountSettingsDto(accountRepository.findByUsername(username)
-                .orElseThrow(() -> new AccountNotFoundException(username))
+    public AccountSettingsDto getAccountSettingsByEmail(String email) {
+        return accountMapper.toAccountSettingsDto(accountRepository.findByEmail(email)
+                .orElseThrow(() -> new AccountNotFoundException(email))
                 .getAccountSettings());
     }
 
@@ -127,7 +125,30 @@ public class AccountService implements UserDetailsService {
     public boolean checkFakeId(Long id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var account = getById(id);
-        return !account.username().equals(authentication.getName());
+        return !account.email().equals(authentication.getName());
+    }
+
+    /**
+     * Update account by id
+     * @param id account's id
+     * @param accountDto new account info
+     * @return updated account as {@link AccountDto}
+     */
+    public AccountDto updateAccountById(Long id, UpdateAccountDto accountDto) {
+        var existingAccount = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(id));
+        var account = accountMapper.toAccountWithNoNulls(accountDto, existingAccount);
+        return accountMapper.toAccountDto(accountRepository.save(account));
+    }
+
+    public void updateAccountPassword(Long id, AccountPasswordDto accountPasswordDto) {
+        var existingAccount = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(id));
+        if (!passwordEncoder.matches(accountPasswordDto.oldPassword(), existingAccount.getPassword()))
+        {
+            throw new WrongPasswordException();
+        }
+        existingAccount.setPassword(passwordEncoder.encode(accountPasswordDto.newPassword()));
+        accountRepository.save(existingAccount);
+
     }
 
     private InterfaceLanguageEntity getDefaultLanguage() {

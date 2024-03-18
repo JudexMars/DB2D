@@ -25,7 +25,7 @@ public class LocaleInterceptor implements HandlerInterceptor {
         String username = extractUsernameFromAuthenticationContext();
         log.debug("Username: " + username);
         if (!username.equals("anonymous")) {
-            var account = accountRepository.findByUsername(username);
+            var account = accountRepository.findByEmail(username);
             if (account.isPresent()) {
                 String preferredLanguage = account.get().getAccountSettings().getLanguage().getName();
                 log.debug("PreferredLanguage: " + preferredLanguage);

@@ -11,5 +11,7 @@
     <include file="/db/migrations/2024-03-09-01-create-account-settings.xml"/>
     <include file="/db/migrations/2024-03-15-01-create-role-privilege.xml"/>
     <include file="/db/migrations/2024-03-15-02-create-account-role.xml"/>
+    <include file="/db/migrations/2024-03-17-01-delete-username.xml"/>
+    <include file="/db/migrations/2024-03-17-02-add-cascade-to-account-settings.xml"/>
 
 </databaseChangeLog>
