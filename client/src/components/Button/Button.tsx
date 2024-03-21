@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 
 import styled from "styled-components";
 
-enum ButtonVariant {
+export enum ButtonVariant {
   Primary = "primary",
 }
 

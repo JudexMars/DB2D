@@ -21,6 +21,13 @@ export const baseTheme: Theme = {
     },
   },
 
+  avatar: {
+    borderRadius: {
+      rounded: "100%",
+      squared: "8px",
+    },
+  },
+
   button: {
     primary: {
       color: "#FFFFFF",

@@ -19,6 +19,13 @@ export interface Theme {
     };
   };
 
+  avatar: {
+    borderRadius: {
+      rounded: string;
+      squared: string;
+    };
+  };
+
   button: {
     primary: {
       color: string;

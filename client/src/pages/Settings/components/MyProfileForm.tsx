@@ -1,3 +1,4 @@
+import Avatar, { AvatarVariant } from "components/Avatar/Avatar";
 import Button from "components/Button";
 import Input from "components/Input";
 import { styled } from "styled-components";
@@ -22,13 +23,16 @@ const StyledButton = styled(Button)`
 const MyProfileForm = (): JSX.Element => {
   return (
     <WrapperForm>
+      <Avatar variant={AvatarVariant.Rounded}></Avatar>
+      <p>motomoto@example.com</p>
+      <p>Мото Мото</p>
       <CategoryForm
         title="Основаная информация"
         description="Измените внешний вид и восприятие пользовательского интерфейса в Вашем браузере"
       >
         <Input label="Имя" placeholder="Мото" />
         <Input label="Фамилия" placeholder="Мото" />
-        <Input label="Логин" placeholder="Мото-Мото" />
+        <Input label="Email" placeholder="motomoto@example.com" />
       </CategoryForm>
       <StyledButton>Сохранить</StyledButton>
       <CategoryForm
