@@ -2,7 +2,8 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+                   logicalFilePath="db/migrations/2024-24-02-01-create-account">
 
     <changeSet id="2024-24-02-01-create-account" author="JudexMars">
         <createTable remarks="Аккаунт" tableName="account">

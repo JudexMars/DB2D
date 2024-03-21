@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-03-17-01-delete-username" author="JudexMars">
+        <dropColumn tableName="account" columnName="username"/>
+        <renameColumn tableName="refresh_token" oldColumnName="username" newColumnName="email"/>
+    </changeSet>
+</databaseChangeLog>

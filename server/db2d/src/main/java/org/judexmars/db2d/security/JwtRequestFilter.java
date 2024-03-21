@@ -28,21 +28,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     FilterChain filterChain
     ) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-        String username = null;
-        String jwt = null;
+        String email = null;
+        String jwt;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
             try {
-                username = jwtTokenUtils.getUsernameFromAccessToken(jwt);
+                email = jwtTokenUtils.getEmailFromAccessToken(jwt);
             } catch (ExpiredJwtException ex) {
                 log.info("Срок жизни токена истек");
+                log.info(ex.getMessage());
             }
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    username,
+                    email,
                     null,
                     null
             );
