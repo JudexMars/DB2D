@@ -12,12 +12,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export interface SignIn {
-  login: string;
+  email: string;
   password: string;
 }
 
 export interface SignUp {
-  login: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -32,10 +31,14 @@ export interface User {
   username: string;
 }
 
-interface AuthContextProps {
+export interface AuthContextProps {
+  /** User data. Iff there are no user data, the authentication page is displayed */
   user?: User;
+  /** Function for authorization */
   signIn: (props: SignIn) => void;
+  /** Function for registration */
   signUp: (props: SignUp) => void;
+  /** Function to exit the application */
   logOut: () => void;
 }
 
@@ -51,40 +54,47 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<User>();
 
   const signInMutation = useMutation({
-    mutationFn: async ({ login, password }: SignIn) => {
-      const user = (await axios.post("/auth/login", {
-        username: login,
+    mutationFn: async ({ email, password }: SignIn) => {
+      const { data } = (await axios.post("/auth/login", {
+        email,
         password,
-      })) as User;
+      })) as { data: User };
 
-      setUser(user);
+      setUser(data);
     },
   });
 
   const signUpMutation = useMutation({
     mutationFn: async ({
-      login,
       email,
       firstName,
       lastName,
       password,
       confirmPassword,
     }: SignUp) => {
-      const user = (await axios.post("/auth/signup", {
-        username: login,
+      const { data } = (await axios.post("/auth/signup", {
         email,
         firstname: firstName,
         lastname: lastName,
         password,
-        confirm_password: confirmPassword,
-      })) as User;
+        confirmPassword,
+      })) as { data: User };
 
-      setUser(user);
+      setUser(data);
     },
   });
 
   useEffect(() => {
+    const user = sessionStorage.getItem("user");
     if (user) {
+      const { email, password } = JSON.parse(user);
+      signInMutation.mutate({ email, password });
+    }
+  }, [signInMutation]);
+
+  useEffect(() => {
+    if (user) {
+      sessionStorage.setItem("user", JSON.stringify(user));
       navigate("/dashboard", { replace: true });
     } else {
       navigate("/auth/signIn", { replace: true });
@@ -111,6 +121,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   );
 
   const logOut = useCallback(() => {
+    sessionStorage.removeItem("user");
     setUser(undefined);
     signInMutation.reset();
     signUpMutation.reset();

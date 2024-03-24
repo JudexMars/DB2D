@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 
 import ApplicationInfo from "./components/ApplicationInfo";
-import AuthorizationForm from "./components/AuthorizationForm";
-import RegistrationForm from "./components/RegistrationForm";
+import SignInForm from "./components/SignInForm";
+import SignUpForm from "./components/SignUpForm";
 
 const StyledAuthentication = styled.div`
   display: flex;
@@ -25,8 +25,8 @@ const Authentication = (): JSX.Element => {
     <StyledAuthentication>
       <WrapperForm>
         <Routes>
-          <Route path="signin" element={<AuthorizationForm />} />
-          <Route path="register" element={<RegistrationForm />} />
+          <Route path="signIn" element={<SignInForm />} />
+          <Route path="signUp" element={<SignUpForm />} />
         </Routes>
       </WrapperForm>
       <ApplicationInfo />

@@ -1,9 +1,11 @@
 import { forwardRef } from "react";
 
+import { lighten } from "polished";
 import styled from "styled-components";
 
 enum ButtonVariant {
   Primary = "primary",
+  Disable = "disable",
 }
 
 interface StyledButtonProps {
@@ -22,10 +24,17 @@ const StyledButton = styled.button<StyledButtonProps>`
 
   &:hover {
     cursor: pointer;
+    background-color: ${({ theme, $variant }) =>
+      lighten(0.05, theme.button[$variant].background)};
+  }
+
+  &:active {
+    background-color: ${({ theme, $variant }) =>
+      lighten(0.02, theme.button[$variant].background)};
   }
 `;
 
-interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   variant?: ButtonVariant;
 }
 

@@ -3,31 +3,36 @@ import { useRef } from "react";
 import Button from "components/Button";
 import Input from "components/Input";
 import { useAuth } from "providers/AuthProvider";
+import { styled } from "styled-components";
 
 import { StyledLink, TitleForm, WrapperForm } from "./Form.styled";
 
+export const StyledButton = styled(Button)`
+  width: 100%;
+`;
+
 const AuthorizationForm = (): JSX.Element => {
   const { signIn } = useAuth();
-  const loginRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const onLoginClick = () => {
-    const login = loginRef.current?.value.trim();
+    const email = emailRef.current?.value.trim();
     const password = passwordRef.current?.value.trim();
-    if (login && password) {
-      signIn({ login, password });
+    if (email && password) {
+      signIn({ email, password });
     }
   };
 
   return (
     <WrapperForm>
       <TitleForm>Вход в систему</TitleForm>
-      <Input ref={loginRef} placeholder="Логин" />
+      <Input ref={emailRef} label="Email" placeholder="email@example.com" />
       <Input ref={passwordRef} placeholder="Пароль" />
-      <Button onClick={onLoginClick}>Войти</Button>
+      <StyledButton onClick={onLoginClick}>Войти</StyledButton>
       <p>
         Нет аккаунта?{" "}
-        <StyledLink to="/auth/register">Зарегистрироваться</StyledLink>
+        <StyledLink to="/auth/signUp">Зарегистрироваться</StyledLink>
       </p>
     </WrapperForm>
   );
