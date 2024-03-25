@@ -90,7 +90,8 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       const { email, password } = JSON.parse(user);
       signInMutation.mutate({ email, password });
     }
-  }, [signInMutation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (user) {
