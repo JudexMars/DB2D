@@ -1,11 +1,17 @@
-import { useRef } from "react";
-
 import Button from "components/Button";
-import Input from "components/Input";
+import ErrorMessage from "components/ErrorMessage";
 import { useAuth } from "providers/AuthProvider";
+import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+import { isEmail } from "utils/email";
 
-import { StyledLink, TitleForm, WrapperForm } from "./Form.styled";
+import {
+  StyledInput,
+  StyledLink,
+  TitleForm,
+  WrapperForm,
+  WrapperInput,
+} from "./Form.styled";
 
 const WrapperNames = styled.div`
   display: flex;
@@ -13,47 +19,100 @@ const WrapperNames = styled.div`
   gap: 30px;
 `;
 
-const RegistrationForm = (): JSX.Element => {
-  const { signUp } = useAuth();
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+interface SignUpFormInputs {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
-  const onRegisterClick = () => {
-    const firstName = firstNameRef.current?.value.trim();
-    const lastName = lastNameRef.current?.value.trim();
-    const email = emailRef.current?.value.trim();
-    const password = passwordRef.current?.value.trim();
-    const confirmPassword = confirmPasswordRef.current?.value.trim();
-    if (
-      firstName &&
-      lastName &&
-      email &&
-      password &&
-      confirmPassword &&
-      password === confirmPassword
-    ) {
-      signUp({ firstName, lastName, email, password, confirmPassword });
-    }
+const SignUpForm = (): JSX.Element => {
+  const { signUp } = useAuth();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<SignUpFormInputs>();
+
+  const onSubmit = (data: SignUpFormInputs) => {
+    signUp(data);
   };
 
   return (
-    <WrapperForm>
+    <WrapperForm onSubmit={handleSubmit(onSubmit)}>
       <TitleForm>Регистрация</TitleForm>
       <WrapperNames>
-        <Input ref={firstNameRef} label="Имя" placeholder="Мото" />
-        <Input ref={lastNameRef} label="Фамилия" placeholder="Мото" />
+        <WrapperInput>
+          <StyledInput
+            label="Имя"
+            placeholder="Имя"
+            {...register("firstName", {
+              required: true,
+              setValueAs: (v) => v.trim(),
+            })}
+            $isError={!!errors.firstName}
+          />
+          {errors.firstName && <ErrorMessage>Введите имя</ErrorMessage>}
+        </WrapperInput>
+        <WrapperInput>
+          <StyledInput
+            label="Фамилия"
+            placeholder="Фамилия"
+            {...register("lastName", {
+              required: true,
+              setValueAs: (v) => v.trim(),
+            })}
+            $isError={!!errors.lastName}
+          />
+          {errors.lastName && <ErrorMessage>Введите фамилию</ErrorMessage>}
+        </WrapperInput>
       </WrapperNames>
-      <Input ref={emailRef} label="Email" placeholder="email@example.com" />
-      <Input ref={passwordRef} label="Пароль" placeholder="12345678" />
-      <Input
-        ref={confirmPasswordRef}
-        label="Подтверждение пароля"
-        placeholder="12345678"
-      />
-      <Button onClick={onRegisterClick}>Зарегистрироваться</Button>
+      <WrapperInput>
+        <StyledInput
+          type="email"
+          label="Email"
+          placeholder="email@example.com"
+          {...register("email", {
+            required: true,
+            validate: isEmail,
+            setValueAs: (v) => v.trim(),
+          })}
+          $isError={!!errors.email}
+        />
+        {errors.email && <ErrorMessage>Введите корректную почту</ErrorMessage>}
+      </WrapperInput>
+      <WrapperInput>
+        <StyledInput
+          type="password"
+          label="Пароль"
+          placeholder="12345678"
+          {...register("password", {
+            required: true,
+            setValueAs: (v) => v.trim(),
+          })}
+          $isError={!!errors.password}
+        />
+        {errors.password && <ErrorMessage>Введите пароль</ErrorMessage>}
+      </WrapperInput>
+      <WrapperInput>
+        <StyledInput
+          type="password"
+          label="Подтверждение пароля"
+          placeholder="12345678"
+          {...register("confirmPassword", {
+            required: true,
+            validate: (value, formState) => value === formState.password,
+            setValueAs: (v) => v.trim(),
+          })}
+          $isError={!!errors.confirmPassword}
+        />
+        {errors.confirmPassword && (
+          <ErrorMessage>Введенные пароли отличаются</ErrorMessage>
+        )}
+      </WrapperInput>
+      <Button type="submit">Зарегистрироваться</Button>
       <p>
         Есть аккаунт? <StyledLink to="/auth/signIn">Войти</StyledLink>
       </p>
@@ -61,4 +120,4 @@ const RegistrationForm = (): JSX.Element => {
   );
 };
 
-export default RegistrationForm;
+export default SignUpForm;
