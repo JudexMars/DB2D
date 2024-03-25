@@ -6,13 +6,11 @@ const StyledApplicationInfo = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-left: 10%;
   gap: 30px;
   width: 100%;
   height: 100%;
   background-image: ${({ theme }) => theme.auth.backgroundImage};
   color: #ffffff;
-  clip-path: circle(76% at 82% 34%);
 `;
 
 const Title = styled.h1`

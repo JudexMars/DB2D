@@ -1,3 +1,4 @@
+import Button from "components/Button";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
@@ -17,4 +18,8 @@ export const TitleForm = styled.div`
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.link.primary};
+`;
+
+export const StyledButton = styled(Button)`
+  width: 100%;
 `;

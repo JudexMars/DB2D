@@ -31,6 +31,10 @@ export interface Theme {
       color: string;
       background: string;
     };
+    disable: {
+      color: string;
+      background: string;
+    };
   };
 
   link: {

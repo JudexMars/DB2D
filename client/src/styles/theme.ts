@@ -33,6 +33,10 @@ export const baseTheme: Theme = {
       color: "#FFFFFF",
       background: "#677FFF",
     },
+    disable: {
+      color: "#919197",
+      background: "#E1E1E1",
+    },
   },
 
   link: {

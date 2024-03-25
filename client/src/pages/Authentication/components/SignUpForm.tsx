@@ -17,7 +17,6 @@ const RegistrationForm = (): JSX.Element => {
   const { signUp } = useAuth();
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
-  const loginRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
@@ -25,20 +24,18 @@ const RegistrationForm = (): JSX.Element => {
   const onRegisterClick = () => {
     const firstName = firstNameRef.current?.value.trim();
     const lastName = lastNameRef.current?.value.trim();
-    const login = loginRef.current?.value.trim();
     const email = emailRef.current?.value.trim();
     const password = passwordRef.current?.value.trim();
     const confirmPassword = confirmPasswordRef.current?.value.trim();
     if (
       firstName &&
       lastName &&
-      login &&
       email &&
       password &&
       confirmPassword &&
       password === confirmPassword
     ) {
-      signUp({ firstName, lastName, login, email, password, confirmPassword });
+      signUp({ firstName, lastName, email, password, confirmPassword });
     }
   };
 
@@ -49,7 +46,6 @@ const RegistrationForm = (): JSX.Element => {
         <Input ref={firstNameRef} label="Имя" placeholder="Мото" />
         <Input ref={lastNameRef} label="Фамилия" placeholder="Мото" />
       </WrapperNames>
-      <Input ref={loginRef} label="Логин" placeholder="Мото-Мото" />
       <Input ref={emailRef} label="Email" placeholder="email@example.com" />
       <Input ref={passwordRef} label="Пароль" placeholder="12345678" />
       <Input
@@ -59,7 +55,7 @@ const RegistrationForm = (): JSX.Element => {
       />
       <Button onClick={onRegisterClick}>Зарегистрироваться</Button>
       <p>
-        Есть аккаунт? <StyledLink to="/auth/signin">Войти</StyledLink>
+        Есть аккаунт? <StyledLink to="/auth/signIn">Войти</StyledLink>
       </p>
     </WrapperForm>
   );
