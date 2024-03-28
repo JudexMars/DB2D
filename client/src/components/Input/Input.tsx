@@ -13,7 +13,7 @@ const StyledWrapper = styled.div`
 const StyledLabel = styled.label`
   padding: 0px 20px;
   border-radius: ${({ theme }) => theme.borderRadius}px;
-  color: ${({ theme }) => theme.input.colors.font};
+  color: ${({ theme }) => theme.form.input.colors.font};
   font-size: 20px;
   font-weight: 600;
 `;
@@ -21,9 +21,9 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input`
   padding: 15px 20px;
   width: 100%;
-  border: 1px solid ${({ theme }) => theme.input.colors.border};
+  border: 1px solid ${({ theme }) => theme.form.input.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius}px;
-  color: ${({ theme }) => theme.input.colors.font};
+  color: ${({ theme }) => theme.form.input.colors.font};
   font-size: 20px;
   font-weight: 200;
 `;

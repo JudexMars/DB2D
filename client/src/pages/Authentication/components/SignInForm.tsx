@@ -1,35 +1,70 @@
-import { useRef } from "react";
-
 import Button from "components/Button";
-import Input from "components/Input";
+import ErrorMessage from "components/ErrorMessage";
 import { useAuth } from "providers/AuthProvider";
+import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+import { isEmail } from "utils/email";
 
-import { StyledLink, TitleForm, WrapperForm } from "./Form.styled";
+import {
+  StyledInput,
+  StyledLink,
+  TitleForm,
+  WrapperForm,
+  WrapperInput,
+} from "./Form.styled";
 
 export const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-const AuthorizationForm = (): JSX.Element => {
-  const { signIn } = useAuth();
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+interface SignInFormInputs {
+  email: string;
+  password: string;
+}
 
-  const onLoginClick = () => {
-    const email = emailRef.current?.value.trim();
-    const password = passwordRef.current?.value.trim();
-    if (email && password) {
-      signIn({ email, password });
-    }
+const SignInForm = (): JSX.Element => {
+  const { signIn } = useAuth();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<SignInFormInputs>();
+
+  const onSubmit = (data: SignInFormInputs) => {
+    const { email, password } = data;
+    signIn({ email, password });
   };
 
   return (
-    <WrapperForm>
+    <WrapperForm onSubmit={handleSubmit(onSubmit)}>
       <TitleForm>Вход в систему</TitleForm>
-      <Input ref={emailRef} label="Email" placeholder="email@example.com" />
-      <Input ref={passwordRef} placeholder="Пароль" />
-      <StyledButton onClick={onLoginClick}>Войти</StyledButton>
+      <WrapperInput>
+        <StyledInput
+          type="email"
+          placeholder="email@example.com"
+          {...register("email", {
+            required: true,
+            validate: isEmail,
+            setValueAs: (v) => v.trim(),
+          })}
+          $isError={!!errors.email}
+        />
+        {errors.email && <ErrorMessage>Введите корректную почту</ErrorMessage>}
+      </WrapperInput>
+      <WrapperInput>
+        <StyledInput
+          type="password"
+          placeholder="Пароль"
+          {...register("password", {
+            required: true,
+            setValueAs: (v) => v.trim(),
+          })}
+          $isError={!!errors.password}
+        />
+        {errors.password && <ErrorMessage>Введите пароль</ErrorMessage>}
+      </WrapperInput>
+      <StyledButton type="submit">Войти</StyledButton>
       <p>
         Нет аккаунта?{" "}
         <StyledLink to="/auth/signUp">Зарегистрироваться</StyledLink>
@@ -38,4 +73,4 @@ const AuthorizationForm = (): JSX.Element => {
   );
 };
 
-export default AuthorizationForm;
+export default SignInForm;

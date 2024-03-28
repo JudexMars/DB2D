@@ -13,11 +13,15 @@ export const baseTheme: Theme = {
     backgroundImage: "linear-gradient(90deg, #677fff, #aa9cbb)",
   },
 
-  input: {
-    colors: {
-      border: "#E1E1E1",
-      font: "#333333",
-      placeholder: "#5D5D5D",
+  form: {
+    errorColor: "#D80027",
+
+    input: {
+      colors: {
+        border: "#E1E1E1",
+        font: "#333333",
+        placeholder: "#5D5D5D",
+      },
     },
   },
 

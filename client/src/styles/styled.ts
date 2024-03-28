@@ -11,11 +11,15 @@ export interface Theme {
     backgroundImage: string;
   };
 
-  input: {
-    colors: {
-      border: string;
-      font: string;
-      placeholder: string;
+  form: {
+    errorColor: string;
+
+    input: {
+      colors: {
+        border: string;
+        font: string;
+        placeholder: string;
+      };
     };
   };
 

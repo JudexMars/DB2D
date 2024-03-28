@@ -1,6 +1,7 @@
 import Button from "components/Button";
+import Input from "components/Input";
 import { Link } from "react-router-dom";
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
 
 export const WrapperForm = styled.form`
   display: flex;
@@ -15,6 +16,14 @@ export const TitleForm = styled.div`
   font-weight: 700;
 `;
 
+export const WrapperInput = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 5px;
+`;
+
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.link.primary};
@@ -22,4 +31,16 @@ export const StyledLink = styled(Link)`
 
 export const StyledButton = styled(Button)`
   width: 100%;
+`;
+
+interface StyledInputProps {
+  $isError: boolean;
+}
+
+export const StyledInput = styled(Input)<StyledInputProps>`
+  ${({ theme, $isError }) =>
+    $isError &&
+    css`
+      border-color: ${theme.form.errorColor};
+    `}
 `;
