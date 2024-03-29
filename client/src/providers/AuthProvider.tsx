@@ -25,10 +25,10 @@ export interface SignUp {
 }
 
 export interface User {
-  account_id: number;
-  access_token: string;
-  refresh_token: string;
-  username: string;
+  accountId: number;
+  email: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface AuthContextProps {
@@ -96,7 +96,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   useEffect(() => {
     if (user) {
       sessionStorage.setItem("user", JSON.stringify(user));
-      navigate("/dashboard", { replace: true });
+      navigate("/settings/my-profile", { replace: true });
     } else {
       navigate("/auth/signIn", { replace: true });
     }

@@ -1,3 +1,4 @@
+import { SettingsProvider } from "providers/SettingsProvider";
 import { Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 
@@ -13,11 +14,13 @@ const StyledSettings = styled.div`
 
 const Settings = (): JSX.Element => {
   return (
-    <StyledSettings>
-      <Routes>
-        <Route path="my-profile" element={<MyProfileForm />} />
-      </Routes>
-    </StyledSettings>
+    <SettingsProvider>
+      <StyledSettings>
+        <Routes>
+          <Route path="my-profile" element={<MyProfileForm />} />
+        </Routes>
+      </StyledSettings>
+    </SettingsProvider>
   );
 };
 

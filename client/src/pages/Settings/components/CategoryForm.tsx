@@ -5,7 +5,7 @@ const StyledWrapper = styled.div`
   align-items: start;
   flex-direction: column;
   width: 100%;
-  gap: 20px;
+  gap: 5px;
 `;
 
 const StyledTitle = styled.h1`
@@ -21,6 +21,7 @@ const StyledDescription = styled.h3`
 const StyledSeparation = styled.div`
   width: 100%;
   height: 1px;
+  margin: 20px 0px 20px 0px;
   background-color: ${({ theme }) => theme.colors.border};
 `;
 
