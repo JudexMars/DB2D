@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
 import GlobalStyles from "./styles/global";
 import { baseTheme } from "./styles/theme";
 
@@ -18,6 +19,7 @@ const App = (): JSX.Element => {
           <Routes>
             <Route path="/auth/*" element={<Authentication />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/settings/*" element={<Settings />} />
           </Routes>
         </AuthProvider>
       </QueryClientProvider>

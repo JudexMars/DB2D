@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { lighten } from "polished";
 import styled from "styled-components";
 
-enum ButtonVariant {
+export enum ButtonVariant {
   Primary = "primary",
   Disable = "disable",
 }
