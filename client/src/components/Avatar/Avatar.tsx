@@ -16,6 +16,7 @@ export enum AvatarVariant {
 
 interface StyledImgProps {
   $variant: AvatarVariant;
+  $size?: number;
 }
 
 const StyledImg = styled.img<StyledImgProps>`
@@ -23,23 +24,32 @@ const StyledImg = styled.img<StyledImgProps>`
   ${({ theme, $variant }) => css`
     border-radius: ${theme.avatar.borderRadius[$variant]};
   `}
+
+  ${({ $size }) =>
+    $size &&
+    css`
+      width: ${$size}px;
+      height: ${$size}px;
+    `}
 `;
 
 interface AvatarProps {
   variant?: AvatarVariant;
-  width?: number;
+  size?: number;
 }
 
 const Avatar = ({
   variant = AvatarVariant.Rounded,
+  size,
 }: AvatarProps): JSX.Element => {
   return (
     <StyledWrapper>
       <StyledImg
         $variant={variant}
+        $size={size}
         src={profileLogo}
         alt="Profile Logo"
-      ></StyledImg>
+      />
     </StyledWrapper>
   );
 };

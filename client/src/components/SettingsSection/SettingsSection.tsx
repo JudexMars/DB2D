@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const StyledWrapper = styled.div`
+const StyledSection = styled.div`
   display: flex;
   align-items: start;
   flex-direction: column;
@@ -25,25 +25,25 @@ const StyledSeparation = styled.div`
   background-color: ${({ theme }) => theme.colors.border};
 `;
 
-export interface CategoryFormProps {
+export interface SectionProps {
   title: string;
   description: string;
   children?: React.ReactNode;
 }
 
-const CategoryForm = ({
+const Section = ({
   title,
   description,
   children,
-}: CategoryFormProps): JSX.Element => {
+}: SectionProps): JSX.Element => {
   return (
-    <StyledWrapper>
+    <StyledSection>
       <StyledTitle>{title}</StyledTitle>
       <StyledDescription>{description}</StyledDescription>
       <StyledSeparation />
       {children}
-    </StyledWrapper>
+    </StyledSection>
   );
 };
 
-export default CategoryForm;
+export default Section;

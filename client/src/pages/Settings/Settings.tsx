@@ -17,7 +17,7 @@ const Settings = (): JSX.Element => {
     <SettingsProvider>
       <StyledSettings>
         <Routes>
-          <Route path="my-profile" element={<MyProfileForm />} />
+          <Route path="myProfile" element={<MyProfileForm />} />
         </Routes>
       </StyledSettings>
     </SettingsProvider>

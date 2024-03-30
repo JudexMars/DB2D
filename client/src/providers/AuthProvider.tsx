@@ -32,7 +32,7 @@ export interface User {
 }
 
 export interface AuthContextProps {
-  /** User data. Iff there are no user data, the authentication page is displayed */
+  /** User data. If there are no user data, the authentication page is displayed */
   user?: User;
   /** Function for authorization */
   signIn: (props: SignIn) => void;
@@ -96,7 +96,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   useEffect(() => {
     if (user) {
       sessionStorage.setItem("user", JSON.stringify(user));
-      navigate("/settings/my-profile", { replace: true });
+      navigate("/settings/myProfile", { replace: true });
     } else {
       navigate("/auth/signIn", { replace: true });
     }

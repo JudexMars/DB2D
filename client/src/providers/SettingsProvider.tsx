@@ -34,15 +34,11 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
 
   const changeNameMutation = useMutation({
     mutationFn: async ({ firstname, lastname }: ChangeName) => {
-      // eslint-disable-next-line
-      const { data } = (await axios.put(
+      await axios.put(
         `/account/${user?.accountId}`,
-        {
-          firstname,
-          lastname,
-        },
+        { firstname, lastname },
         { headers: { Authorization: `Bearer ${user?.accessToken}` } },
-      )) as { data: ChangeName };
+      );
 
       queryClient.invalidateQueries({ queryKey: ["names"] });
     },
@@ -50,15 +46,11 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
 
   const changePasswordMutation = useMutation({
     mutationFn: async ({ oldPassword, newPassword }: ChangePassword) => {
-      // eslint-disable-next-line
-      const { data } = (await axios.put(
+      await axios.put(
         `/account/${user?.accountId}/password`,
-        {
-          oldPassword,
-          newPassword,
-        },
+        { oldPassword, newPassword },
         { headers: { Authorization: `Bearer ${user?.accessToken}` } },
-      )) as { data: ChangePassword };
+      );
     },
   });
 
