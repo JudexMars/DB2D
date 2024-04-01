@@ -10,6 +10,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Id, toast } from "react-toastify";
 
 export interface SignIn {
   email: string;
@@ -55,12 +56,32 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
 
   const signInMutation = useMutation({
     mutationFn: async ({ email, password }: SignIn) => {
-      const { data } = (await axios.post("/auth/login", {
-        email,
-        password,
-      })) as { data: User };
+      const signInToastId: Id = toast.loading("Вход в аккаунт");
 
-      setUser(data);
+      try {
+        const { data } = (await axios.post("/auth/login", {
+          email,
+          password,
+        })) as { data: User };
+
+        toast.update(signInToastId, {
+          render: "Успешная авторизация",
+          type: "success",
+          autoClose: 1500,
+          isLoading: false,
+        });
+
+        setUser(data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(signInToastId, {
+            render: `Ошибка ${error.response}`,
+            type: "error",
+            autoClose: 3500,
+            isLoading: false,
+          });
+        }
+      }
     },
   });
 

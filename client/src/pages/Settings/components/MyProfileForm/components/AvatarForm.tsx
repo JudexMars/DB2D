@@ -1,4 +1,4 @@
-import Avatar, { AvatarVariant } from "components/Avatar/Avatar";
+import Avatar, { AvatarVariant } from "components/Avatar";
 import { useAuth } from "providers/AuthProvider";
 import { styled } from "styled-components";
 

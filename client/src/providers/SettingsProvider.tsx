@@ -2,6 +2,7 @@ import { ReactNode, createContext, useCallback, useContext } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { useAuth } from "./AuthProvider";
 
@@ -34,10 +35,17 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
 
   const changeNameMutation = useMutation({
     mutationFn: async ({ firstname, lastname }: ChangeName) => {
-      await axios.put(
-        `/account/${user?.accountId}`,
-        { firstname, lastname },
-        { headers: { Authorization: `Bearer ${user?.accessToken}` } },
+      toast.promise(
+        axios.put(
+          `/account/${user?.accountId}`,
+          { firstname, lastname },
+          { headers: { Authorization: `Bearer ${user?.accessToken}` } },
+        ),
+        {
+          pending: "Изменение имени",
+          success: "Имя изменено",
+          error: "Ошибка изменения имени",
+        },
       );
 
       queryClient.invalidateQueries({ queryKey: ["names"] });
