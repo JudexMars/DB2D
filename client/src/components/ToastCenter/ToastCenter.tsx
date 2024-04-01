@@ -30,12 +30,13 @@ const StyledToastCenter = styled(ToastCenter)<StyledToastContainerProps>`
   .Toastify__toast {
     color: ${({ theme }) => theme.colors.font};
     border-radius: ${({ theme }) => theme.borderRadius}px;
+    box-shadow: none;
     border: 1px solid ${({ theme }) => theme.colors.border};
-    box-shadow: 0px 0px 10px ${({ theme }) => theme.colors.shadow};
   }
   .Toastify__toast-theme--dark {
   }
   .Toastify__toast-theme--light {
+    background-color: ${({ theme }) => theme.toast.background};
   }
   .Toastify__close-button {
     display: flex;

@@ -47,4 +47,8 @@ export const baseTheme: Theme = {
   link: {
     primary: "#677FFF",
   },
+
+  toast: {
+    background: "rgba(255, 255, 255, 0.7)",
+  },
 };

@@ -32,6 +32,11 @@ export interface User {
   refreshToken: string;
 }
 
+interface signInErrorProps {
+  message?: string;
+  error?: string;
+}
+
 export interface AuthContextProps {
   /** User data. If there are no user data, the authentication page is displayed */
   user?: User;
@@ -75,7 +80,11 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.update(signInToastId, {
-            render: `Ошибка ${error.response}`,
+            render: `Ошибка: ${
+              (error.response?.data as signInErrorProps).message
+                ? (error.response?.data as signInErrorProps).message
+                : (error.response?.data as signInErrorProps).error
+            }`,
             type: "error",
             autoClose: 3500,
             isLoading: false,
@@ -93,15 +102,39 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       password,
       confirmPassword,
     }: SignUp) => {
-      const { data } = (await axios.post("/auth/signup", {
-        email,
-        firstname: firstName,
-        lastname: lastName,
-        password,
-        confirmPassword,
-      })) as { data: User };
+      const signUpToastId: Id = toast.loading("Регистрация");
 
-      setUser(data);
+      try {
+        const { data } = (await axios.post("/auth/signup", {
+          email,
+          firstname: firstName,
+          lastname: lastName,
+          password,
+          confirmPassword,
+        })) as { data: User };
+
+        toast.update(signUpToastId, {
+          render: "Успешная регистрация",
+          type: "success",
+          autoClose: 1500,
+          isLoading: false,
+        });
+
+        setUser(data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(signUpToastId, {
+            render: `Ошибка: ${
+              (error.response?.data as signInErrorProps).message
+                ? (error.response?.data as signInErrorProps).message
+                : (error.response?.data as signInErrorProps).error
+            }`,
+            type: "error",
+            autoClose: 3500,
+            isLoading: false,
+          });
+        }
+      }
     },
   });
 

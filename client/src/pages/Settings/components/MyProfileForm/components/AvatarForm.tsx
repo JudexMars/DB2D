@@ -33,7 +33,7 @@ const AvatarForm = ({ firstname, lastname }: AvatarFormProps): JSX.Element => {
   // TODO: add changeAvatar from useSettings and Settings Provider;
   return (
     <StyledAvatarForm>
-      <Avatar variant={AvatarVariant.Rounded}></Avatar>
+      <Avatar variant={AvatarVariant.Rounded} shadow={true}></Avatar>
       <StyledInfo>
         <StyledEmail>{user?.email}</StyledEmail>
         <StyledName>{`${firstname} ${lastname}`}</StyledName>

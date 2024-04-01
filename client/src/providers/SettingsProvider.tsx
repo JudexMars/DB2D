@@ -2,7 +2,7 @@ import { ReactNode, createContext, useCallback, useContext } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Id, toast } from "react-toastify";
 
 import { useAuth } from "./AuthProvider";
 
@@ -23,6 +23,11 @@ export interface SettingsContextProps {
   changePassword: (props: ChangePassword) => void;
 }
 
+interface settingsErrorProps {
+  message?: string;
+  error?: string;
+}
+
 interface SettingsProviderProps {
   children: ReactNode;
 }
@@ -35,30 +40,69 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
 
   const changeNameMutation = useMutation({
     mutationFn: async ({ firstname, lastname }: ChangeName) => {
-      toast.promise(
-        axios.put(
+      const changeNameToastId: Id = toast.loading("Смена имени");
+      try {
+        await axios.put(
           `/account/${user?.accountId}`,
           { firstname, lastname },
           { headers: { Authorization: `Bearer ${user?.accessToken}` } },
-        ),
-        {
-          pending: "Изменение имени",
-          success: "Имя изменено",
-          error: "Ошибка изменения имени",
-        },
-      );
+        );
 
-      queryClient.invalidateQueries({ queryKey: ["names"] });
+        toast.update(changeNameToastId, {
+          render: "Имя изменено",
+          type: "success",
+          autoClose: 1500,
+          isLoading: false,
+        });
+
+        queryClient.invalidateQueries({ queryKey: ["names"] });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(changeNameToastId, {
+            render: `Ошибка: ${
+              (error.response?.data as settingsErrorProps).message
+                ? (error.response?.data as settingsErrorProps).message
+                : (error.response?.data as settingsErrorProps).error
+            }`,
+            type: "error",
+            autoClose: 3500,
+            isLoading: false,
+          });
+        }
+      }
     },
   });
 
   const changePasswordMutation = useMutation({
     mutationFn: async ({ oldPassword, newPassword }: ChangePassword) => {
-      await axios.put(
-        `/account/${user?.accountId}/password`,
-        { oldPassword, newPassword },
-        { headers: { Authorization: `Bearer ${user?.accessToken}` } },
-      );
+      const changePasswordToastId: Id = toast.loading("Смена пароля");
+      try {
+        await axios.put(
+          `/account/${user?.accountId}/password`,
+          { oldPassword, newPassword },
+          { headers: { Authorization: `Bearer ${user?.accessToken}` } },
+        );
+
+        toast.update(changePasswordToastId, {
+          render: "Пароль изменен",
+          type: "success",
+          autoClose: 1500,
+          isLoading: false,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(changePasswordToastId, {
+            render: `Ошибка: ${
+              (error.response?.data as settingsErrorProps).message
+                ? (error.response?.data as settingsErrorProps).message
+                : (error.response?.data as settingsErrorProps).error
+            }`,
+            type: "error",
+            autoClose: 3500,
+            isLoading: false,
+          });
+        }
+      }
     },
   });
 

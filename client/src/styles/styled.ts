@@ -45,4 +45,8 @@ export interface Theme {
   link: {
     primary: string;
   };
+
+  toast: {
+    background: string;
+  };
 }
