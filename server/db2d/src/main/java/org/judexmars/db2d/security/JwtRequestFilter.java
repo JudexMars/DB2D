@@ -7,19 +7,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.judexmars.db2d.service.AccountService;
 import org.judexmars.db2d.utils.JwtTokenUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private final AccountService accountService;
     private final JwtTokenUtils jwtTokenUtils;
 
     @Override
@@ -35,6 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             try {
                 email = jwtTokenUtils.getEmailFromAccessToken(jwt);
+                log.info("EMAIL: " + email);
             } catch (ExpiredJwtException ex) {
                 log.info("Срок жизни токена истек");
                 log.info(ex.getMessage());
@@ -45,7 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     email,
                     null,
-                    null
+                    accountService.getEntityByEmail(email).getAuthorities()
             );
             SecurityContextHolder.getContext().setAuthentication(token);
         }

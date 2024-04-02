@@ -2,13 +2,14 @@ package org.judexmars.db2d.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Builder
+@Accessors(chain = true)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "privilege")

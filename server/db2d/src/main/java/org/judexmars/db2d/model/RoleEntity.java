@@ -2,10 +2,10 @@ package org.judexmars.db2d.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 @Entity
 @Getter
 @Setter
-@Builder
+@Accessors(chain = true)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "role")
@@ -28,11 +28,14 @@ public class RoleEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private Set<AccountEntity> accounts = new HashSet<>();
+    @ManyToOne
+    private AccGroupEntity accGroup;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "role")
+    @ToString.Exclude
+    private Set<AccountRoleGroupEntity> accounts;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "role_privilege",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
@@ -43,8 +46,8 @@ public class RoleEntity {
 
     public Stream<? extends GrantedAuthority> getAuthorities() {
         return Stream.concat(
-                Stream.of(new SimpleGrantedAuthority(name)),
-                privileges.stream().map(privilege -> new SimpleGrantedAuthority(privilege.getName()))
+                Stream.of(new SimpleGrantedAuthority(accGroup.getId() + name)),
+                privileges.stream().map(privilege -> new SimpleGrantedAuthority(accGroup.getId() + privilege.getName()))
         );
     }
 }

@@ -42,12 +42,12 @@
                                  baseColumnNames="role_id"
                                  constraintName="role_privilege_role_fk"
                                  referencedTableName="role"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="role_privilege"
                                  baseColumnNames="privilege_id"
                                  constraintName="role_privilege_privilege_fk"
                                  referencedTableName="privilege"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id" onDelete="CASCADE"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -6,16 +6,17 @@ import org.judexmars.db2d.dto.account.AccountPasswordDto;
 import org.judexmars.db2d.dto.account.AccountSettingsDto;
 import org.judexmars.db2d.dto.account.UpdateAccountDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
-import org.judexmars.db2d.exception.*;
+import org.judexmars.db2d.exception.AccountNotFoundException;
+import org.judexmars.db2d.exception.EmailTakenException;
+import org.judexmars.db2d.exception.LanguageNotFoundException;
+import org.judexmars.db2d.exception.WrongPasswordException;
 import org.judexmars.db2d.mapper.AccountMapper;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.model.AccountSettingsEntity;
 import org.judexmars.db2d.model.InterfaceLanguageEntity;
-import org.judexmars.db2d.model.RoleEntity;
 import org.judexmars.db2d.repository.AccountRepository;
 import org.judexmars.db2d.repository.AccountSettingsRepository;
 import org.judexmars.db2d.repository.InterfaceLanguageRepository;
-import org.judexmars.db2d.repository.RoleRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,8 +33,6 @@ public class AccountService implements UserDetailsService {
     private final AccountSettingsRepository accountSettingsRepository;
     private final InterfaceLanguageRepository interfaceLanguageRepository;
     private final AccountMapper accountMapper;
-    private final RoleRepository roleRepository;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -47,19 +46,27 @@ public class AccountService implements UserDetailsService {
      * @param username account's username
      * @return {@link AccountDto}
      */
-    public AccountDto getByEmail(String username) {
-        return accountMapper.toAccountDto(((AccountEntity) loadUserByUsername(username)));
+    public AccountDto getByEmail(String email) {
+        return accountMapper.toAccountDto(getEntityByEmail(email));
+    }
+
+    public AccountEntity getEntityByEmail(String email) {
+        return (AccountEntity) loadUserByUsername(email);
+    }
+
+    AccountEntity getEntityById(Long id) {
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException(id));
     }
 
     /**
-     * Get account by id
+     * Get account by groupId
      *
-     * @param id id to be used
+     * @param id groupId to be used
      * @return account
      */
     public AccountDto getById(Long id) {
-        return accountMapper.toAccountDto(accountRepository.findById(id)
-                .orElseThrow(() -> new AccountNotFoundException( id)));
+        return accountMapper.toAccountDto(getEntityById(id));
     }
 
     /**
@@ -83,8 +90,9 @@ public class AccountService implements UserDetailsService {
     }
 
     /**
-     * Get account settings by account's id
-     * @param accountId id of the account
+     * Get account settings by account's groupId
+     *
+     * @param accountId groupId of the account
      * @return {@link AccountSettingsDto}
      */
     public AccountSettingsDto getAccountSettingsById(Long accountId) {
@@ -94,6 +102,7 @@ public class AccountService implements UserDetailsService {
 
     /**
      * Get account settings by account's username
+     *
      * @param email username of the account
      * @return {@link AccountSettingsDto}
      */
@@ -104,8 +113,9 @@ public class AccountService implements UserDetailsService {
     }
 
     /**
-     * Update account's settings by id
-     * @param id id of the account
+     * Update account's settings by groupId
+     *
+     * @param id                 groupId of the account
      * @param accountSettingsDto new account's settings
      * @return updated account's settings
      */
@@ -117,10 +127,10 @@ public class AccountService implements UserDetailsService {
     }
 
     /**
-     * Check if the provided id is not related to the current authenticated user
+     * Check if the provided groupId is not related to the current authenticated user
      *
-     * @param id provided id
-     * @return true, if the id is fake
+     * @param id provided groupId
+     * @return true, if the groupId is fake
      */
     public boolean checkFakeId(Long id) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -129,8 +139,9 @@ public class AccountService implements UserDetailsService {
     }
 
     /**
-     * Update account by id
-     * @param id account's id
+     * Update account by groupId
+     *
+     * @param id         account's groupId
      * @param accountDto new account info
      * @return updated account as {@link AccountDto}
      */
@@ -142,33 +153,14 @@ public class AccountService implements UserDetailsService {
 
     public void updateAccountPassword(Long id, AccountPasswordDto accountPasswordDto) {
         var existingAccount = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(id));
-        if (!passwordEncoder.matches(accountPasswordDto.oldPassword(), existingAccount.getPassword()))
-        {
+        if (!passwordEncoder.matches(accountPasswordDto.oldPassword(), existingAccount.getPassword())) {
             throw new WrongPasswordException();
         }
         existingAccount.setPassword(passwordEncoder.encode(accountPasswordDto.newPassword()));
         accountRepository.save(existingAccount);
-
     }
 
     private InterfaceLanguageEntity getDefaultLanguage() {
         return interfaceLanguageRepository.findById(1).orElseThrow(() -> new LanguageNotFoundException(1));
-    }
-
-    /**
-     * Get role entity by its name
-     * @param name name of the role
-     * @return {@link RoleEntity}
-     */
-    public RoleEntity getRoleByName(String name) {
-        return roleRepository.findByName(name).orElseThrow(() -> new NoSuchRoleException(name));
-    }
-
-    /**
-     * Get default role entity
-     * @return {@link RoleEntity}
-     */
-    public RoleEntity getDefaultRole() {
-        return getRoleByName("ROLE_USER");
     }
 }

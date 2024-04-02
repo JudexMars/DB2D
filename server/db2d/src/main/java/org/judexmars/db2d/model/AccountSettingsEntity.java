@@ -12,15 +12,13 @@ import lombok.*;
 @Table(name = "account_settings")
 public class AccountSettingsEntity {
 
-    @Id
-    @Column(name = "account_id", nullable = false)
-    private Long accountId;
-
     @ManyToOne(fetch = FetchType.EAGER)
     public InterfaceLanguageEntity language;
-
     @OneToOne
     @JoinColumn(name = "account_id")
     @MapsId
     public AccountEntity account;
+    @Id
+    @Column(name = "account_id", nullable = false)
+    private Long accountId;
 }

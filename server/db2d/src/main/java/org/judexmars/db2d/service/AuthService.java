@@ -40,6 +40,7 @@ public class AuthService {
 
     /**
      * Simply checks if the user can be authenticated with provided credentials
+     *
      * @param username username
      * @param password password
      * @return {@code true} if the user is authenticated
@@ -48,8 +49,7 @@ public class AuthService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return true;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             return false;
         }
     }

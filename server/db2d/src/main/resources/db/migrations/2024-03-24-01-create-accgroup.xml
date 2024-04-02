@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-03-24-01-create-acc-group" author="JudexMars">
+        <createTable remarks="Группа пользователей (команда, организация)" tableName="acc_group">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_pk"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar"/>
+        </createTable>
+        
+        <createTable tableName="account_role_group">
+            <column name="acc_group_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="account_role_group_group_fk" references="acc_group(id)" deleteCascade="true"/>
+            </column>
+            <column name="account_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="account_role_group_account_fk" references="account(id)" deleteCascade="true"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="account_role_group_role_fk" references="role(id)" deleteCascade="true"/>
+            </column>
+        </createTable>
+
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1"
+                        maxValue="9223372036854775807" minValue="1" sequenceName="acc_group_seq" startValue="1"/>
+    
+        <addColumn tableName="role">
+            <column name="acc_group_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="role_acc_group_fk" references="acc_group(id)" deleteCascade="true"/>
+            </column>
+        </addColumn>
+    
+    </changeSet>
+
+</databaseChangeLog>
