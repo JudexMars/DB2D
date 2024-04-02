@@ -1,6 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ToastCenter from "components/ToastCenter";
 import { AuthProvider } from "providers/AuthProvider";
 import { Route, Routes } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "styled-components";
 
 import Authentication from "./pages/Authentication";
@@ -23,6 +25,7 @@ const App = (): JSX.Element => {
           </Routes>
         </AuthProvider>
       </QueryClientProvider>
+      <ToastCenter />
       <GlobalStyles />
     </ThemeProvider>
   );

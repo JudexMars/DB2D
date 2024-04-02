@@ -56,7 +56,7 @@ const ChangePasswordForm = (): JSX.Element => {
         )}
         <StyledInput
           type="password"
-          label="Подтвердите старый пароль"
+          label="Подтвердите текущий пароль"
           placeholder="12345678"
           {...register("oldPassword", {
             required: true,
@@ -65,7 +65,7 @@ const ChangePasswordForm = (): JSX.Element => {
           $isError={!!errors.oldPassword}
         />
         {errors.oldPassword && (
-          <ErrorMessage>Введите предыдущий пароль</ErrorMessage>
+          <ErrorMessage>Введите текущий пароль</ErrorMessage>
         )}
         <StyledButton type="submit">Сохранить</StyledButton>
       </WrapperForm>

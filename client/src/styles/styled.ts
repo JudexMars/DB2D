@@ -2,6 +2,7 @@ export interface Theme {
   colors: {
     background: string;
     border: string;
+    shadow: string;
     font: string;
   };
 
@@ -43,5 +44,9 @@ export interface Theme {
 
   link: {
     primary: string;
+  };
+
+  toast: {
+    background: string;
   };
 }

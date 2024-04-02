@@ -4,6 +4,7 @@ export const baseTheme: Theme = {
   colors: {
     background: "#00000",
     border: "#E1E1E1",
+    shadow: "rgba(0, 0, 0, 0.10)",
     font: "#333333",
   },
 
@@ -45,5 +46,9 @@ export const baseTheme: Theme = {
 
   link: {
     primary: "#677FFF",
+  },
+
+  toast: {
+    background: "rgba(255, 255, 255, 0.7)",
   },
 };

@@ -1,4 +1,4 @@
-import Avatar, { AvatarVariant } from "components/Avatar/Avatar";
+import Avatar, { AvatarVariant } from "components/Avatar";
 import { useAuth } from "providers/AuthProvider";
 import { styled } from "styled-components";
 
@@ -33,7 +33,7 @@ const AvatarForm = ({ firstname, lastname }: AvatarFormProps): JSX.Element => {
   // TODO: add changeAvatar from useSettings and Settings Provider;
   return (
     <StyledAvatarForm>
-      <Avatar variant={AvatarVariant.Rounded}></Avatar>
+      <Avatar variant={AvatarVariant.Rounded} shadow={true}></Avatar>
       <StyledInfo>
         <StyledEmail>{user?.email}</StyledEmail>
         <StyledName>{`${firstname} ${lastname}`}</StyledName>
