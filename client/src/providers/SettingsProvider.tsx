@@ -1,7 +1,12 @@
-import { ReactNode, createContext, useCallback, useContext } from "react";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import { Id, toast } from "react-toastify";
 
 import { useAuth } from "./AuthProvider";
@@ -23,7 +28,7 @@ export interface SettingsContextProps {
   changePassword: (props: ChangePassword) => void;
 }
 
-interface settingsErrorProps {
+interface SettingsErrorProps {
   message?: string;
   error?: string;
 }
@@ -60,9 +65,9 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
         if (axios.isAxiosError(error)) {
           toast.update(changeNameToastId, {
             render: `Ошибка: ${
-              (error.response?.data as settingsErrorProps).message
-                ? (error.response?.data as settingsErrorProps).message
-                : (error.response?.data as settingsErrorProps).error
+              (error.response?.data as SettingsErrorProps).message
+                ? (error.response?.data as SettingsErrorProps).message
+                : (error.response?.data as SettingsErrorProps).error
             }`,
             type: "error",
             autoClose: 3500,
@@ -93,9 +98,9 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
         if (axios.isAxiosError(error)) {
           toast.update(changePasswordToastId, {
             render: `Ошибка: ${
-              (error.response?.data as settingsErrorProps).message
-                ? (error.response?.data as settingsErrorProps).message
-                : (error.response?.data as settingsErrorProps).error
+              (error.response?.data as SettingsErrorProps).message
+                ? (error.response?.data as SettingsErrorProps).message
+                : (error.response?.data as SettingsErrorProps).error
             }`,
             type: "error",
             autoClose: 3500,
@@ -110,18 +115,28 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
     (props: ChangeName) => {
       changeNameMutation.mutate(props);
     },
-    [changeNameMutation],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
 
   const changePassword = useCallback(
     (props: ChangePassword) => {
       changePasswordMutation.mutate(props);
     },
-    [changePasswordMutation],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const value = useMemo(
+    () => ({
+      changeName,
+      changePassword,
+    }),
+    [changeName, changePassword],
   );
 
   return (
-    <SettingsContext.Provider value={{ changeName, changePassword }}>
+    <SettingsContext.Provider value={value}>
       {children}
     </SettingsContext.Provider>
   );

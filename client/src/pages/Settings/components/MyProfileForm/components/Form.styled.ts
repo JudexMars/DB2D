@@ -1,6 +1,7 @@
+import { css, styled } from "styled-components";
+
 import Button from "components/Button";
 import Input from "components/Input";
-import { css, styled } from "styled-components";
 
 export const StyledButton = styled(Button)`
   font-size: 16px;

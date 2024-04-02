@@ -27,11 +27,13 @@ const MyProfileForm = (): JSX.Element | null => {
   const { isLoading, data } = useQuery({
     queryKey: ["names"],
     queryFn: async (): Promise<AccountInfo> => {
-      const { data } = (await axios.get(`/account/${user?.accountId}`)) as {
+      const { data: account } = (await axios.get(
+        `/account/${user?.accountId}`,
+      )) as {
         data: AccountInfo;
       };
 
-      return data;
+      return account;
     },
   });
 
