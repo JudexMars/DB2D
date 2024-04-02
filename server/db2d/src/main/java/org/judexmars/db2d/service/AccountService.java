@@ -50,10 +50,22 @@ public class AccountService implements UserDetailsService {
         return accountMapper.toAccountDto(getEntityByEmail(email));
     }
 
+    /**
+     * Get account as an entity by email
+     *
+     * @param email email of the account
+     * @return {@link AccountEntity}
+     */
     public AccountEntity getEntityByEmail(String email) {
         return (AccountEntity) loadUserByUsername(email);
     }
 
+    /**
+     * Get account as an entity by id
+     *
+     * @param id id of the account
+     * @return {@link AccountEntity}
+     */
     AccountEntity getEntityById(Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new AccountNotFoundException(id));
@@ -151,6 +163,12 @@ public class AccountService implements UserDetailsService {
         return accountMapper.toAccountDto(accountRepository.save(account));
     }
 
+    /**
+     * Update account password
+     *
+     * @param id                 id of the account
+     * @param accountPasswordDto both old and new passwords
+     */
     public void updateAccountPassword(Long id, AccountPasswordDto accountPasswordDto) {
         var existingAccount = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(id));
         if (!passwordEncoder.matches(accountPasswordDto.oldPassword(), existingAccount.getPassword())) {

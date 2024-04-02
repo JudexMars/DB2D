@@ -1,10 +1,12 @@
 package org.judexmars.db2d.dto.account;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.judexmars.db2d.annotation.NullOrNotBlank;
 
 public record AccountSettingsDto(
+        @NotNull
         Long accountId,
-        @NotBlank
+        @NullOrNotBlank
         String language
 ) {
 }

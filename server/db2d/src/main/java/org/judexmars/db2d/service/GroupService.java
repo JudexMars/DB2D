@@ -61,16 +61,36 @@ public class GroupService {
         return groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException(groupId));
     }
 
-    @Transactional
+    /**
+     * Set role in the group for the account
+     *
+     * @param account account entity
+     * @param role    role entity
+     * @param group   group entity
+     */
     protected void setGroupRole(AccountEntity account, RoleEntity role, AccGroupEntity group) {
         var x = new AccountRoleGroupEntity().setAccount(account).setRole(role).setAccGroup(group);
         accountRoleGroupRepository.save(x);
     }
 
+    /**
+     * Check if the account is in the specified group
+     *
+     * @param accountId id of the account
+     * @param groupId   id of the group
+     * @return {@code true} or {@code false}
+     */
     public boolean isAccountInGroup(Long accountId, Long groupId) {
         return !accountRoleGroupRepository.findByAccountIdAndAccGroupId(accountId, groupId).isEmpty();
     }
 
+    /**
+     * Check if the account is in the specified group
+     *
+     * @param email   email of the account
+     * @param groupId id of the group
+     * @return {@code true} or {@code false}
+     */
     public boolean isAccountInGroup(String email, Long groupId) {
         return isAccountInGroup(accountService.getEntityByEmail(email).getId(), groupId);
     }
@@ -100,6 +120,13 @@ public class GroupService {
         setGroupRole(account, role, group);
     }
 
+    /**
+     * Change account's role in the group
+     *
+     * @param groupId  id of the group
+     * @param email    email of the account
+     * @param roleName name of the new role
+     */
     public void changeAccountGroupRoleByEmail(Long groupId, String email, String roleName) {
         var account = accountService.getEntityByEmail(email);
         var role = roleService.getRoleEntityByNameAndGroupId(roleName, groupId);
@@ -108,17 +135,35 @@ public class GroupService {
         setGroupRole(account, role, group);
     }
 
+    /**
+     * Get all accounts in the group
+     *
+     * @param id id of the group
+     * @return {@link List} of accounts
+     */
     public List<AccountDto> getAccountsInGroup(Long id) {
         return accountRoleGroupRepository.findByAccGroupId(id).stream()
-                .map(AccountRoleGroupEntity::getAccount)
-                .map(accountMapper::toAccountDto)
+                .map(x -> accountMapper.toAccountDtoWithRole(x.getAccount(), x.getRole().getName()))
                 .toList();
     }
 
+    /**
+     * Edit group info by id
+     *
+     * @param id                 id of the group
+     * @param createEditGroupDto new group info
+     * @return updated group as {@link GroupDto}
+     */
     public GroupDto editGroupById(Long id, CreateEditGroupDto createEditGroupDto) {
         return groupMapper.toGroupDto(groupRepository.save(groupMapper.toGroupEntity(createEditGroupDto).setId(id)));
     }
 
+    /**
+     * Kick account from the group
+     *
+     * @param id             id of the group
+     * @param kickAccountDto id of the account
+     */
     @Transactional
     public void kickAccount(Long id, KickAccountDto kickAccountDto) {
         // These checks are essential so that the client understands the root of the possible error

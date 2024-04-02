@@ -34,11 +34,9 @@ public class AuthController {
     private final AuthService authService;
     private final AccountService accountService;
 
-    @Operation(description = "Вход в аккаунт")
+    @Operation(summary = "Вход в аккаунт")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Вход успешен", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
-            }),
+            @ApiResponse(responseCode = "200", description = "Вход успешен", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),
@@ -53,11 +51,9 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponseDto);
     }
 
-    @Operation(description = "Регистрация аккаунта")
+    @Operation(summary = "Регистрация аккаунта")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Регистрация успешна", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
-            }),
+            @ApiResponse(responseCode = "200", description = "Регистрация успешна", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),
@@ -76,11 +72,9 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponseDto);
     }
 
-    @Operation(description = "Обновление токена")
+    @Operation(summary = "Обновление токена")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Создан новый токен", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponseDto.class))
-            }),
+            @ApiResponse(responseCode = "200", description = "Создан новый токен", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),

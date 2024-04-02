@@ -21,6 +21,9 @@ public interface AccountMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     AccountEntity toAccountWithNoNulls(UpdateAccountDto accountDto, @MappingTarget AccountEntity account);
 
+    @Mapping(target = "role", defaultExpression = "java(role)")
+    AccountDto toAccountDtoWithRole(AccountEntity account, String role);
+
     @Mapping(target = "language", source = "language.name")
     AccountSettingsDto toAccountSettingsDto(AccountSettingsEntity accountSettings);
 
@@ -30,7 +33,9 @@ public interface AccountMapper {
     AccountSettingsEntity toAccountSettings(AccountSettingsDto accountSettingsDto, Long id);
 
     default InterfaceLanguageEntity toInterfaceLanguage(String language) {
+        System.out.println("Mapping happens: " + language);
         var il = new InterfaceLanguageEntity();
+        System.out.println("Language entity: " + il);
         il.setName(language);
         return il;
     }

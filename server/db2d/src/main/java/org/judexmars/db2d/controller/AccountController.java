@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.judexmars.db2d.dto.BaseResponseDto;
@@ -45,7 +46,7 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AccountDto> putAccount(@PathVariable Long id, @RequestBody UpdateAccountDto updateAccountDto) {
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @Valid @RequestBody UpdateAccountDto updateAccountDto) {
         checkFakeId(id);
         var account = accountService.updateAccountById(id, updateAccountDto);
         return ResponseEntity.ok(account);
@@ -64,7 +65,7 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}/password")
-    public ResponseEntity<BaseResponseDto> putAccountPassword(@PathVariable Long id, @RequestBody AccountPasswordDto accountPasswordDto) {
+    public ResponseEntity<BaseResponseDto> updateAccountPassword(@PathVariable Long id, @Valid @RequestBody AccountPasswordDto accountPasswordDto) {
         checkFakeId(id);
         accountService.updateAccountPassword(id, accountPasswordDto);
         return ResponseEntity.ok(new BaseResponseDto(200, messageRenderer.render("response.password_update_success")));
@@ -120,7 +121,7 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}/settings")
-    public ResponseEntity<AccountSettingsDto> putAccountSettings(@PathVariable Long id, AccountSettingsDto accountSettingsDto) {
+    public ResponseEntity<AccountSettingsDto> updateAccountSettings(@PathVariable Long id, @Valid AccountSettingsDto accountSettingsDto) {
         checkFakeId(id);
         var accountSettings = accountService.updateAccountSettingsById(id, accountSettingsDto);
         return ResponseEntity.ok(accountSettings);

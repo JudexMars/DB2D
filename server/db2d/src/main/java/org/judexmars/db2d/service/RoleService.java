@@ -19,6 +19,11 @@ public class RoleService {
     private final RoleRepository roleRepository;
     private final PrivilegeRepository privilegeRepository;
 
+    /**
+     * Get defaults roles which are automatically added to a new group
+     *
+     * @return {@link List} of roles
+     */
     List<RoleEntity> getDefaultRolesForGroup() {
         var readContent = getPrivilegeEntityByName("READ_CONTENT");
         var writeContent = getPrivilegeEntityByName("WRITE_CONTENT");
@@ -40,24 +45,24 @@ public class RoleService {
                 readContent
         ));
 
-        var defaultRoles = new ArrayList<>(List.of(
-                new RoleEntity().setName("ROLE_OWNER").setPrivileges(ownerPrivileges),
-                new RoleEntity().setName("ROLE_ADMIN").setPrivileges(adminPrivileges),
-                new RoleEntity().setName("ROLE_EDITOR").setPrivileges(editorPrivileges),
-                new RoleEntity().setName("ROLE_VIEWER").setPrivileges(viewerPrivileges)
+        return new ArrayList<>(List.of(
+                new RoleEntity().setName("Owner").setPrivileges(ownerPrivileges),
+                new RoleEntity().setName("Admin").setPrivileges(adminPrivileges),
+                new RoleEntity().setName("Editor").setPrivileges(editorPrivileges),
+                new RoleEntity().setName("Viewer").setPrivileges(viewerPrivileges)
         ));
-        return defaultRoles;
-//        return roleRepository.saveAll(defaultRoles);
     }
 
+    /**
+     * Get role as entity by its name and group id
+     *
+     * @param name    name of the role
+     * @param groupId id of the group
+     * @return {@link RoleEntity}
+     */
     RoleEntity getRoleEntityByNameAndGroupId(String name, Long groupId) {
         return roleRepository.findByNameAndAccGroupId(name, groupId).orElseThrow(() -> new NoSuchRoleException(name));
     }
-
-    List<RoleEntity> saveAll(List<RoleEntity> roles) {
-        return roleRepository.saveAll(roles);
-    }
-
 
     private PrivilegeEntity getPrivilegeEntityByName(String name) {
         return privilegeRepository.findByName(name).orElseThrow(() -> new PrivilegeNotFound(name));

@@ -31,6 +31,7 @@
                                  referencedTableName="interface_language"
                                  referencedColumnNames="id"/>
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1"
-                        maxValue="9223372036854775807" minValue="1" sequenceName="interface_language_seq" startValue="1"/>
+                        maxValue="9223372036854775807" minValue="1" sequenceName="interface_language_seq"
+                        startValue="1"/>
     </changeSet>
 </databaseChangeLog>

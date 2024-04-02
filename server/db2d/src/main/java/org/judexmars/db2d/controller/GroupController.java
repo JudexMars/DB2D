@@ -34,7 +34,7 @@ public class GroupController {
     private final MessageRenderer messageRenderer;
     private final SecurityUtils securityUtils;
 
-    @Operation(description = "Создать новую группу")
+    @Operation(summary = "Создать новую группу")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Группа успешно создана", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Неверный формат данных", content =
@@ -44,11 +44,11 @@ public class GroupController {
     public ResponseEntity<GroupDto> createGroup(@RequestBody @Valid CreateEditGroupDto createEditGroupDto) {
         var ownerEmail = securityUtils.getLoggedInEmail();
         var group = groupService.createGroup(createEditGroupDto);
-        groupService.changeAccountGroupRoleByEmail(group.id(), ownerEmail, "ROLE_OWNER");
+        groupService.changeAccountGroupRoleByEmail(group.id(), ownerEmail, "Owner");
         return ResponseEntity.ok(group);
     }
 
-    @Operation(description = "Пригласить пользователя в группу")
+    @Operation(summary = "Пригласить пользователя в группу")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Пользователь успешно приглашен", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Неверный формат данных", useReturnTypeSchema = true),
@@ -62,7 +62,7 @@ public class GroupController {
                 .render("response.invite_successful", inviteDto.email(), id)));
     }
 
-    @Operation(description = "Изменить роль пользователя в группе")
+    @Operation(summary = "Изменить роль пользователя в группе")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Пользователь успешно поменял роль", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Неверный формат данных", useReturnTypeSchema = true),
@@ -77,7 +77,7 @@ public class GroupController {
                         changeRoleDto.accountId(), changeRoleDto.newRole(), id)));
     }
 
-    @Operation(description = "Получить всех пользователей, состоящих в группе")
+    @Operation(summary = "Получить всех пользователей, состоящих в группе")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Пользователи получены", content =
             @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseResponseDto.class))),
@@ -90,7 +90,7 @@ public class GroupController {
         return ResponseEntity.ok(groupService.getAccountsInGroup(id));
     }
 
-    @Operation(description = "Редактировать основную информацию о группе")
+    @Operation(summary = "Редактировать основную информацию о группе")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Группа успешно отредактирована", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Неверный формат данных", content =
@@ -100,11 +100,11 @@ public class GroupController {
     })
     @PreAuthorize("hasAuthority(#id + 'EDIT_GROUP_INFO')")
     @PutMapping("/{id}")
-    public ResponseEntity<GroupDto> editGroup(@PathVariable Long id, @RequestBody CreateEditGroupDto createEditGroupDto) {
+    public ResponseEntity<GroupDto> editGroup(@PathVariable Long id, @RequestBody @Valid CreateEditGroupDto createEditGroupDto) {
         return ResponseEntity.ok(groupService.editGroupById(id, createEditGroupDto));
     }
 
-    @Operation(description = "Исключить пользователя из группы")
+    @Operation(summary = "Исключить пользователя из группы")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Пользователь успешно исключен из группы", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Неверный формат данных", useReturnTypeSchema = true),
@@ -112,7 +112,7 @@ public class GroupController {
     })
     @PreAuthorize("hasAuthority(#id + 'MANAGE_ACCOUNTS')")
     @PutMapping("/{id}/kick")
-    public ResponseEntity<BaseResponseDto> kickAccount(@PathVariable Long id, @RequestBody KickAccountDto kickAccountDto) {
+    public ResponseEntity<BaseResponseDto> kickAccount(@PathVariable Long id, @Valid @RequestBody KickAccountDto kickAccountDto) {
         groupService.kickAccount(id, kickAccountDto);
         return ResponseEntity.ok(new BaseResponseDto(200, messageRenderer
                 .render("response.account_kicked_successfully", kickAccountDto.accountId(), id)));
