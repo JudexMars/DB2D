@@ -28,13 +28,13 @@ public class AppExceptionHandler {
     private final MessageRenderer messageRenderer;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ProblemDetail handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+    protected ResponseEntity<BaseResponseDto> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         List<String> body =
                 ex.getBindingResult().getAllErrors().stream()
                         .map(DefaultMessageSourceResolvable::getDefaultMessage)
                         .filter(Objects::nonNull)
                         .toList();
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, body.toString());
+        return ResponseEntity.badRequest().body(new BaseResponseDto(400, body.toString()));
     }
 
     @ExceptionHandler(BaseNotFoundException.class)
