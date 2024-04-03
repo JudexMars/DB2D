@@ -121,7 +121,7 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}/settings")
-    public ResponseEntity<AccountSettingsDto> updateAccountSettings(@PathVariable Long id, @Valid AccountSettingsDto accountSettingsDto) {
+    public ResponseEntity<AccountSettingsDto> updateAccountSettings(@PathVariable Long id, @Valid @RequestBody AccountSettingsDto accountSettingsDto) {
         checkFakeId(id);
         var accountSettings = accountService.updateAccountSettingsById(id, accountSettingsDto);
         return ResponseEntity.ok(accountSettings);

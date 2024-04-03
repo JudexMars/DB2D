@@ -28,9 +28,9 @@ public class AccountEntity implements UserDetails {
     @Column(name = "email")
     private String email;
     @Column(name = "firstname")
-    private String firstname;
+    private String firstName;
     @Column(name = "lastname")
-    private String lastname;
+    private String lastName;
     @Column(name = "password")
     private String password;
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)

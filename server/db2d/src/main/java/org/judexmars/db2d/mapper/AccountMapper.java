@@ -29,7 +29,7 @@ public interface AccountMapper {
 
     InterfaceLanguageDto toInterfaceLanguageDto(InterfaceLanguageEntity interfaceLanguage);
 
-    @Mapping(target = "accountId", source = "accountSettingsDto.accountId", defaultExpression = "java(id)")
+    @Mapping(target = "accountId", expression = "java(id)")
     AccountSettingsEntity toAccountSettings(AccountSettingsDto accountSettingsDto, Long id);
 
     default InterfaceLanguageEntity toInterfaceLanguage(String language) {

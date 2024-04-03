@@ -85,9 +85,11 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<JwtResponseDto> refresh(@RequestBody @Valid JwtRefreshRequestDto requestDto) {
         var newTokens = authService.refresh(requestDto.token());
+        var accountDto = accountService.getById(Long.valueOf(newTokens[2]));
+        var accountSettingsDto = accountService.getAccountSettingsById(Long.valueOf(newTokens[2]));
         return ResponseEntity.ok(new JwtResponseDto(
-                Long.valueOf(newTokens[2]),
-                newTokens[3],
+                accountDto,
+                accountSettingsDto,
                 newTokens[0],
                 newTokens[1]
         ));
@@ -95,9 +97,11 @@ public class AuthController {
 
     private JwtResponseDto getResponseDto(AccountEntity account, String name, String password) {
         var tokens = authService.createAuthTokens(account, name, password);
+        var accountDto = accountService.getById(account.getId());
+        var accountSettingsDto = accountService.getAccountSettingsById(accountDto.id());
         return new JwtResponseDto(
-                account.getId(),
-                account.getUsername(),
+                accountDto,
+                accountSettingsDto,
                 tokens[0],
                 tokens[1]
         );

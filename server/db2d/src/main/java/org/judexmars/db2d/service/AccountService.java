@@ -43,7 +43,7 @@ public class AccountService implements UserDetailsService {
     /**
      * Get account by username
      *
-     * @param username account's username
+     * @param email account's email
      * @return {@link AccountDto}
      */
     public AccountDto getByEmail(String email) {
@@ -96,7 +96,7 @@ public class AccountService implements UserDetailsService {
         account.setPassword(passwordEncoder.encode(signupRequestDto.password()));
         var accountSettings = new AccountSettingsEntity();
         accountSettings.setAccount(account);
-        accountSettings.setLanguage(getDefaultLanguage());
+        accountSettings.setLanguage(getLanguage(signupRequestDto.language()));
         account.setAccountSettings(accountSettings);
         return accountMapper.toAccountDto(accountRepository.save(account));
     }
@@ -179,6 +179,11 @@ public class AccountService implements UserDetailsService {
     }
 
     private InterfaceLanguageEntity getDefaultLanguage() {
-        return interfaceLanguageRepository.findById(1).orElseThrow(() -> new LanguageNotFoundException(1));
+        return getLanguage("en");
+    }
+
+    private InterfaceLanguageEntity getLanguage(String language) {
+        return interfaceLanguageRepository.findByName(language)
+                .orElseThrow(() -> new LanguageNotFoundException(language));
     }
 }

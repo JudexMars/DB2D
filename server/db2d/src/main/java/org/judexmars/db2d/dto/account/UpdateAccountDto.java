@@ -4,8 +4,8 @@ import org.judexmars.db2d.annotation.NullOrNotBlank;
 
 public record UpdateAccountDto(
         @NullOrNotBlank
-        String firstname,
+        String firstName,
         @NullOrNotBlank
-        String lastname
+        String lastName
 ) {
 }

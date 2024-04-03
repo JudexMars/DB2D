@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record AccountDto(
         Long id,
         String email,
-        String firstname,
-        String lastname,
+        String firstName,
+        String lastName,
         String role
 ) {
 }
