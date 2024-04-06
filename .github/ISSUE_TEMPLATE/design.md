@@ -1,12 +1,20 @@
 ---
-name: Feature
-about: New feature
-title: "FEATURE: <FEATURE_TITLE>"
-labels: enhancement
+name: Design
+about: System or layout design
+title: "DESIGN: <DESIGN_TITLE>"
+labels: system design, layout
 assignees: ""
 ---
 
 ## Описание
+
+## Макеты
+
+## <Макет 1>
+
+## Реализация макетов
+
+- [ ] <Макет 1>
 
 ## Сценарии проверки
 
@@ -18,10 +26,8 @@ assignees: ""
 
 ## Definition of Done (готовность к сдаче)
 
+- [ ] Проверены все макеты
 - [ ] Проверены все сценарии
-- [ ] Ветка содержит актуальную версию main
-- [ ] Приложение собирается и запускается без ошибок и предупреждений
-- [ ] Обновлена документация
 - [ ] Описание MR содержит ссылку на карточку задачи, чеклисты Definition of Done и Сценарии проверки
 - [ ] MR имеет ответственного (reviewer)
 - [ ] Карточка задачи перенесена в дорожку “REVIEW“
