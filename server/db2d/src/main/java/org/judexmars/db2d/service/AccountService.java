@@ -178,10 +178,6 @@ public class AccountService implements UserDetailsService {
         accountRepository.save(existingAccount);
     }
 
-    private InterfaceLanguageEntity getDefaultLanguage() {
-        return getLanguage("en");
-    }
-
     private InterfaceLanguageEntity getLanguage(String language) {
         return interfaceLanguageRepository.findByName(language)
                 .orElseThrow(() -> new LanguageNotFoundException(language));

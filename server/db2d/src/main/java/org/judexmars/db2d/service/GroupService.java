@@ -62,6 +62,16 @@ public class GroupService {
     }
 
     /**
+     * Get group by id
+     *
+     * @param groupId id of the group
+     * @return {@link GroupDto}
+     */
+    public GroupDto getGroupById(Long groupId) {
+        return groupMapper.toGroupDto(getGroupEntityById(groupId));
+    }
+
+    /**
      * Set role in the group for the account
      *
      * @param account account entity
@@ -82,17 +92,6 @@ public class GroupService {
      */
     public boolean isAccountInGroup(Long accountId, Long groupId) {
         return !accountRoleGroupRepository.findByAccountIdAndAccGroupId(accountId, groupId).isEmpty();
-    }
-
-    /**
-     * Check if the account is in the specified group
-     *
-     * @param email   email of the account
-     * @param groupId id of the group
-     * @return {@code true} or {@code false}
-     */
-    public boolean isAccountInGroup(String email, Long groupId) {
-        return isAccountInGroup(accountService.getEntityByEmail(email).getId(), groupId);
     }
 
     /**

@@ -85,9 +85,23 @@ public class GroupController {
             @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseResponseDto.class))),
     })
     @PreAuthorize("hasAuthority(#id + 'READ_CONTENT')")
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/members")
     public ResponseEntity<List<AccountDto>> getAccountsInGroup(@PathVariable Long id) {
         return ResponseEntity.ok(groupService.getAccountsInGroup(id));
+    }
+
+    @Operation(summary = "Получить основную информацию о группе")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Группа успешно отредактирована", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных", content =
+            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Группа не найдена", content =
+            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseResponseDto.class)))
+    })
+    @PreAuthorize("hasAuthority(#id + 'READ_CONTENT')")
+    @PutMapping("/{id}")
+    public ResponseEntity<GroupDto> getGroup(@PathVariable Long id) {
+        return ResponseEntity.ok(groupService.getGroupById(id));
     }
 
     @Operation(summary = "Редактировать основную информацию о группе")
