@@ -29,7 +29,7 @@ interface SignUpFormInputs {
   confirmPassword: string;
 }
 
-function SignUpForm(): JSX.Element {
+const SignUpForm = (): JSX.Element => {
   const { signUp } = useAuth();
 
   const {
@@ -121,6 +121,6 @@ function SignUpForm(): JSX.Element {
       </p>
     </WrapperForm>
   );
-}
+};
 
 export default SignUpForm;
