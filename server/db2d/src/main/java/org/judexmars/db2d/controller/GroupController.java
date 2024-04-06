@@ -99,7 +99,7 @@ public class GroupController {
             @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BaseResponseDto.class)))
     })
     @PreAuthorize("hasAuthority(#id + 'READ_CONTENT')")
-    @PutMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<GroupDto> getGroup(@PathVariable Long id) {
         return ResponseEntity.ok(groupService.getGroupById(id));
     }
