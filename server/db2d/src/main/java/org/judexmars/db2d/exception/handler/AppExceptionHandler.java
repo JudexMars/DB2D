@@ -77,6 +77,12 @@ public class AppExceptionHandler {
                 .body(new BaseResponseDto(401, messageRenderer.render(ex.getMessageCode())));
     }
 
+    @ExceptionHandler(OwnerKickException.class)
+    public ResponseEntity<BaseResponseDto> handleOwnerKickException(OwnerKickException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new BaseResponseDto(400, messageRenderer.render(ex.getMessageCode())));
+    }
+
     @ExceptionHandler(
             {InvalidJwtException.class, ExpiredJwtException.class,
                     UnsupportedJwtException.class,

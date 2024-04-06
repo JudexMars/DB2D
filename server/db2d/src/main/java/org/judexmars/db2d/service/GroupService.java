@@ -7,6 +7,7 @@ import org.judexmars.db2d.dto.account.AccountDto;
 import org.judexmars.db2d.dto.group.*;
 import org.judexmars.db2d.exception.AccountIsNotInGroup;
 import org.judexmars.db2d.exception.GroupNotFoundException;
+import org.judexmars.db2d.exception.OwnerKickException;
 import org.judexmars.db2d.mapper.AccountMapper;
 import org.judexmars.db2d.mapper.GroupMapper;
 import org.judexmars.db2d.model.AccGroupEntity;
@@ -18,6 +19,7 @@ import org.judexmars.db2d.repository.GroupRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -84,14 +86,14 @@ public class GroupService {
     }
 
     /**
-     * Check if the account is in the specified group
+     * Find account affiliation with the group
      *
      * @param accountId id of the account
      * @param groupId   id of the group
-     * @return {@code true} or {@code false}
+     * @return {@link AccountRoleGroupEntity}
      */
-    public boolean isAccountInGroup(Long accountId, Long groupId) {
-        return !accountRoleGroupRepository.findByAccountIdAndAccGroupId(accountId, groupId).isEmpty();
+    public AccountRoleGroupEntity getAccountInGroup(Long accountId, Long groupId) {
+        return accountRoleGroupRepository.findByAccountIdAndAccGroupId(accountId, groupId).getFirst();
     }
 
     /**
@@ -102,7 +104,7 @@ public class GroupService {
     public void addAccountToGroup(Long groupId, InviteDto inviteDto) {
         var account = accountService.getEntityByEmail(inviteDto.email());
         var group = getGroupEntityById(groupId);
-        var role = roleService.getRoleEntityByNameAndGroupId("ROLE_VIEWER", group.getId());
+        var role = roleService.getRoleEntityByNameAndGroupId("Viewer", group.getId());
         setGroupRole(account, role, group);
     }
 
@@ -167,9 +169,12 @@ public class GroupService {
     public void kickAccount(Long id, KickAccountDto kickAccountDto) {
         // These checks are essential so that the client understands the root of the possible error
         getGroupEntityById(id); // check that the group exists
-        accountService.getById(kickAccountDto.accountId()); // check that the account exists
-        if (isAccountInGroup(kickAccountDto.accountId(), id)) // check that the account is in the group
+        accountService.getEntityById(kickAccountDto.accountId()); // check that the account exists
+        try {
+            var accountInGroup = getAccountInGroup(kickAccountDto.accountId(), id);
+            if (accountInGroup.getRole().getName().equals("Owner")) { throw new OwnerKickException(); }
             accountRoleGroupRepository.deleteByAccountIdAndAccGroupId(kickAccountDto.accountId(), id);
-        else throw new AccountIsNotInGroup(kickAccountDto.accountId(), id);
+        }
+        catch (NoSuchElementException ex) { throw new AccountIsNotInGroup(kickAccountDto.accountId(), id); }
     }
 }

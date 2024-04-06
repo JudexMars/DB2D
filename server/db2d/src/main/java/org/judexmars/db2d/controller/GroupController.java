@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.dto.BaseResponseDto;
 import org.judexmars.db2d.dto.account.AccountDto;
 import org.judexmars.db2d.dto.group.*;
+import org.judexmars.db2d.exception.NoSuchRoleException;
 import org.judexmars.db2d.service.GroupService;
 import org.judexmars.db2d.service.MessageRenderer;
 import org.judexmars.db2d.utils.SecurityUtils;
@@ -70,7 +71,11 @@ public class GroupController {
     })
     @PreAuthorize("hasAuthority(#id + 'MANAGE_ACCOUNTS')")
     @PutMapping("/{id}/role")
-    public ResponseEntity<BaseResponseDto> changeAccountGroupRole(@PathVariable Long id, @RequestBody @Valid ChangeRoleDto changeRoleDto) {
+    public ResponseEntity<BaseResponseDto> changeAccountGroupRole(@PathVariable Long id,
+                                                                  @RequestBody @Valid ChangeRoleDto changeRoleDto) {
+        if (changeRoleDto.newRole().equals("Owner")) {
+            throw new NoSuchRoleException("Owner");
+        }
         groupService.changeAccountGroupRoleById(id, changeRoleDto);
         return ResponseEntity.ok(new BaseResponseDto(200, messageRenderer
                 .render("response.change_role_successful",

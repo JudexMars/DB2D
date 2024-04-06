@@ -20,10 +20,10 @@ public class AccountRoleGroupId implements Serializable {
     @JoinColumn(name = "account_id")
     private AccountEntity account;
 
-    @Id
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "role_id")
-    private RoleEntity role;
+//    @Id
+//    @ManyToOne(cascade = CascadeType.MERGE)
+//    @JoinColumn(name = "role_id")
+//    private RoleEntity role;
 
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)

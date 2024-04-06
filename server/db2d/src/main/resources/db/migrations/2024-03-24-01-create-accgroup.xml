@@ -25,7 +25,7 @@
                              deleteCascade="true"/>
             </column>
             <column name="role_id" type="bigint">
-                <constraints primaryKey="true" foreignKeyName="account_role_group_role_fk" references="role(id)"
+                <constraints foreignKeyName="account_role_group_role_fk" references="role(id)"
                              deleteCascade="true"/>
             </column>
         </createTable>

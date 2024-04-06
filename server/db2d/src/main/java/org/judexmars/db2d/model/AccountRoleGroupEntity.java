@@ -19,7 +19,6 @@ public class AccountRoleGroupEntity {
     @JoinColumn(name = "account_id")
     private AccountEntity account;
 
-    @Id
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private RoleEntity role;
