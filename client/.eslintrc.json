@@ -4,53 +4,31 @@
     "es2021": true
   },
   "extends": [
-    "eslint:recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    "project": "./tsconfig.json"
   },
-  "plugins": ["react", "react-hooks", "prettier", "import"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "prettier/prettier": "error",
-    "spaced-comment": "warn",
-    "no-console": "warn",
-    "consistent-return": "error",
-    "func-names": "off",
-    "object-shorthand": "off",
-    "no-param-reassign": "error",
-    "no-return-await": "off",
-    "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-unused-vars": ["error"],
-    "import/order": [
-      "error",
-      {
-        "groups": ["builtin", "external", "internal"],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ],
-    "quotes": [
-      "error",
-      "double",
-      {
-        "avoidEscape": true
-      }
-    ]
+    "arrow-body-style": "off",
+    "no-console": "off",
+    "no-restricted-exports": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/function-component-definition": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "react/display-name": "off",
+    "prefer-destructuring": ["error", { "object": true, "array": false }]
   }
 }

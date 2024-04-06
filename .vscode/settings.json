@@ -1,4 +1,12 @@
 {
   "editor.formatOnSave": true,
-  "eslint.workingDirectories": ["./client"]
+  "editor.tabSize": 2,
+  "eslint.workingDirectories": ["./client"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "files.eol": "\n"
 }
