@@ -28,8 +28,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint \".src/**/*.{js,jsx}\"",
-    "lint:fix": "eslint --fix \".src/**/*.{js,jsx}\""
+    "lint:test": "eslint src",
+    "prettier:test": "prettier src --check",
+    "prettier:fix": "npm run prettier:test -- --write"
   },
   "proxy": "http://localhost:8080",
   "browserslist": {
