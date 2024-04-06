@@ -1,5 +1,6 @@
 import { Theme } from "./styled";
 
+// eslint-disable-next-line import/prefer-default-export
 export const baseTheme: Theme = {
   colors: {
     background: "#00000",

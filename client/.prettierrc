@@ -2,23 +2,21 @@
   "trailingComma": "all",
   "semi": true,
   "singleQuote": false,
-  "bracketSpacing": true,
+  "jsxSingleQuote": true,
   "printWidth": 80,
   "tabWidth": 2,
   "arrowParens": "always",
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
-  "importOrder": ["^react$", "<THIRD_PARTY_MODULES>", "^[.]"],
+  "importOrder": [
+    "^pages/(.*)$",
+    "^containers/(.*)$",
+    "^components/(.*)$",
+    "^utils/(.*)$",
+    "^assets/(.*)$",
+    "^fonts/(.*)$",
+    "^styles/(.*)$",
+    "^[./]"
+  ],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "overrides": [
-    {
-      "files": ["*.json"],
-      "options": {
-        "parser": "json5",
-        "quoteProps": "preserve",
-        "singleQuote": false,
-        "trailingComma": "none"
-      }
-    }
-  ]
+  "importOrderSortSpecifiers": true
 }

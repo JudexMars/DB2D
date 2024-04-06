@@ -1,8 +1,9 @@
-import ErrorMessage from "components/ErrorMessage";
-import SettingsSection from "components/SettingsSection";
 import { useSettings } from "providers/SettingsProvider";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+
+import ErrorMessage from "components/ErrorMessage";
+import SettingsSection from "components/SettingsSection";
 
 import { StyledButton, StyledInput, WrapperForm } from "./Form.styled";
 
@@ -37,14 +38,14 @@ const ChangePasswordForm = (): JSX.Element => {
 
   return (
     <SettingsSection
-      title="Изменить пароль"
-      description="Обновите доступ к Вашей учетной записи"
+      title='Изменить пароль'
+      description='Обновите доступ к Вашей учетной записи'
     >
       <WrapperForm onSubmit={handleSubmit(onSubmitPassword)}>
         <StyledInput
-          type="password"
-          label="Новый пароль"
-          placeholder="12345678"
+          type='password'
+          label='Новый пароль'
+          placeholder='12345678'
           {...register("newPassword", {
             required: true,
             setValueAs: (v) => v.trim(),
@@ -55,9 +56,9 @@ const ChangePasswordForm = (): JSX.Element => {
           <ErrorMessage>Введите новый пароль</ErrorMessage>
         )}
         <StyledInput
-          type="password"
-          label="Подтвердите текущий пароль"
-          placeholder="12345678"
+          type='password'
+          label='Подтвердите текущий пароль'
+          placeholder='12345678'
           {...register("oldPassword", {
             required: true,
             setValueAs: (v) => v.trim(),
@@ -67,7 +68,7 @@ const ChangePasswordForm = (): JSX.Element => {
         {errors.oldPassword && (
           <ErrorMessage>Введите текущий пароль</ErrorMessage>
         )}
-        <StyledButton type="submit">Сохранить</StyledButton>
+        <StyledButton type='submit'>Сохранить</StyledButton>
       </WrapperForm>
     </SettingsSection>
   );

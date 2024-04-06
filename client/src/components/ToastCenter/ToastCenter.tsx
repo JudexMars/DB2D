@@ -8,14 +8,14 @@ interface ToastCenterProps {
 const ToastCenter = ({ className }: ToastCenterProps): JSX.Element => (
   <div className={className}>
     <ToastContainer
-      position="bottom-right"
+      position='bottom-right'
       autoClose={3000}
-      hideProgressBar={true}
+      hideProgressBar
       newestOnTop={false}
       rtl={false}
       pauseOnFocusLoss
       pauseOnHover
-      theme="light"
+      theme='light'
     />
   </div>
 );

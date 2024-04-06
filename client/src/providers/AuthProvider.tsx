@@ -1,14 +1,14 @@
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import {
   ReactNode,
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
-
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Id, toast } from "react-toastify";
 
@@ -32,7 +32,7 @@ export interface User {
   refreshToken: string;
 }
 
-interface signInErrorProps {
+interface SignErrorProps {
   message?: string;
   error?: string;
 }
@@ -81,9 +81,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
         if (axios.isAxiosError(error)) {
           toast.update(signInToastId, {
             render: `Ошибка: ${
-              (error.response?.data as signInErrorProps).message
-                ? (error.response?.data as signInErrorProps).message
-                : (error.response?.data as signInErrorProps).error
+              (error.response?.data as SignErrorProps).message
+                ? (error.response?.data as SignErrorProps).message
+                : (error.response?.data as SignErrorProps).error
             }`,
             type: "error",
             autoClose: 3500,
@@ -125,9 +125,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
         if (axios.isAxiosError(error)) {
           toast.update(signUpToastId, {
             render: `Ошибка: ${
-              (error.response?.data as signInErrorProps).message
-                ? (error.response?.data as signInErrorProps).message
-                : (error.response?.data as signInErrorProps).error
+              (error.response?.data as SignErrorProps).message
+                ? (error.response?.data as SignErrorProps).message
+                : (error.response?.data as SignErrorProps).error
             }`,
             type: "error",
             autoClose: 3500,
@@ -139,9 +139,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   });
 
   useEffect(() => {
-    const user = sessionStorage.getItem("user");
-    if (user) {
-      const { email, password } = JSON.parse(user);
+    const userFromStorage = sessionStorage.getItem("user");
+    if (userFromStorage) {
+      const { email, password } = JSON.parse(userFromStorage);
       signInMutation.mutate({ email, password });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,32 +161,35 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  const signIn = useCallback(
-    (props: SignIn) => {
-      signInMutation.mutate(props);
-    },
-    [signInMutation],
-  );
+  const signIn = useCallback((props: SignIn) => {
+    signInMutation.mutate(props);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const signUp = useCallback(
-    (props: SignUp) => {
-      signUpMutation.mutate(props);
-    },
-    [signUpMutation],
-  );
+  const signUp = useCallback((props: SignUp) => {
+    signUpMutation.mutate(props);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const logOut = useCallback(() => {
     sessionStorage.removeItem("user");
     setUser(undefined);
     signInMutation.reset();
     signUpMutation.reset();
-  }, [signInMutation, signUpMutation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, signIn, signUp, logOut }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      user,
+      signIn,
+      signUp,
+      logOut,
+    }),
+    [logOut, signIn, signUp, user],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 const useAuth = () => {

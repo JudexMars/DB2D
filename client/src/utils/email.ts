@@ -1,4 +1,5 @@
 /** Checks the mail for validity  */
+// eslint-disable-next-line import/prefer-default-export
 export const isEmail = (email: string) => {
   /** Check for the existence of the '@' character in the string */
   const atIndex = email.indexOf("@");

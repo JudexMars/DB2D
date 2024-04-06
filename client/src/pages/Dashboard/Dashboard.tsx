@@ -1,6 +1,7 @@
-import Button from "components/Button";
 import { useAuth } from "providers/AuthProvider";
 import { toast } from "react-toastify";
+
+import Button from "components/Button";
 
 const Dashboard = (): JSX.Element => {
   const { user, logOut } = useAuth();

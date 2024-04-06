@@ -1,6 +1,5 @@
-import { forwardRef } from "react";
-
 import { lighten } from "polished";
+import { forwardRef } from "react";
 import styled from "styled-components";
 
 export enum ButtonVariant {
@@ -44,7 +43,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ): JSX.Element => {
     return (
-      <StyledButton ref={ref} $variant={variant} type="button" {...rest}>
+      <StyledButton ref={ref} $variant={variant} type='button' {...rest}>
         {children}
       </StyledButton>
     );

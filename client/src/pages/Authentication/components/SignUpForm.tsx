@@ -1,8 +1,10 @@
-import Button from "components/Button";
-import ErrorMessage from "components/ErrorMessage";
 import { useAuth } from "providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+
+import Button from "components/Button";
+import ErrorMessage from "components/ErrorMessage";
+
 import { isEmail } from "utils/email";
 
 import {
@@ -46,8 +48,9 @@ const SignUpForm = (): JSX.Element => {
       <WrapperNames>
         <WrapperInput>
           <StyledInput
-            label="Имя"
-            placeholder="Имя"
+            label='Имя'
+            placeholder='Имя'
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...register("firstName", {
               required: true,
               setValueAs: (v) => v.trim(),
@@ -58,8 +61,8 @@ const SignUpForm = (): JSX.Element => {
         </WrapperInput>
         <WrapperInput>
           <StyledInput
-            label="Фамилия"
-            placeholder="Фамилия"
+            label='Фамилия'
+            placeholder='Фамилия'
             {...register("lastName", {
               required: true,
               setValueAs: (v) => v.trim(),
@@ -71,9 +74,9 @@ const SignUpForm = (): JSX.Element => {
       </WrapperNames>
       <WrapperInput>
         <StyledInput
-          type="email"
-          label="Email"
-          placeholder="email@example.com"
+          type='email'
+          label='Email'
+          placeholder='email@example.com'
           {...register("email", {
             required: true,
             validate: isEmail,
@@ -85,9 +88,9 @@ const SignUpForm = (): JSX.Element => {
       </WrapperInput>
       <WrapperInput>
         <StyledInput
-          type="password"
-          label="Пароль"
-          placeholder="12345678"
+          type='password'
+          label='Пароль'
+          placeholder='12345678'
           {...register("password", {
             required: true,
             setValueAs: (v) => v.trim(),
@@ -98,9 +101,9 @@ const SignUpForm = (): JSX.Element => {
       </WrapperInput>
       <WrapperInput>
         <StyledInput
-          type="password"
-          label="Подтверждение пароля"
-          placeholder="12345678"
+          type='password'
+          label='Подтверждение пароля'
+          placeholder='12345678'
           {...register("confirmPassword", {
             required: true,
             validate: (value, formState) => value === formState.password,
@@ -112,9 +115,9 @@ const SignUpForm = (): JSX.Element => {
           <ErrorMessage>Введенные пароли отличаются</ErrorMessage>
         )}
       </WrapperInput>
-      <Button type="submit">Зарегистрироваться</Button>
+      <Button type='submit'>Зарегистрироваться</Button>
       <p>
-        Есть аккаунт? <StyledLink to="/auth/signIn">Войти</StyledLink>
+        Есть аккаунт? <StyledLink to='/auth/signIn'>Войти</StyledLink>
       </p>
     </WrapperForm>
   );

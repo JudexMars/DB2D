@@ -1,8 +1,9 @@
-import ErrorMessage from "components/ErrorMessage";
-import SettingsSection from "components/SettingsSection";
 import { useSettings } from "providers/SettingsProvider";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+
+import ErrorMessage from "components/ErrorMessage";
+import SettingsSection from "components/SettingsSection";
 
 import { StyledButton, StyledInput, WrapperForm } from "./Form.styled";
 
@@ -51,14 +52,14 @@ const ChangeNameForm = ({
 
   return (
     <SettingsSection
-      title="Основаная информация"
-      description="Измените внешний вид и восприятие пользовательского интерфейса в Вашем браузере"
+      title='Основаная информация'
+      description='Измените внешний вид и восприятие пользовательского интерфейса в Вашем браузере'
     >
       <WrapperForm onSubmit={handleSubmit(onSubmitName)}>
         <StyledInput
-          type="firstname"
-          label="Имя"
-          placeholder="Ваше имя"
+          type='firstname'
+          label='Имя'
+          placeholder='Ваше имя'
           {...register("firstname", {
             required: true,
             setValueAs: (v) => v.trim(),
@@ -67,9 +68,9 @@ const ChangeNameForm = ({
         />
         {errors.firstname && <ErrorMessage>Введите имя</ErrorMessage>}
         <StyledInput
-          type="lastname"
-          label="Фамилия"
-          placeholder="Ваша фамилия"
+          type='lastname'
+          label='Фамилия'
+          placeholder='Ваша фамилия'
           {...register("lastname", {
             required: true,
             setValueAs: (v) => v.trim(),
@@ -77,7 +78,7 @@ const ChangeNameForm = ({
           $isError={!!errors.lastname}
         />
         {errors.lastname && <ErrorMessage>Введите фамилию</ErrorMessage>}
-        <StyledButton type="submit">Сохранить</StyledButton>
+        <StyledButton type='submit'>Сохранить</StyledButton>
       </WrapperForm>
     </SettingsSection>
   );

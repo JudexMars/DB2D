@@ -1,8 +1,10 @@
-import Button from "components/Button";
-import ErrorMessage from "components/ErrorMessage";
 import { useAuth } from "providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
+
+import Button from "components/Button";
+import ErrorMessage from "components/ErrorMessage";
+
 import { isEmail } from "utils/email";
 
 import {
@@ -41,8 +43,8 @@ const SignInForm = (): JSX.Element => {
       <TitleForm>Вход в систему</TitleForm>
       <WrapperInput>
         <StyledInput
-          type="email"
-          placeholder="email@example.com"
+          type='email'
+          placeholder='email@example.com'
           {...register("email", {
             required: true,
             validate: isEmail,
@@ -54,8 +56,8 @@ const SignInForm = (): JSX.Element => {
       </WrapperInput>
       <WrapperInput>
         <StyledInput
-          type="password"
-          placeholder="Пароль"
+          type='password'
+          placeholder='Пароль'
           {...register("password", {
             required: true,
             setValueAs: (v) => v.trim(),
@@ -64,10 +66,10 @@ const SignInForm = (): JSX.Element => {
         />
         {errors.password && <ErrorMessage>Введите пароль</ErrorMessage>}
       </WrapperInput>
-      <StyledButton type="submit">Войти</StyledButton>
+      <StyledButton type='submit'>Войти</StyledButton>
       <p>
         Нет аккаунта?{" "}
-        <StyledLink to="/auth/signUp">Зарегистрироваться</StyledLink>
+        <StyledLink to='/auth/signUp'>Зарегистрироваться</StyledLink>
       </p>
     </WrapperForm>
   );
