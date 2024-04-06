@@ -32,7 +32,7 @@ export interface User {
   refreshToken: string;
 }
 
-interface SettingsErrorProps {
+interface SignErrorProps {
   message?: string;
   error?: string;
 }
@@ -81,9 +81,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
         if (axios.isAxiosError(error)) {
           toast.update(signInToastId, {
             render: `Ошибка: ${
-              (error.response?.data as SettingsErrorProps).message
-                ? (error.response?.data as SettingsErrorProps).message
-                : (error.response?.data as SettingsErrorProps).error
+              (error.response?.data as SignErrorProps).message
+                ? (error.response?.data as SignErrorProps).message
+                : (error.response?.data as SignErrorProps).error
             }`,
             type: "error",
             autoClose: 3500,
@@ -125,9 +125,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
         if (axios.isAxiosError(error)) {
           toast.update(signUpToastId, {
             render: `Ошибка: ${
-              (error.response?.data as SettingsErrorProps).message
-                ? (error.response?.data as SettingsErrorProps).message
-                : (error.response?.data as SettingsErrorProps).error
+              (error.response?.data as SignErrorProps).message
+                ? (error.response?.data as SignErrorProps).message
+                : (error.response?.data as SignErrorProps).error
             }`,
             type: "error",
             autoClose: 3500,
