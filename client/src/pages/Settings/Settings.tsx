@@ -2,6 +2,7 @@ import { SettingsProvider } from "providers/SettingsProvider";
 import { Route, Routes } from "react-router-dom";
 import { styled } from "styled-components";
 
+import GroupForm from "./components/GroupForm";
 import MyProfileForm from "./components/MyProfileForm";
 
 const StyledSettings = styled.div`
@@ -18,6 +19,7 @@ const Settings = (): JSX.Element => {
       <StyledSettings>
         <Routes>
           <Route path='myProfile' element={<MyProfileForm />} />
+          <Route path='group' element={<GroupForm />} />
         </Routes>
       </StyledSettings>
     </SettingsProvider>

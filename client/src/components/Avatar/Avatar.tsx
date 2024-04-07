@@ -6,8 +6,6 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 150px;
 `;
 
 export enum AvatarVariant {

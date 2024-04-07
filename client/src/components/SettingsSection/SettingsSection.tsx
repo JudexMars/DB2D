@@ -18,6 +18,11 @@ const StyledDescription = styled.h3`
   font-size: 16px;
 `;
 
+const StyledInfo = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
+`;
+
 const StyledSeparation = styled.div`
   width: 100%;
   height: 1px;
@@ -38,8 +43,10 @@ const Section = ({
 }: SectionProps): JSX.Element => {
   return (
     <StyledSection>
-      <StyledTitle>{title}</StyledTitle>
-      <StyledDescription>{description}</StyledDescription>
+      <StyledInfo>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledDescription>{description}</StyledDescription>
+      </StyledInfo>
       <StyledSeparation />
       {children}
     </StyledSection>
