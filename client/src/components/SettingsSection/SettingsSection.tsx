@@ -1,21 +1,18 @@
 import { styled } from "styled-components";
 
-const StyledSection = styled.div`
+import Header, { HeaderProps } from "./components/Header";
+
+const StyledSettingsSection = styled.div`
   display: flex;
   align-items: start;
   flex-direction: column;
-  width: 100%;
   gap: 5px;
+  width: 100%;
 `;
 
-const StyledTitle = styled.h1`
-  font-weight: 600px;
-  font-size: 20px;
-`;
-
-const StyledDescription = styled.h3`
-  font-weight: 400;
-  font-size: 16px;
+const StyledHorizontalContent = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 const StyledSeparation = styled.div`
@@ -25,25 +22,41 @@ const StyledSeparation = styled.div`
   background-color: ${({ theme }) => theme.colors.border};
 `;
 
-export interface SectionProps {
-  title: string;
-  description: string;
+export enum SectionVariant {
+  Veritcal = "vertical",
+  Horizontal = "horizontal",
+}
+
+interface SectionProps extends HeaderProps {
+  variant?: SectionVariant;
   children?: React.ReactNode;
 }
 
-const Section = ({
+const SettingsSection = ({
   title,
   description,
+  variant = SectionVariant.Veritcal,
   children,
 }: SectionProps): JSX.Element => {
+  if (variant === SectionVariant.Horizontal) {
+    return (
+      <StyledSettingsSection>
+        <StyledHorizontalContent>
+          <Header title={title} description={description} />
+          {children}
+        </StyledHorizontalContent>
+        <StyledSeparation />
+      </StyledSettingsSection>
+    );
+  }
+
   return (
-    <StyledSection>
-      <StyledTitle>{title}</StyledTitle>
-      <StyledDescription>{description}</StyledDescription>
+    <StyledSettingsSection>
+      <Header title={title} description={description} />
       <StyledSeparation />
       {children}
-    </StyledSection>
+    </StyledSettingsSection>
   );
 };
 
-export default Section;
+export default SettingsSection;
