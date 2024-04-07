@@ -142,7 +142,11 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     const userFromStorage = sessionStorage.getItem("user");
     if (userFromStorage) {
       const { email, password } = JSON.parse(userFromStorage);
-      signInMutation.mutate({ email, password });
+      if (password) {
+        signInMutation.mutate({ email, password });
+      } else {
+        setUser(JSON.parse(userFromStorage));
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

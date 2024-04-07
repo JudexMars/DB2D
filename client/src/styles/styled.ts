@@ -1,12 +1,36 @@
+export enum ThemeType {
+  Light = "light",
+  Dark = "dark",
+}
+
+export interface BaseTheme {
+  borderRadius: number;
+
+  button: {
+    primary: {
+      color: string;
+      background: string;
+    };
+    disable: {
+      color: string;
+      background: string;
+    };
+  };
+
+  link: {
+    primary: string;
+  };
+}
+
 export interface Theme {
+  type: ThemeType;
+
   colors: {
     background: string;
     border: string;
     shadow: string;
     font: string;
   };
-
-  borderRadius: number;
 
   auth: {
     backgroundImage: string;
@@ -31,19 +55,13 @@ export interface Theme {
     };
   };
 
-  button: {
-    primary: {
+  navigation: {
+    color: string;
+    background: string;
+    activeItem: {
       color: string;
       background: string;
     };
-    disable: {
-      color: string;
-      background: string;
-    };
-  };
-
-  link: {
-    primary: string;
   };
 
   toast: {
