@@ -172,14 +172,18 @@ public class GroupService {
         accountService.getEntityById(kickAccountDto.accountId()); // check that the account exists
         try {
             var accountInGroup = getAccountInGroup(kickAccountDto.accountId(), id);
-            if (accountInGroup.getRole().getName().equals("Owner")) { throw new OwnerKickException(); }
+            if (accountInGroup.getRole().getName().equals("Owner")) {
+                throw new OwnerKickException();
+            }
             accountRoleGroupRepository.deleteByAccountIdAndAccGroupId(kickAccountDto.accountId(), id);
+        } catch (NoSuchElementException ex) {
+            throw new AccountIsNotInGroup(kickAccountDto.accountId(), id);
         }
-        catch (NoSuchElementException ex) { throw new AccountIsNotInGroup(kickAccountDto.accountId(), id); }
     }
 
     /**
      * Get groups for account with the specified email
+     *
      * @param email email of the account
      * @return {@link List} of groups
      */
