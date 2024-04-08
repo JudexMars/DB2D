@@ -7,7 +7,6 @@ export interface Theme {
   };
 
   borderRadius: number;
-  blur: number;
 
   auth: {
     backgroundImage: string;
@@ -50,7 +49,6 @@ export interface Theme {
   dotMenu: {
     background: string;
     border: string;
-    speed: number;
     item: {
       color: string;
       background: string;

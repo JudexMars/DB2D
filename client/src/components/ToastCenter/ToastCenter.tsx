@@ -30,7 +30,6 @@ const StyledToastCenter = styled(ToastCenter)<StyledToastContainerProps>`
   .Toastify__toast {
     color: ${({ theme }) => theme.colors.font};
     border-radius: ${({ theme }) => theme.borderRadius}px;
-    box-shadow: none;
     border: 1px solid ${({ theme }) => theme.colors.border};
   }
   .Toastify__toast-theme--dark {

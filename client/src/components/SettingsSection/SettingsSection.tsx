@@ -4,8 +4,8 @@ const StyledSection = styled.div`
   display: flex;
   align-items: start;
   flex-direction: column;
-  width: 100%;
   gap: 5px;
+  width: 100%;
 `;
 
 const StyledTitle = styled.h1`

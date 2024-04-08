@@ -1,10 +1,10 @@
 import { darken } from "polished";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 
 import Avatar from "components/Avatar";
 import Button from "components/Button";
-import DotMenu from "components/DotMenu";
+import DotMenu, { MenuItem } from "components/DotMenu";
 import Icon from "components/Icon";
 
 const StyledMemberCard = styled.div`
@@ -58,6 +58,27 @@ const StyledRole = styled.p`
 
 const MemberCard = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const menuRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (menuRef.current) {
+      menuRef.current.focus();
+    }
+  }, [isOpen]);
+
+  // Change on API implementation
+  const menu: MenuItem[] = [
+    {
+      icon: "EditPen",
+      title: "Изменить роль",
+      onClick: () => setIsOpen(!isOpen),
+    },
+    {
+      icon: "Kick",
+      title: "Выгнать",
+      onClick: () => setIsOpen(!isOpen),
+    },
+  ];
 
   return (
     <StyledMemberCard>
@@ -65,7 +86,13 @@ const MemberCard = (): JSX.Element => {
         <StyledDots onClick={() => setIsOpen(!isOpen)}>
           <Icon type='Dots' />
         </StyledDots>
-        {isOpen && <DotMenu />}
+        {isOpen && (
+          <DotMenu
+            ref={menuRef}
+            items={menu}
+            onClose={() => setIsOpen(false)}
+          />
+        )}
       </StyledDotsHeader>
       <Avatar size={96} />
       <StyledInfo>

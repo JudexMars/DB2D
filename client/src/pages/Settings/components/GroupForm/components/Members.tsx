@@ -13,6 +13,7 @@ const StyledMembers = styled.div`
 
 const StyledList = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
 `;
@@ -25,8 +26,6 @@ const Members = (): JSX.Element => {
         description='Добавляйте и изменяйте участников команды'
       >
         <StyledList>
-          <MemberCard />
-          <MemberCard />
           <MemberCard />
           <MemberCard />
           <MemberCard />

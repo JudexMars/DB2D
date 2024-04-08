@@ -10,7 +10,6 @@ export const baseTheme: Theme = {
   },
 
   borderRadius: 8,
-  blur: 15,
 
   auth: {
     backgroundImage: "linear-gradient(90deg, #677fff, #aa9cbb)",
@@ -51,9 +50,8 @@ export const baseTheme: Theme = {
   },
 
   dotMenu: {
-    background: "rgba(255, 255, 255, 0.7)",
+    background: "#FFFFFF",
     border: "#989898",
-    speed: 500,
     item: {
       color: "#000000",
       background: "#F2F2F2",
@@ -61,6 +59,6 @@ export const baseTheme: Theme = {
   },
 
   toast: {
-    background: "rgba(255, 255, 255, 0.7)",
+    background: "#FFFFFF",
   },
 };
