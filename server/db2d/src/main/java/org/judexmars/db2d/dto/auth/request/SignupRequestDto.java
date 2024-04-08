@@ -17,6 +17,8 @@ public record SignupRequestDto(
         @NotBlank
         String confirmPassword,
         @NotBlank
-        String language
+        String language,
+        @NotBlank
+        String theme
 ) {
 }

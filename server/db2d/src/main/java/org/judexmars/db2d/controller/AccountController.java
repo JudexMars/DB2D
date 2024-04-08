@@ -15,11 +15,16 @@ import org.judexmars.db2d.dto.account.AccountDto;
 import org.judexmars.db2d.dto.account.AccountPasswordDto;
 import org.judexmars.db2d.dto.account.AccountSettingsDto;
 import org.judexmars.db2d.dto.account.UpdateAccountDto;
+import org.judexmars.db2d.dto.group.GroupDto;
 import org.judexmars.db2d.service.AccountService;
 import org.judexmars.db2d.service.MessageRenderer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @Slf4j
@@ -91,9 +96,7 @@ public class AccountController {
 
     @Operation(description = "Получить настройки аккаунта")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Аккаунт найден", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = AccountDto.class))
-            }),
+            @ApiResponse(responseCode = "200", description = "Аккаунт найден", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),

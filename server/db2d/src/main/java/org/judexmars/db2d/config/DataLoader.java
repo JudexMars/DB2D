@@ -3,8 +3,10 @@ package org.judexmars.db2d.config;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.model.InterfaceLanguageEntity;
+import org.judexmars.db2d.model.InterfaceThemeEntity;
 import org.judexmars.db2d.model.PrivilegeEntity;
 import org.judexmars.db2d.repository.InterfaceLanguageRepository;
+import org.judexmars.db2d.repository.InterfaceThemeRepository;
 import org.judexmars.db2d.repository.PrivilegeRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,12 +23,15 @@ public class DataLoader implements ApplicationRunner {
 
     private final InterfaceLanguageRepository interfaceLanguageRepository;
 
+    private final InterfaceThemeRepository interfaceThemeRepository;
+
     private final PrivilegeRepository privilegeRepository;
 
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
         initInterfaceLanguages();
+        initInterfaceThemes();
         initPrivileges();
     }
 
@@ -39,6 +44,17 @@ public class DataLoader implements ApplicationRunner {
 
         createIf(ru, interfaceLanguageRepository, () -> condition.test("ru"));
         createIf(en, interfaceLanguageRepository, () -> condition.test("en"));
+    }
+
+    private void initInterfaceThemes() {
+
+        var light = new InterfaceThemeEntity().setName("light");
+        var dark = new InterfaceThemeEntity().setName("dark");
+
+        Predicate<String> condition = (String x) -> interfaceThemeRepository.findByName(x).isEmpty();
+
+        createIf(light, interfaceThemeRepository, () -> condition.test("light"));
+        createIf(dark, interfaceThemeRepository, () -> condition.test("dark"));
     }
 
     private void initPrivileges() {

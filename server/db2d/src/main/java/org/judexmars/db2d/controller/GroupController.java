@@ -136,4 +136,18 @@ public class GroupController {
         return ResponseEntity.ok(new BaseResponseDto(200, messageRenderer
                 .render("response.account_kicked_successfully", kickAccountDto.accountId(), id)));
     }
+
+    @Operation(summary = "Получить все группы для пользователя")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Список получен", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "400", description = "Неверный формат данных", content = @Content(
+                    schema = @Schema(implementation = BaseResponseDto.class), mediaType = APPLICATION_JSON_VALUE
+            ))
+    })
+    @GetMapping
+    public ResponseEntity<List<GroupDto>> getAllGroupsForAccount() {
+        var loggedInEmail = securityUtils.getLoggedInEmail();
+        var groupsForAccount = groupService.getGroupsForAccount(loggedInEmail);
+        return ResponseEntity.ok(groupsForAccount);
+    }
 }

@@ -47,7 +47,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@RequestBody @Valid JwtRequestDto requestDto) {
         var userDetails = accountService.loadUserByUsername(requestDto.email());
-        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails, requestDto.email(), requestDto.password());
+        JwtResponseDto jwtResponseDto = getResponseDto((AccountEntity) userDetails,
+                requestDto.email(), requestDto.password());
         return ResponseEntity.ok(jwtResponseDto);
     }
 

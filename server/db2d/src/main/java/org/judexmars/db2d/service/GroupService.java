@@ -177,4 +177,18 @@ public class GroupService {
         }
         catch (NoSuchElementException ex) { throw new AccountIsNotInGroup(kickAccountDto.accountId(), id); }
     }
+
+    /**
+     * Get groups for account with the specified email
+     * @param email email of the account
+     * @return {@link List} of groups
+     */
+    public List<GroupDto> getGroupsForAccount(String email) {
+        var account = accountService.getEntityByEmail(email);
+        return account.getRoles()
+                .stream()
+                .map(AccountRoleGroupEntity::getAccGroup)
+                .map(groupMapper::toGroupDto)
+                .toList();
+    }
 }

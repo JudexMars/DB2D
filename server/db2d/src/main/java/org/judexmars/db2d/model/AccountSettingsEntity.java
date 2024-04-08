@@ -14,6 +14,10 @@ public class AccountSettingsEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     public InterfaceLanguageEntity language;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    public InterfaceThemeEntity theme;
+
     @OneToOne
     @JoinColumn(name = "account_id")
     @MapsId

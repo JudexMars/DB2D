@@ -6,17 +6,16 @@ import org.judexmars.db2d.dto.account.AccountPasswordDto;
 import org.judexmars.db2d.dto.account.AccountSettingsDto;
 import org.judexmars.db2d.dto.account.UpdateAccountDto;
 import org.judexmars.db2d.dto.auth.request.SignupRequestDto;
-import org.judexmars.db2d.exception.AccountNotFoundException;
-import org.judexmars.db2d.exception.EmailTakenException;
-import org.judexmars.db2d.exception.LanguageNotFoundException;
-import org.judexmars.db2d.exception.WrongPasswordException;
+import org.judexmars.db2d.exception.*;
 import org.judexmars.db2d.mapper.AccountMapper;
 import org.judexmars.db2d.model.AccountEntity;
 import org.judexmars.db2d.model.AccountSettingsEntity;
 import org.judexmars.db2d.model.InterfaceLanguageEntity;
+import org.judexmars.db2d.model.InterfaceThemeEntity;
 import org.judexmars.db2d.repository.AccountRepository;
 import org.judexmars.db2d.repository.AccountSettingsRepository;
 import org.judexmars.db2d.repository.InterfaceLanguageRepository;
+import org.judexmars.db2d.repository.InterfaceThemeRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,6 +32,7 @@ public class AccountService implements UserDetailsService {
     private final AccountSettingsRepository accountSettingsRepository;
     private final InterfaceLanguageRepository interfaceLanguageRepository;
     private final AccountMapper accountMapper;
+    private final InterfaceThemeRepository interfaceThemeRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -97,6 +97,7 @@ public class AccountService implements UserDetailsService {
         var accountSettings = new AccountSettingsEntity();
         accountSettings.setAccount(account);
         accountSettings.setLanguage(getLanguage(signupRequestDto.language()));
+        accountSettings.setTheme(getTheme(signupRequestDto.theme()));
         account.setAccountSettings(accountSettings);
         return accountMapper.toAccountDto(accountRepository.save(account));
     }
@@ -181,5 +182,10 @@ public class AccountService implements UserDetailsService {
     private InterfaceLanguageEntity getLanguage(String language) {
         return interfaceLanguageRepository.findByName(language)
                 .orElseThrow(() -> new LanguageNotFoundException(language));
+    }
+
+    private InterfaceThemeEntity getTheme(String theme) {
+        return interfaceThemeRepository.findByName(theme)
+                .orElseThrow(() -> new ThemeNotFoundException(theme));
     }
 }
