@@ -29,7 +29,7 @@ public class RoleEntity {
     private String name;
 
     @ManyToOne
-    private AccGroupEntity accGroup;
+    private AccountGroupEntity accGroup;
 
     @OneToMany(mappedBy = "role")
     @ToString.Exclude

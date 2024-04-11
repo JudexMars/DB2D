@@ -39,17 +39,13 @@ public interface AccountMapper {
     AccountSettingsEntity toAccountSettings(AccountSettingsDto accountSettingsDto, Long id);
 
     default InterfaceLanguageEntity toInterfaceLanguage(String language) {
-        System.out.println("Mapping happens: " + language);
         var il = new InterfaceLanguageEntity();
-        System.out.println("Language entity: " + il);
         il.setName(language);
         return il;
     }
 
     default InterfaceThemeEntity toInterfaceTheme(String theme) {
-        System.out.println("Mapping happens: " + theme);
         var il = new InterfaceThemeEntity();
-        System.out.println("Theme entity: " + il);
         il.setName(theme);
         return il;
     }

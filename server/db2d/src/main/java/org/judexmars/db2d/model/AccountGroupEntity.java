@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "acc_group")
-public class AccGroupEntity {
+public class AccountGroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "acc_group_gen")

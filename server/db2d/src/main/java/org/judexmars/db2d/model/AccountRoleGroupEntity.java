@@ -26,5 +26,5 @@ public class AccountRoleGroupEntity {
     @Id
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "acc_group_id")
-    private AccGroupEntity accGroup;
+    private AccountGroupEntity accGroup;
 }

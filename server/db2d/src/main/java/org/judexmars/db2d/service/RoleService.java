@@ -3,6 +3,8 @@ package org.judexmars.db2d.service;
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.exception.NoSuchRoleException;
 import org.judexmars.db2d.exception.PrivilegeNotFound;
+import org.judexmars.db2d.model.DefaultPrivileges;
+import org.judexmars.db2d.model.DefaultRoles;
 import org.judexmars.db2d.model.PrivilegeEntity;
 import org.judexmars.db2d.model.RoleEntity;
 import org.judexmars.db2d.repository.PrivilegeRepository;
@@ -25,31 +27,30 @@ public class RoleService {
      * @return {@link List} of roles
      */
     List<RoleEntity> getDefaultRolesForGroup() {
-        var readContent = getPrivilegeEntityByName("READ_CONTENT");
-        var writeContent = getPrivilegeEntityByName("WRITE_CONTENT");
-        var editContent = getPrivilegeEntityByName("EDIT_CONTENT");
-        var deleteContent = getPrivilegeEntityByName("DELETE_CONTENT");
-        var manageAccounts = getPrivilegeEntityByName("MANAGE_ACCOUNTS");
-        var editGroupInfo = getPrivilegeEntityByName("EDIT_GROUP_INFO");
+        var readContent = getPrivilegeEntityByName(DefaultPrivileges.READ_CONTENT.name());
+        var editContent = getPrivilegeEntityByName(DefaultPrivileges.EDIT_CONTENT.name());
+        var deleteContent = getPrivilegeEntityByName(DefaultPrivileges.DELETE_CONTENT.name());
+        var manageAccounts = getPrivilegeEntityByName(DefaultPrivileges.MANAGE_ACCOUNTS.name());
+        var editGroupInfo = getPrivilegeEntityByName(DefaultPrivileges.EDIT_GROUP_INFO.name());
 
         var ownerPrivileges = new ArrayList<>(List.of(
-                readContent, writeContent, editContent, deleteContent, manageAccounts, editGroupInfo
+                readContent, editContent, deleteContent, manageAccounts, editGroupInfo
         ));
         var adminPrivileges = new ArrayList<>(List.of(
-                readContent, writeContent, editContent, deleteContent, manageAccounts, editGroupInfo
+                readContent, editContent, deleteContent, manageAccounts, editGroupInfo
         ));
         var editorPrivileges = new ArrayList<>(List.of(
-                readContent, writeContent, editContent, deleteContent
+                readContent, editContent, deleteContent
         ));
         var viewerPrivileges = new ArrayList<>(List.of(
                 readContent
         ));
 
         return new ArrayList<>(List.of(
-                new RoleEntity().setName("Owner").setPrivileges(ownerPrivileges),
-                new RoleEntity().setName("Admin").setPrivileges(adminPrivileges),
-                new RoleEntity().setName("Editor").setPrivileges(editorPrivileges),
-                new RoleEntity().setName("Viewer").setPrivileges(viewerPrivileges)
+                new RoleEntity().setName(DefaultRoles.Owner.name()).setPrivileges(ownerPrivileges),
+                new RoleEntity().setName(DefaultRoles.Admin.name()).setPrivileges(adminPrivileges),
+                new RoleEntity().setName(DefaultRoles.Editor.name()).setPrivileges(editorPrivileges),
+                new RoleEntity().setName(DefaultRoles.Viewer.name()).setPrivileges(viewerPrivileges)
         ));
     }
 

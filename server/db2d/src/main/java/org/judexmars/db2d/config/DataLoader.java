@@ -2,9 +2,7 @@ package org.judexmars.db2d.config;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.judexmars.db2d.model.InterfaceLanguageEntity;
-import org.judexmars.db2d.model.InterfaceThemeEntity;
-import org.judexmars.db2d.model.PrivilegeEntity;
+import org.judexmars.db2d.model.*;
 import org.judexmars.db2d.repository.InterfaceLanguageRepository;
 import org.judexmars.db2d.repository.InterfaceThemeRepository;
 import org.judexmars.db2d.repository.PrivilegeRepository;
@@ -13,7 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
@@ -36,37 +34,33 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void initInterfaceLanguages() {
-
-        var ru = InterfaceLanguageEntity.builder().name("ru").build();
-        var en = InterfaceLanguageEntity.builder().name("en").build();
+        var languages = Arrays.stream(DefaultLanguages.values())
+                .map(x -> new InterfaceLanguageEntity().setName(x.name()))
+                .toList();
 
         Predicate<String> condition = (String x) -> interfaceLanguageRepository.findByName(x).isEmpty();
 
-        createIf(ru, interfaceLanguageRepository, () -> condition.test("ru"));
-        createIf(en, interfaceLanguageRepository, () -> condition.test("en"));
+        for (var language : languages) {
+            createIf(language, interfaceLanguageRepository, () -> condition.test(language.getName()));
+        }
     }
 
     private void initInterfaceThemes() {
-
-        var light = new InterfaceThemeEntity().setName("light");
-        var dark = new InterfaceThemeEntity().setName("dark");
+        var themes = Arrays.stream(DefaultThemes.values())
+                .map(x -> new InterfaceThemeEntity().setName(x.name()))
+                .toList();
 
         Predicate<String> condition = (String x) -> interfaceThemeRepository.findByName(x).isEmpty();
 
-        createIf(light, interfaceThemeRepository, () -> condition.test("light"));
-        createIf(dark, interfaceThemeRepository, () -> condition.test("dark"));
+        for (var theme : themes) {
+            createIf(theme, interfaceThemeRepository, () -> condition.test(theme.getName()));
+        }
     }
 
     private void initPrivileges() {
-
-        var privileges = List.of(
-                new PrivilegeEntity().setName("READ_CONTENT"),
-                new PrivilegeEntity().setName("WRITE_CONTENT"),
-                new PrivilegeEntity().setName("EDIT_CONTENT"),
-                new PrivilegeEntity().setName("DELETE_CONTENT"),
-                new PrivilegeEntity().setName("MANAGE_ACCOUNTS"),
-                new PrivilegeEntity().setName("EDIT_GROUP_INFO")
-        );
+        var privileges = Arrays.stream(DefaultPrivileges.values())
+                .map(x -> new PrivilegeEntity().setName(x.name()))
+                .toList();
 
         Predicate<String> condition = (String x) -> privilegeRepository.findByName(x).isEmpty();
 
@@ -75,10 +69,9 @@ public class DataLoader implements ApplicationRunner {
         }
     }
 
-    private <T> T createIf(T entity, JpaRepository<T, ?> repository, BooleanSupplier condition) {
+    private <T> void createIf(T entity, JpaRepository<T, ?> repository, BooleanSupplier condition) {
         if (condition.getAsBoolean()) {
-            return repository.save(entity);
+            repository.save(entity);
         }
-        return null;
     }
 }

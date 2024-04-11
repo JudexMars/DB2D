@@ -28,5 +28,5 @@ public class AccountRoleGroupId implements Serializable {
     @Id
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "acc_group_id")
-    private AccGroupEntity accGroup;
+    private AccountGroupEntity accGroup;
 }

@@ -10,8 +10,8 @@ import org.judexmars.db2d.exception.GroupNotFoundException;
 import org.judexmars.db2d.exception.OwnerKickException;
 import org.judexmars.db2d.mapper.AccountMapper;
 import org.judexmars.db2d.mapper.GroupMapper;
-import org.judexmars.db2d.model.AccGroupEntity;
 import org.judexmars.db2d.model.AccountEntity;
+import org.judexmars.db2d.model.AccountGroupEntity;
 import org.judexmars.db2d.model.AccountRoleGroupEntity;
 import org.judexmars.db2d.model.RoleEntity;
 import org.judexmars.db2d.repository.AccountRoleGroupRepository;
@@ -57,9 +57,9 @@ public class GroupService {
      * Get group as entity by id
      *
      * @param groupId id of the group
-     * @return {@link AccGroupEntity}
+     * @return {@link AccountGroupEntity}
      */
-    public AccGroupEntity getGroupEntityById(Long groupId) {
+    public AccountGroupEntity getGroupEntityById(Long groupId) {
         return groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException(groupId));
     }
 
@@ -80,7 +80,7 @@ public class GroupService {
      * @param role    role entity
      * @param group   group entity
      */
-    protected void setGroupRole(AccountEntity account, RoleEntity role, AccGroupEntity group) {
+    protected void setGroupRole(AccountEntity account, RoleEntity role, AccountGroupEntity group) {
         var x = new AccountRoleGroupEntity().setAccount(account).setRole(role).setAccGroup(group);
         accountRoleGroupRepository.save(x);
     }
