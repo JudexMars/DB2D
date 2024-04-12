@@ -2,6 +2,7 @@ package org.judexmars.db2d.security;
 
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.service.AccountService;
+import org.judexmars.db2d.utils.JwtTokenUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +30,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"org.judexmars"})
 public class SecurityConfig {
 
-    private final JwtRequestFilter jwtRequestFilter;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry ->
@@ -74,5 +73,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public JwtRequestFilter jwtRequestFilter(AccountService accountService, JwtTokenUtils jwtTokenUtils) {
+        return new JwtRequestFilter(accountService, jwtTokenUtils);
     }
 }

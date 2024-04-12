@@ -13,11 +13,12 @@ public class MessageRenderer {
 
     /**
      * Render image depending on the current locale
+     *
      * @param messageCode message code from the property file
-     * @param parameters additional parameters which will be used in the message
+     * @param parameters  additional parameters which will be used in the message
      * @return final message
      */
-    public String render(String messageCode, Object ... parameters) {
+    public String render(String messageCode, Object... parameters) {
         return messageSource.getMessage(messageCode, parameters, LocaleContextHolder.getLocale());
     }
 }

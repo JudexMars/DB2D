@@ -9,12 +9,16 @@ public record SignupRequestDto(
         @Email
         String email,
         @NotBlank
-        String firstname,
+        String firstName,
         @NotBlank
-        String lastname,
+        String lastName,
         @NotBlank
         String password,
         @NotBlank
-        String confirmPassword
+        String confirmPassword,
+        @NotBlank
+        String language,
+        @NotBlank
+        String theme
 ) {
 }
