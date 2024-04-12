@@ -6,6 +6,7 @@ import { ThemeProvider } from "styled-components";
 
 import Authentication from "pages/Authentication";
 import Dashboard from "pages/Dashboard";
+import Group from "pages/Group";
 import Settings from "pages/Settings";
 
 import ToastCenter from "components/ToastCenter";
@@ -22,6 +23,7 @@ const App = (): JSX.Element => {
         <AuthProvider>
           <Routes>
             <Route path='/auth/*' element={<Authentication />} />
+            <Route path='/group/*' element={<Group />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/settings/*' element={<Settings />} />
           </Routes>

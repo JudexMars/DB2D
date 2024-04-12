@@ -21,6 +21,7 @@ interface StyledImgProps {
 
 const StyledImg = styled.img<StyledImgProps>`
   width: 100%;
+  pointer-events: none;
 
   ${({ theme, $variant }) => css`
     border-radius: ${theme.avatar.borderRadius[$variant]};

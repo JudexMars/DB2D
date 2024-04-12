@@ -150,7 +150,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   useEffect(() => {
     if (user) {
       sessionStorage.setItem("user", JSON.stringify(user));
-      navigate("/settings/group", { replace: true });
+      navigate("/group/select", { replace: true });
     } else {
       navigate("/auth/signIn", { replace: true });
     }

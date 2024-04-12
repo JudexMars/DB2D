@@ -40,6 +40,7 @@ export interface Theme {
       color: string;
       background: string;
     };
+    speed: number;
   };
 
   link: {

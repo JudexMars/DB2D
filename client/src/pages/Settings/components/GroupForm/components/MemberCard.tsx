@@ -7,6 +7,11 @@ import Button from "components/Button";
 import DotMenu, { MenuItem } from "components/DotMenu";
 import Icon from "components/Icon";
 
+export enum MemberCardVariant {
+  Add = "add",
+  Existing = "existing",
+}
+
 const StyledMemberCard = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,7 +61,11 @@ const StyledRole = styled.p`
   font-weight: 300;
 `;
 
-const MemberCard = (): JSX.Element => {
+interface MemberCardProps {
+  variant?: MemberCardVariant;
+}
+
+const MemberCard = ({ variant }: MemberCardProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLUListElement>(null);
 
@@ -66,7 +75,6 @@ const MemberCard = (): JSX.Element => {
     }
   }, [isOpen]);
 
-  // Change on API implementation
   const menu: MenuItem[] = [
     {
       icon: "EditPen",
