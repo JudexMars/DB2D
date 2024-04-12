@@ -5,21 +5,20 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import org.judexmars.db2d.dto.BaseMapResponseDto;
 import org.judexmars.db2d.dto.BaseResponseDto;
 import org.judexmars.db2d.exception.*;
 import org.judexmars.db2d.service.MessageRenderer;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.HashMap;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -28,13 +27,18 @@ public class AppExceptionHandler {
     private final MessageRenderer messageRenderer;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ProblemDetail handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        List<String> body =
-                ex.getBindingResult().getAllErrors().stream()
-                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                        .filter(Objects::nonNull)
-                        .toList();
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, body.toString());
+    protected ResponseEntity<BaseMapResponseDto> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+        var errors = new HashMap<String, String>();
+
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            if (error instanceof FieldError) {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getDefaultMessage();
+                errors.put(fieldName, errorMessage != null ? errorMessage : "Unknown");
+            }
+        });
+
+        return ResponseEntity.badRequest().body(new BaseMapResponseDto(400, errors));
     }
 
     @ExceptionHandler(BaseNotFoundException.class)
@@ -71,6 +75,12 @@ public class AppExceptionHandler {
     public ResponseEntity<BaseResponseDto> handleWrongPasswordException(WrongPasswordException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new BaseResponseDto(401, messageRenderer.render(ex.getMessageCode())));
+    }
+
+    @ExceptionHandler(OwnerKickException.class)
+    public ResponseEntity<BaseResponseDto> handleOwnerKickException(OwnerKickException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new BaseResponseDto(400, messageRenderer.render(ex.getMessageCode())));
     }
 
     @ExceptionHandler(

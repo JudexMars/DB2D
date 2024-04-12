@@ -11,7 +11,7 @@ public class BaseException extends ResponseStatusException {
 
     private final Object[] args;
 
-    public BaseException(HttpStatus status, String messageCode, Object ... args) {
+    public BaseException(HttpStatus status, String messageCode, Object... args) {
         super(status);
         this.messageCode = messageCode;
         this.args = args;

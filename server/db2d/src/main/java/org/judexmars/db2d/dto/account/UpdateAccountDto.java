@@ -1,11 +1,11 @@
 package org.judexmars.db2d.dto.account;
 
-import jakarta.validation.constraints.NotBlank;
+import org.judexmars.db2d.annotation.NullOrNotBlank;
 
 public record UpdateAccountDto(
-        @NotBlank
-        String firstname,
-        @NotBlank
-        String lastname
+        @NullOrNotBlank
+        String firstName,
+        @NullOrNotBlank
+        String lastName
 ) {
 }

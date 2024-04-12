@@ -6,7 +6,8 @@
 
     <changeSet id="2024-03-17-02-add-cascade-to-account-settings" author="JudexMars">
         <dropForeignKeyConstraint baseTableName="account_settings" constraintName="account_settings_account_id_fk"/>
-        <dropForeignKeyConstraint baseTableName="account_settings" constraintName="account_settings_interface_language_id_fk"/>
+        <dropForeignKeyConstraint baseTableName="account_settings"
+                                  constraintName="account_settings_interface_language_id_fk"/>
         <addForeignKeyConstraint baseTableName="account_settings" baseColumnNames="account_id"
                                  constraintName="account_settings_account_id_fk" referencedTableName="account"
                                  referencedColumnNames="id" onDelete="CASCADE"/>
@@ -15,6 +16,7 @@
                                  referencedTableName="interface_language"
                                  referencedColumnNames="id" onDelete="SET NULL"/>
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1"
-                        maxValue="9223372036854775807" minValue="1" sequenceName="interface_language_seq" startValue="1"/>
+                        maxValue="9223372036854775807" minValue="1" sequenceName="interface_language_seq"
+                        startValue="1"/>
     </changeSet>
 </databaseChangeLog>
