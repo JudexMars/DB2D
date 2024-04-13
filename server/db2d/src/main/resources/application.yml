@@ -6,9 +6,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    show-sql: false
   datasource:
     url: jdbc:postgresql://localhost:5432/db2d
     username: admin
@@ -17,4 +16,6 @@ spring:
     include: prod
   messages:
     basename: i18n/messages
-
+  threads:
+    virtual:
+      enabled: true

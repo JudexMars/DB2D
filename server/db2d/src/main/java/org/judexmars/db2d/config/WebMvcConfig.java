@@ -2,6 +2,7 @@ package org.judexmars.db2d.config;
 
 import lombok.RequiredArgsConstructor;
 import org.judexmars.db2d.repository.AccountRepository;
+import org.judexmars.db2d.utils.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final AccountRepository accountRepository;
 
+    private final SecurityUtils securityUtils;
+
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
@@ -28,9 +31,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LocaleInterceptor(accountRepository, localeResolver()))
+        registry.addInterceptor(new LocaleInterceptor(accountRepository, localeResolver(), securityUtils))
                 .addPathPatterns("/**")
                 .order(1);
-        }
+    }
 }
 

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.judexmars.db2d.dto.BaseResponseDto;
@@ -45,8 +46,8 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AccountDto> putAccount(@PathVariable Long id, @RequestBody UpdateAccountDto updateAccountDto) {
-        if (accountService.checkFakeId(id)) throw new AccessDeniedException("Wrong ID");
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @Valid @RequestBody UpdateAccountDto updateAccountDto) {
+        checkFakeId(id);
         var account = accountService.updateAccountById(id, updateAccountDto);
         return ResponseEntity.ok(account);
     }
@@ -64,7 +65,8 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}/password")
-    public ResponseEntity<BaseResponseDto> putAccountPassword(@PathVariable Long id, @RequestBody AccountPasswordDto accountPasswordDto) {
+    public ResponseEntity<BaseResponseDto> updateAccountPassword(@PathVariable Long id, @Valid @RequestBody AccountPasswordDto accountPasswordDto) {
+        checkFakeId(id);
         accountService.updateAccountPassword(id, accountPasswordDto);
         return ResponseEntity.ok(new BaseResponseDto(200, messageRenderer.render("response.password_update_success")));
     }
@@ -89,9 +91,7 @@ public class AccountController {
 
     @Operation(description = "Получить настройки аккаунта")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Аккаунт найден", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = AccountDto.class))
-            }),
+            @ApiResponse(responseCode = "200", description = "Аккаунт найден", useReturnTypeSchema = true),
             @ApiResponse(responseCode = "400", description = "Некорректный формат данных", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponseDto.class))
             }),
@@ -101,7 +101,7 @@ public class AccountController {
     })
     @GetMapping("/{id}/settings")
     public ResponseEntity<AccountSettingsDto> getAccountSettings(@PathVariable Long id) {
-        if (accountService.checkFakeId(id)) throw new AccessDeniedException("Wrong ID");
+        checkFakeId(id);
         var accountSettings = accountService.getAccountSettingsById(id);
         return ResponseEntity.ok(accountSettings);
     }
@@ -119,9 +119,13 @@ public class AccountController {
             })
     })
     @PutMapping("/{id}/settings")
-    public ResponseEntity<AccountSettingsDto> putAccountSettings(@PathVariable Long id, AccountSettingsDto accountSettingsDto) {
-        if (accountService.checkFakeId(id)) throw new AccessDeniedException("Wrong ID");
+    public ResponseEntity<AccountSettingsDto> updateAccountSettings(@PathVariable Long id, @Valid @RequestBody AccountSettingsDto accountSettingsDto) {
+        checkFakeId(id);
         var accountSettings = accountService.updateAccountSettingsById(id, accountSettingsDto);
         return ResponseEntity.ok(accountSettings);
+    }
+
+    private void checkFakeId(Long id) {
+        if (accountService.checkFakeId(id)) throw new AccessDeniedException("Wrong ID");
     }
 }
