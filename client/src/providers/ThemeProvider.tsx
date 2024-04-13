@@ -62,16 +62,17 @@ const ThemeProvider = ({ children }: AuthProviderProps): JSX.Element => {
         .matchMedia(DARK_MEDIA)
         .removeEventListener("change", setPreferredColorType);
     };
-  }, [setPreferredColorType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setThemeType = useCallback((type: ThemeType) => {
     setTheme(type === ThemeType.Light ? lightTheme : darkTheme);
-    toast.success("Тема успешно изменилась");
+    toast.success("Тема успешно изменена");
   }, []);
 
   const toggleTheme = useCallback(() => {
     setTheme((t) => (t.type === ThemeType.Light ? darkTheme : lightTheme));
-    toast.success("Тема успешно изменилась");
+    toast.success("Тема успешно изменена");
   }, []);
 
   const value = useMemo(

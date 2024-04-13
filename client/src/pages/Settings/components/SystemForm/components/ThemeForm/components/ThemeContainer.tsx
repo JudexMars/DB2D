@@ -1,6 +1,8 @@
 import { useTheme } from "providers/ThemeProvider";
 import { css, styled } from "styled-components";
 
+import LightThemeImg from "assets/img/lightTheme.png";
+
 import { ThemeType } from "styles/styled";
 
 interface StyledThemeContainerProps {
@@ -27,6 +29,7 @@ const ThemeBlock = styled.div`
   height: 100px;
   padding: 10px 0;
   border: 1px solid;
+  overflow: hidden;
   border-radius: ${({ theme }) => theme.borderRadius}px;
 `;
 
@@ -49,7 +52,9 @@ const ThemeContainer = ({ type }: ThemeContainerProps): JSX.Element => {
       $isActive={theme?.type === type}
       onClick={() => setTheme(type)}
     >
-      <ThemeBlock />
+      <ThemeBlock>
+        <img src={LightThemeImg} alt='LightTheme' />
+      </ThemeBlock>
       <ThemeTitle>{themeTitle}</ThemeTitle>
     </StyledThemeContainer>
   );

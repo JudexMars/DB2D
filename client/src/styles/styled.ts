@@ -67,4 +67,8 @@ export interface Theme {
   toast: {
     background: string;
   };
+
+  toggle: {
+    background: string;
+  };
 }

@@ -54,7 +54,7 @@ export const lightTheme: Theme = {
   },
 
   toast: {
-    background: "rgba(255, 255, 255, 0.7)",
+    background: "#FFFFFF",
   },
 
   navigation: {
@@ -64,6 +64,10 @@ export const lightTheme: Theme = {
       color: "#000000",
       background: "#FFFFFF",
     },
+  },
+
+  toggle: {
+    background: "#FFFFFF",
   },
 };
 
@@ -75,7 +79,7 @@ export const darkTheme: Theme = {
     background: "#31313A",
     border: "#E1E1E1",
     shadow: "rgba(0, 0, 0, 0.10)",
-    font: "#333333",
+    font: "#F2F2F2",
   },
 
   auth: {
@@ -102,7 +106,7 @@ export const darkTheme: Theme = {
   },
 
   toast: {
-    background: "rgba(0, 0, 33, 0.7)",
+    background: "rgba(0, 0, 33)",
   },
 
   navigation: {
@@ -112,5 +116,9 @@ export const darkTheme: Theme = {
       color: "#FFFFFF",
       background: "#464653",
     },
+  },
+
+  toggle: {
+    background: "#464653",
   },
 };
