@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@lingui/core": "^4.10.0",
+    "@lingui/macro": "^4.10.0",
+    "@lingui/react": "^4.10.0",
     "@tanstack/react-query": "^5.28.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -30,7 +33,10 @@
     "eject": "react-scripts eject",
     "lint:test": "eslint src",
     "prettier:test": "prettier src --check",
-    "prettier:fix": "npm run prettier:test -- --write"
+    "prettier:fix": "npm run prettier:test -- --write",
+    "lingui:extract": "lingui extract",
+    "lingui:compile": "lingui compile",
+    "prepare": "cd .. && husky client/.husky"
   },
   "proxy": "http://localhost:8080",
   "browserslist": {
@@ -46,15 +52,21 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@lingui/cli": "^4.10.0",
     "@tanstack/eslint-plugin-query": "^5.27.7",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
+    "babel-plugin-macros": "^3.1.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-lingui": "^0.3.0",
     "eslint-plugin-react": "^7.34.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "typescript": "^5.4.2"
   },

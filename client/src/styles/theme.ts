@@ -24,7 +24,7 @@ export const lightTheme: Theme = {
   type: ThemeType.Light,
 
   colors: {
-    background: "#00000",
+    background: "#FFFFFF",
     border: "#E1E1E1",
     shadow: "rgba(0, 0, 0, 0.10)",
     font: "#333333",

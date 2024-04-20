@@ -26,8 +26,10 @@ export interface SignUp {
 }
 
 export interface User {
-  accountId: number;
+  id: number;
   email: string;
+  firstName: string;
+  lastName: string;
   accessToken: string;
   refreshToken: string;
 }

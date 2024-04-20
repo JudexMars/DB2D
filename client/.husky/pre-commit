@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# cd client
+# npx lint-staged --concurrent false
+
+# staged=$(git diff --name-only --staged /src)
+# if [ -n "$staged"]; then
+#   npm run ingui:extract
+#   npm run lingui:compile --strict --verbose
+#   git add src/locales
+# fi

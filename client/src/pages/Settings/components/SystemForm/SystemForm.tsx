@@ -1,10 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { msg } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { useAuth } from "providers/AuthProvider";
 import { styled } from "styled-components";
 
 import SettingsSection, { SectionVariant } from "components/SettingsSection";
 
+import LanguageForm from "./components/LanguageForm";
 import ThemeForm from "./components/ThemeForm";
 
 export const StyledSystemForm = styled.div`
@@ -22,44 +23,34 @@ export interface AccountInfo {
 }
 
 const SystemForm = (): JSX.Element | null => {
+  const { _: t } = useLingui();
   const { user } = useAuth();
 
-  const { isLoading, data } = useQuery({
-    queryKey: ["names"],
-    queryFn: async (): Promise<AccountInfo> => {
-      const { data: account } = (await axios.get(
-        `/account/${user?.accountId}`,
-      )) as {
-        data: AccountInfo;
-      };
-
-      return account;
-    },
-  });
-
-  if (isLoading || !data?.firstname || !data?.lastname) {
+  if (!user) {
     return null;
   }
 
   return (
     <StyledSystemForm>
       <SettingsSection
-        title='Внешний вид'
-        description='Измените внешний вид и восприятие пользовательского интерфейса в вашем браузере'
+        title={t(msg`Внешний вид`)}
+        description={t(
+          msg`Измените внешний вид и восприятие пользовательского интерфейса в вашем браузере`,
+        )}
       >
         <SettingsSection
-          title='Тема интерфейса'
-          description='Выберите тему пользовательского интерфейса'
+          title={t(msg`Тема интерфейса`)}
+          description={t(msg`Выберите тему пользовательского интерфейса`)}
           variant={SectionVariant.Horizontal}
         >
           <ThemeForm />
         </SettingsSection>
         <SettingsSection
-          title='Выбор языка'
-          description='Выберите язык пользовательского интерфейса'
+          title={t(msg`Выбор языка`)}
+          description={t(msg`Выберите язык пользовательского интерфейса`)}
           variant={SectionVariant.Horizontal}
         >
-          test
+          <LanguageForm />
         </SettingsSection>
       </SettingsSection>
     </StyledSystemForm>

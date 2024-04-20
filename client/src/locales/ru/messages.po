@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2024-04-15 21:24+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/pages/Settings/components/SystemForm/components/LanguageForm/LanguageForm.tsx:25
+msgid "EN"
+msgstr "EN"
+
+#: src/pages/Settings/components/SystemForm/components/LanguageForm/LanguageForm.tsx:21
+msgid "RU"
+msgstr "RU"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:135
+msgid "Введенные пароли отличаются"
+msgstr "Введенные пароли отличаются"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:65
+msgid "Введите имя"
+msgstr "Введите имя"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:100
+msgid "Введите корректную почту"
+msgstr "Введите корректную почту"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:117
+msgid "Введите пароль"
+msgstr "Введите пароль"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:81
+msgid "Введите фамилию"
+msgstr "Введите фамилию"
+
+#: src/pages/Settings/components/SystemForm/SystemForm.tsx:34
+msgid "Внешний вид"
+msgstr "Внешний вид"
+
+#: src/components/Select/Select.tsx:96
+msgid "Выберите значение"
+msgstr "Выберите значение"
+
+#: src/pages/Settings/components/SystemForm/SystemForm.tsx:39
+msgid "Выберите тему пользовательского интерфейса"
+msgstr "Выберите тему пользовательского интерфейса"
+
+#: src/pages/Settings/components/SystemForm/SystemForm.tsx:46
+msgid "Выберите язык пользовательского интерфейса"
+msgstr "Выберите язык пользовательского интерфейса"
+
+#: src/pages/Settings/components/SystemForm/SystemForm.tsx:45
+msgid "Выбор языка"
+msgstr "Выбор языка"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:143
+msgid "Есть аккаунт? <0>Войти</0>"
+msgstr "Есть аккаунт? <0>Войти</0>"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:140
+msgid "Зарегистрироваться"
+msgstr "Зарегистрироваться"
+
+#: src/pages/Settings/components/SystemForm/SystemForm.tsx:35
+msgid "Измените внешний вид и восприятие пользовательского интерфейса в вашем браузере"
+msgstr "Измените внешний вид и восприятие пользовательского интерфейса в вашем браузере"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:54
+#: src/pages/Authentication/components/SignUpForm.tsx:55
+msgid "Имя"
+msgstr "Имя"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:107
+msgid "Пароль"
+msgstr "Пароль"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:124
+msgid "Подтверждение пароля"
+msgstr "Подтверждение пароля"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:49
+msgid "Регистрация"
+msgstr "Регистрация"
+
+#: src/pages/Settings/components/SystemForm/SystemForm.tsx:38
+msgid "Тема интерфейса"
+msgstr "Тема интерфейса"
+
+#: src/pages/Authentication/components/SignUpForm.tsx:71
+#: src/pages/Authentication/components/SignUpForm.tsx:72
+msgid "Фамилия"
+msgstr "Фамилия"

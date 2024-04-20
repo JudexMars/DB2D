@@ -24,7 +24,8 @@
     "paths": {
       "components/*": ["components/*"],
       "containers/*": ["containers/*"],
-      "pages/*": ["pages/*"]
+      "pages/*": ["pages/*"],
+      "locales/*": ["locales/*"]
     }
   },
   "include": ["src", "react-app-env.d.ts", "styled-components.d.ts"], // The files TypeScript should type check

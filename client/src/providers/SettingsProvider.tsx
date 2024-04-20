@@ -48,7 +48,7 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
       const changeNameToastId: Id = toast.loading("Смена имени");
       try {
         await axios.put(
-          `/account/${user?.accountId}`,
+          `/account/${user?.id}`,
           { firstname, lastname },
           { headers: { Authorization: `Bearer ${user?.accessToken}` } },
         );
@@ -83,7 +83,7 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
       const changePasswordToastId: Id = toast.loading("Смена пароля");
       try {
         await axios.put(
-          `/account/${user?.accountId}/password`,
+          `/account/${user?.id}/password`,
           { oldPassword, newPassword },
           { headers: { Authorization: `Bearer ${user?.accessToken}` } },
         );

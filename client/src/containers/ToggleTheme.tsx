@@ -81,7 +81,12 @@ const ToggleTheme = ({ className }: ToggleThemeProps) => {
 
   return (
     <StyledToggleTheme className={className} onClick={toggleTheme}>
-      <StyledInput id='theme-check' type='checkbox' checked={isDarkTheme} />
+      <StyledInput
+        id='theme-check'
+        type='checkbox'
+        checked={isDarkTheme}
+        onChange={toggleTheme}
+      />
       <StyledSpan />
       <StyledIcon
         type={isDarkTheme ? "Sun" : "Moon"}

@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useAuth } from "providers/AuthProvider";
 import { styled } from "styled-components";
 
@@ -24,27 +22,14 @@ export interface AccountInfo {
 const MyProfileForm = (): JSX.Element | null => {
   const { user } = useAuth();
 
-  const { isLoading, data } = useQuery({
-    queryKey: ["names"],
-    queryFn: async (): Promise<AccountInfo> => {
-      const { data: account } = (await axios.get(
-        `/account/${user?.accountId}`,
-      )) as {
-        data: AccountInfo;
-      };
-
-      return account;
-    },
-  });
-
-  if (isLoading || !data?.firstname || !data?.lastname) {
+  if (!user?.firstName || !user?.lastName) {
     return null;
   }
 
   return (
     <StyledMyProfileForm>
-      <AvatarForm firstname={data.firstname} lastname={data.lastname} />
-      <ChangeNameForm firstname={data.firstname} lastname={data.lastname} />
+      <AvatarForm firstname={user.firstName} lastname={user.lastName} />
+      <ChangeNameForm firstname={user.firstName} lastname={user.lastName} />
       <ChangePasswordForm />
     </StyledMyProfileForm>
   );

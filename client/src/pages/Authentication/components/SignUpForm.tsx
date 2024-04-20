@@ -1,3 +1,4 @@
+import { Trans, t } from "@lingui/macro";
 import { useAuth } from "providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
@@ -44,12 +45,14 @@ const SignUpForm = (): JSX.Element => {
 
   return (
     <WrapperForm onSubmit={handleSubmit(onSubmit)}>
-      <TitleForm>Регистрация</TitleForm>
+      <TitleForm>
+        <Trans>Регистрация</Trans>
+      </TitleForm>
       <WrapperNames>
         <WrapperInput>
           <StyledInput
-            label='Имя'
-            placeholder='Имя'
+            label={t`Имя`}
+            placeholder={t`Имя`}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register("firstName", {
               required: true,
@@ -57,19 +60,27 @@ const SignUpForm = (): JSX.Element => {
             })}
             $isError={!!errors.firstName}
           />
-          {errors.firstName && <ErrorMessage>Введите имя</ErrorMessage>}
+          {errors.firstName && (
+            <ErrorMessage>
+              <Trans>Введите имя</Trans>
+            </ErrorMessage>
+          )}
         </WrapperInput>
         <WrapperInput>
           <StyledInput
-            label='Фамилия'
-            placeholder='Фамилия'
+            label={t`Фамилия`}
+            placeholder={t`Фамилия`}
             {...register("lastName", {
               required: true,
               setValueAs: (v) => v.trim(),
             })}
             $isError={!!errors.lastName}
           />
-          {errors.lastName && <ErrorMessage>Введите фамилию</ErrorMessage>}
+          {errors.lastName && (
+            <ErrorMessage>
+              <Trans>Введите фамилию</Trans>
+            </ErrorMessage>
+          )}
         </WrapperInput>
       </WrapperNames>
       <WrapperInput>
@@ -84,12 +95,16 @@ const SignUpForm = (): JSX.Element => {
           })}
           $isError={!!errors.email}
         />
-        {errors.email && <ErrorMessage>Введите корректную почту</ErrorMessage>}
+        {errors.email && (
+          <ErrorMessage>
+            <Trans>Введите корректную почту</Trans>
+          </ErrorMessage>
+        )}
       </WrapperInput>
       <WrapperInput>
         <StyledInput
           type='password'
-          label='Пароль'
+          label={t`Пароль`}
           placeholder='12345678'
           {...register("password", {
             required: true,
@@ -97,12 +112,16 @@ const SignUpForm = (): JSX.Element => {
           })}
           $isError={!!errors.password}
         />
-        {errors.password && <ErrorMessage>Введите пароль</ErrorMessage>}
+        {errors.password && (
+          <ErrorMessage>
+            <Trans>Введите пароль</Trans>
+          </ErrorMessage>
+        )}
       </WrapperInput>
       <WrapperInput>
         <StyledInput
           type='password'
-          label='Подтверждение пароля'
+          label={t`Подтверждение пароля`}
           placeholder='12345678'
           {...register("confirmPassword", {
             required: true,
@@ -112,12 +131,18 @@ const SignUpForm = (): JSX.Element => {
           $isError={!!errors.confirmPassword}
         />
         {errors.confirmPassword && (
-          <ErrorMessage>Введенные пароли отличаются</ErrorMessage>
+          <ErrorMessage>
+            <Trans>Введенные пароли отличаются</Trans>
+          </ErrorMessage>
         )}
       </WrapperInput>
-      <Button type='submit'>Зарегистрироваться</Button>
+      <Button type='submit'>
+        <Trans>Зарегистрироваться</Trans>
+      </Button>
       <p>
-        Есть аккаунт? <StyledLink to='/auth/signIn'>Войти</StyledLink>
+        <Trans>
+          Есть аккаунт? <StyledLink to='/auth/signIn'>Войти</StyledLink>
+        </Trans>
       </p>
     </WrapperForm>
   );
