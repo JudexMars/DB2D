@@ -1,3 +1,4 @@
+import { useGroup } from "providers/GroupProvider";
 import { styled } from "styled-components";
 
 import SettingsSection from "components/SettingsSection";
@@ -8,6 +9,7 @@ const StyledMembers = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
   gap: 10px;
 `;
 
@@ -19,6 +21,10 @@ const StyledList = styled.div`
 `;
 
 const Members = (): JSX.Element => {
+  const { fetchGroupMembersQuery } = useGroup();
+  const { isLoading, data, refetch } = fetchGroupMembersQuery;
+  refetch();
+
   return (
     <StyledMembers>
       <SettingsSection
@@ -26,11 +32,14 @@ const Members = (): JSX.Element => {
         description='Добавляйте и изменяйте участников команды'
       >
         <StyledList>
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
-          <MemberCard />
+          {!isLoading &&
+            data?.map((member) => (
+              <MemberCard
+                key={member.id}
+                name={member.firstName}
+                role={member.role}
+              />
+            ))}
         </StyledList>
       </SettingsSection>
     </StyledMembers>

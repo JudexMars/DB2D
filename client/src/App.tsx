@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "providers/AuthProvider";
+import { GroupProvider } from "providers/GroupProvider";
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "styled-components";
@@ -21,12 +22,14 @@ const App = (): JSX.Element => {
     <ThemeProvider theme={baseTheme}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Routes>
-            <Route path='/auth/*' element={<Authentication />} />
-            <Route path='/group/*' element={<Group />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/settings/*' element={<Settings />} />
-          </Routes>
+          <GroupProvider>
+            <Routes>
+              <Route path='/auth/*' element={<Authentication />} />
+              <Route path='/group/*' element={<Group />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/settings/*' element={<Settings />} />
+            </Routes>
+          </GroupProvider>
         </AuthProvider>
       </QueryClientProvider>
       <ToastCenter />

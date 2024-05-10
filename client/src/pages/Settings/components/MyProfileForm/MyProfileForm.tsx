@@ -17,8 +17,8 @@ export const StyledMyProfileForm = styled.div`
 `;
 
 export interface AccountInfo {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
 }
 
 const MyProfileForm = (): JSX.Element | null => {
@@ -27,9 +27,7 @@ const MyProfileForm = (): JSX.Element | null => {
   const { isLoading, data } = useQuery({
     queryKey: ["names"],
     queryFn: async (): Promise<AccountInfo> => {
-      const { data: account } = (await axios.get(
-        `/account/${user?.accountId}`,
-      )) as {
+      const { data: account } = (await axios.get(`/account/${user?.id}`)) as {
         data: AccountInfo;
       };
 
@@ -37,14 +35,14 @@ const MyProfileForm = (): JSX.Element | null => {
     },
   });
 
-  if (isLoading || !data?.firstname || !data?.lastname) {
+  if (isLoading || !data?.firstName || !data?.lastName) {
     return null;
   }
 
   return (
     <StyledMyProfileForm>
-      <AvatarForm firstname={data.firstname} lastname={data.lastname} />
-      <ChangeNameForm firstname={data.firstname} lastname={data.lastname} />
+      <AvatarForm firstname={data.firstName} lastname={data.lastName} />
+      <ChangeNameForm firstname={data.firstName} lastname={data.lastName} />
       <ChangePasswordForm />
     </StyledMyProfileForm>
   );

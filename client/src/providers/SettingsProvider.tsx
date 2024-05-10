@@ -21,13 +21,6 @@ export interface ChangePassword {
   newPassword: string;
 }
 
-export interface SettingsContextProps {
-  /** Function to change current user's name */
-  changeName: (props: ChangeName) => void;
-  /** Function to change current user's password */
-  changePassword: (props: ChangePassword) => void;
-}
-
 interface SettingsErrorProps {
   message?: string;
   error?: string;
@@ -35,6 +28,13 @@ interface SettingsErrorProps {
 
 interface SettingsProviderProps {
   children: ReactNode;
+}
+
+export interface SettingsContextProps {
+  /** Function to change current user's name */
+  changeName: (props: ChangeName) => void;
+  /** Function to change current user's password */
+  changePassword: (props: ChangePassword) => void;
 }
 
 const SettingsContext = createContext<SettingsContextProps | null>(null);
@@ -48,7 +48,7 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
       const changeNameToastId: Id = toast.loading("Смена имени");
       try {
         await axios.put(
-          `/account/${user?.accountId}`,
+          `/account/${user?.id}`,
           { firstname, lastname },
           { headers: { Authorization: `Bearer ${user?.accessToken}` } },
         );
@@ -83,7 +83,7 @@ const SettingsProvider = ({ children }: SettingsProviderProps): JSX.Element => {
       const changePasswordToastId: Id = toast.loading("Смена пароля");
       try {
         await axios.put(
-          `/account/${user?.accountId}/password`,
+          `/account/${user?.id}/password`,
           { oldPassword, newPassword },
           { headers: { Authorization: `Bearer ${user?.accessToken}` } },
         );

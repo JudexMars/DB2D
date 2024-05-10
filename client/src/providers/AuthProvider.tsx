@@ -23,11 +23,24 @@ export interface SignUp {
   lastName: string;
   password: string;
   confirmPassword: string;
+  language?: string;
+  theme?: string;
+}
+
+export interface Group {
+  id: number;
+  name: string;
+  description: string;
 }
 
 export interface User {
-  accountId: number;
+  id: number;
   email: string;
+  firstName: string;
+  lastName: string;
+  groups: Group[];
+  language: string;
+  theme: string;
   accessToken: string;
   refreshToken: string;
 }
@@ -101,16 +114,20 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       lastName,
       password,
       confirmPassword,
+      language = "ru",
+      theme = "light",
     }: SignUp) => {
       const signUpToastId: Id = toast.loading("Регистрация");
 
       try {
         const { data } = (await axios.post("/auth/signup", {
           email,
-          firstname: firstName,
-          lastname: lastName,
+          firstName,
+          lastName,
           password,
           confirmPassword,
+          language,
+          theme,
         })) as { data: User };
 
         toast.update(signUpToastId, {

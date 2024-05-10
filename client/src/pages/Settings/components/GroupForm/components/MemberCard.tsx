@@ -63,9 +63,11 @@ const StyledRole = styled.p`
 
 interface MemberCardProps {
   variant?: MemberCardVariant;
+  name?: string;
+  role?: string;
 }
 
-const MemberCard = ({ variant }: MemberCardProps): JSX.Element => {
+const MemberCard = ({ variant, name, role }: MemberCardProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLUListElement>(null);
 
@@ -88,6 +90,15 @@ const MemberCard = ({ variant }: MemberCardProps): JSX.Element => {
     },
   ];
 
+  if (variant === MemberCardVariant.Add) {
+    return (
+      <StyledMemberCard>
+        <Icon type='AddPlus' />
+        <StyledName>{name}</StyledName>
+      </StyledMemberCard>
+    );
+  }
+
   return (
     <StyledMemberCard>
       <StyledDotsHeader>
@@ -104,8 +115,8 @@ const MemberCard = ({ variant }: MemberCardProps): JSX.Element => {
       </StyledDotsHeader>
       <Avatar size={96} />
       <StyledInfo>
-        <StyledName>Агарков</StyledName>
-        <StyledRole>Фронтендер</StyledRole>
+        <StyledName>{name}</StyledName>
+        <StyledRole>{role}</StyledRole>
       </StyledInfo>
     </StyledMemberCard>
   );

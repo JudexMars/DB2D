@@ -1,12 +1,13 @@
+import { useGroup } from "providers/GroupProvider";
 import { styled } from "styled-components";
 
 import GroupCard, { GroupCardVariant } from "./GroupCard";
 
-const StyledGroupCreation = styled.div`
+const StyledGroupSelection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  max-width: 40%;
+  max-width: 50%;
 `;
 
 const StyledTitle = styled.p`
@@ -17,20 +18,31 @@ const StyledTitle = styled.p`
 
 const StyledGroupsList = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 `;
 
 const GroupSelection = (): JSX.Element => {
+  const { fetchGroupsQuery, selectActiveGroupState } = useGroup();
+  const { isLoading, data, refetch } = fetchGroupsQuery;
+  refetch();
+
   return (
-    <StyledGroupCreation>
+    <StyledGroupSelection>
       <StyledTitle>Выберите группу</StyledTitle>
       <StyledGroupsList>
-        <GroupCard title='Frontend отдел' />
-        <GroupCard title='Backend отдел' />
-        <GroupCard title='Backend отдел' />
         <GroupCard variant={GroupCardVariant.New} title='Создать свою группу' />
+        {!isLoading &&
+          data?.map((group) => (
+            <GroupCard
+              key={group.id}
+              title={group.name}
+              onClick={() => selectActiveGroupState({ id: group.id })}
+            />
+          ))}
       </StyledGroupsList>
-    </StyledGroupCreation>
+    </StyledGroupSelection>
   );
 };
 

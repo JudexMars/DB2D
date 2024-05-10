@@ -8,7 +8,7 @@ export const StyledGroupForm = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 80%;
+  width: 100%;
   gap: 30px;
 `;
 
