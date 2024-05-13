@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 import SettingsSection from "components/SettingsSection";
 
-import MemberCard from "./MemberCard";
+import MemberCard, { MemberCardVariant } from "./MemberCard";
 
 const StyledMembers = styled.div`
   display: flex;
@@ -32,10 +32,15 @@ const Members = (): JSX.Element => {
         description='Добавляйте и изменяйте участников команды'
       >
         <StyledList>
+          <MemberCard
+            variant={MemberCardVariant.Add}
+            name='Добавить участника'
+          />
           {!isLoading &&
             data?.map((member) => (
               <MemberCard
                 key={member.id}
+                accountId={member.id}
                 name={member.firstName}
                 role={member.role}
               />

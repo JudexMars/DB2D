@@ -1,4 +1,5 @@
 import { ReactComponent as IconAddPlusSvg } from "./addPlus.svg";
+import { ReactComponent as IconCloseModalSvg } from "./closeModal.svg";
 import { ReactComponent as IconDotsSvg } from "./dots.svg";
 import { ReactComponent as IconEditSvg } from "./editPen.svg";
 import { ReactComponent as IconKickSvg } from "./kick.svg";
@@ -10,6 +11,7 @@ const icons = {
   Kick: IconKickSvg,
   Dots: IconDotsSvg,
   AddPlus: IconAddPlusSvg,
+  CloseModal: IconCloseModalSvg,
 };
 
 export default icons;

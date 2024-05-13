@@ -1,9 +1,10 @@
 import { darken } from "polished";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { styled } from "styled-components";
 
 import Button from "components/Button";
 import Icon, { IconType } from "components/Icon/Icon";
+import Modal from "components/Modal";
 
 const StyledMenu = styled.ul`
   position: absolute;
@@ -39,6 +40,10 @@ const StyledMenuItem = styled(Button)`
   }
 `;
 
+const ModalHolder = styled.div`
+  width: 100%;
+`;
+
 export interface DotMenuItemProps {
   iconType: IconType;
 }
@@ -46,7 +51,10 @@ export interface DotMenuItemProps {
 export interface MenuItem {
   icon: IconType;
   title: string;
+  modalTitle?: string;
   onClick: () => void;
+  onModalApply?: () => void;
+  children?: React.ReactNode;
 }
 
 interface DotMenuProps {
@@ -56,6 +64,9 @@ interface DotMenuProps {
 
 const DotMenu = forwardRef<HTMLUListElement, DotMenuProps>(
   ({ items, onClose }: DotMenuProps): JSX.Element => {
+    const [isDotMenuModalOpen, setIsDotMenuModalOpen] =
+      useState<boolean>(false);
+
     return (
       <StyledMenu
         tabIndex={0}
@@ -63,11 +74,23 @@ const DotMenu = forwardRef<HTMLUListElement, DotMenuProps>(
         onFocus={() => console.log("Focus")}
         onBlur={onClose}
       >
-        {items.map(({ icon, title, onClick }) => (
-          <StyledMenuItem key={title} onClick={onClick}>
-            <Icon type={icon} />
-            <p>{title}</p>
-          </StyledMenuItem>
+        {items.map(({ icon, title, modalTitle, children }) => (
+          <ModalHolder key={title}>
+            <StyledMenuItem
+              onClick={() => setIsDotMenuModalOpen(!isDotMenuModalOpen)}
+            >
+              <Icon type={icon} />
+              <p>{title}</p>
+            </StyledMenuItem>
+            {modalTitle && isDotMenuModalOpen && (
+              <Modal
+                title={modalTitle}
+                onClose={() => setIsDotMenuModalOpen(!isDotMenuModalOpen)}
+              >
+                {children}
+              </Modal>
+            )}
+          </ModalHolder>
         ))}
       </StyledMenu>
     );

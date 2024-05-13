@@ -36,6 +36,14 @@ export interface SetGroupInfo {
   description: string;
 }
 
+export interface InviteUser {
+  email: string;
+}
+
+export interface KickMember {
+  accountId: number;
+}
+
 export interface SetRole {
   groupId: number;
   accountId: number;
@@ -62,6 +70,8 @@ export interface GroupContextProps {
   /** Function for changing user's role in group */
   selectActiveGroupState: (props: SelectActiveGroup) => void;
   setGroupInfo: (props: SetGroupInfo) => void;
+  inviteUser: (props: InviteUser) => void;
+  kickMember: (props: KickMember) => void;
   setRole: (props: SetRole) => void;
 }
 
@@ -163,11 +173,11 @@ const GroupProvider = ({ children }: GroupProviderProps): JSX.Element => {
       const setGroupInfoId: Id = toast.loading("Изменение инфморации о группе");
 
       try {
-        await axios.put(
+        const { data } = (await axios.put(
           `/group/${activeGroup?.id}`,
           { name, description },
           { headers: { Authorization: `Bearer ${user?.accessToken}` } },
-        );
+        )) as { data: Group };
 
         toast.update(setGroupInfoId, {
           render: "Информация о группе успешно изменена",
@@ -175,6 +185,8 @@ const GroupProvider = ({ children }: GroupProviderProps): JSX.Element => {
           autoClose: 1500,
           isLoading: false,
         });
+
+        setActiveGroup(data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.update(setGroupInfoId, {
@@ -187,6 +199,76 @@ const GroupProvider = ({ children }: GroupProviderProps): JSX.Element => {
             autoClose: 3500,
             isLoading: false,
           });
+        }
+      }
+    },
+  });
+
+  const inviteUserMutation = useMutation({
+    mutationFn: async ({ email }: InviteUser) => {
+      const inviteUserToastId: Id = toast.loading("Приглашаем пользователя");
+      try {
+        await axios.post(
+          `/group/${activeGroup?.id}/invite`,
+          { email },
+          { headers: { Authorization: `Bearer ${user?.accessToken}` } },
+        );
+
+        toast.update(inviteUserToastId, {
+          render: "Роль успешно изменена",
+          type: "success",
+          autoClose: 1500,
+          isLoading: false,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (axios.isAxiosError(error)) {
+            toast.update(inviteUserToastId, {
+              render: `Ошибка: ${
+                (error.response?.data as GroupErrorProps).message
+                  ? (error.response?.data as GroupErrorProps).message
+                  : (error.response?.data as GroupErrorProps).error
+              }`,
+              type: "error",
+              autoClose: 3500,
+              isLoading: false,
+            });
+          }
+        }
+      }
+    },
+  });
+
+  const kickMemberMutation = useMutation({
+    mutationFn: async ({ accountId }: KickMember) => {
+      const kickMemberToastId: Id = toast.loading("Выгоняем участника");
+      try {
+        await axios.put(
+          `/group/${activeGroup?.id}/kick`,
+          { accountId },
+          { headers: { Authorization: `Bearer ${user?.accessToken}` } },
+        );
+
+        toast.update(kickMemberToastId, {
+          render: "Участник выгнан",
+          type: "success",
+          autoClose: 1500,
+          isLoading: false,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (axios.isAxiosError(error)) {
+            toast.update(kickMemberToastId, {
+              render: `Ошибка: ${
+                (error.response?.data as GroupErrorProps).message
+                  ? (error.response?.data as GroupErrorProps).message
+                  : (error.response?.data as GroupErrorProps).error
+              }`,
+              type: "error",
+              autoClose: 3500,
+              isLoading: false,
+            });
+          }
         }
       }
     },
@@ -250,6 +332,16 @@ const GroupProvider = ({ children }: GroupProviderProps): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const inviteUser = useCallback((props: InviteUser) => {
+    inviteUserMutation.mutate(props);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const kickMember = useCallback((props: KickMember) => {
+    kickMemberMutation.mutate(props);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const setRole = useCallback((props: SetRole) => {
     setUserRoleMutation.mutate(props);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -264,6 +356,8 @@ const GroupProvider = ({ children }: GroupProviderProps): JSX.Element => {
       createGroup,
       selectActiveGroupState,
       setGroupInfo,
+      inviteUser,
+      kickMember,
       setRole,
     }),
     [
@@ -274,6 +368,8 @@ const GroupProvider = ({ children }: GroupProviderProps): JSX.Element => {
       createGroup,
       selectActiveGroupState,
       setGroupInfo,
+      inviteUser,
+      kickMember,
       setRole,
     ],
   );
