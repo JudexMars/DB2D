@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import InfoForm from "./components/InfoForm";
 import Members from "./components/Members";
 
-export const StyledGroupForm = styled.div`
+export const StyledGroupWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,13 +12,13 @@ export const StyledGroupForm = styled.div`
   gap: 30px;
 `;
 
-const OrganizationForm = (): JSX.Element => {
+const GroupForm = (): JSX.Element => {
   return (
-    <StyledGroupForm>
+    <StyledGroupWrapper>
       <InfoForm />
       <Members />
-    </StyledGroupForm>
+    </StyledGroupWrapper>
   );
 };
 
-export default OrganizationForm;
+export default GroupForm;

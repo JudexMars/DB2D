@@ -53,7 +53,6 @@ export interface MenuItem {
   title: string;
   modalTitle?: string;
   onClick: () => void;
-  onModalApply?: () => void;
   children?: React.ReactNode;
 }
 
@@ -64,16 +63,10 @@ interface DotMenuProps {
 
 const DotMenu = forwardRef<HTMLUListElement, DotMenuProps>(
   ({ items, onClose }: DotMenuProps): JSX.Element => {
-    const [isDotMenuModalOpen, setIsDotMenuModalOpen] =
-      useState<boolean>(false);
+    const [isDotMenuModalOpen, setIsDotMenuModalOpen] = useState(false);
 
     return (
-      <StyledMenu
-        tabIndex={0}
-        ref={(ul) => ul?.focus()}
-        onFocus={() => console.log("Focus")}
-        onBlur={onClose}
-      >
+      <StyledMenu tabIndex={0} ref={(ul) => ul?.focus()} onBlur={onClose}>
         {items.map(({ icon, title, modalTitle, children }) => (
           <ModalHolder key={title}>
             <StyledMenuItem
