@@ -4,8 +4,8 @@ const StyledSection = styled.div`
   display: flex;
   align-items: start;
   flex-direction: column;
-  width: 100%;
   gap: 5px;
+  width: 100%;
 `;
 
 const StyledTitle = styled.h1`
@@ -16,6 +16,11 @@ const StyledTitle = styled.h1`
 const StyledDescription = styled.h3`
   font-weight: 400;
   font-size: 16px;
+`;
+
+const StyledInfo = styled.div`
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const StyledSeparation = styled.div`
@@ -38,8 +43,10 @@ const Section = ({
 }: SectionProps): JSX.Element => {
   return (
     <StyledSection>
-      <StyledTitle>{title}</StyledTitle>
-      <StyledDescription>{description}</StyledDescription>
+      <StyledInfo>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledDescription>{description}</StyledDescription>
+      </StyledInfo>
       <StyledSeparation />
       {children}
     </StyledSection>

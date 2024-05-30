@@ -20,6 +20,8 @@ const StyledButton = styled.button<StyledButtonProps>`
   border-radius: ${(props) => props.theme.borderRadius}px;
   font-size: 24px;
   font-weight: 600;
+  transition: background-color ${({ theme }) => theme.button.speed}ms
+    ease-in-out;
 
   &:hover {
     cursor: pointer;

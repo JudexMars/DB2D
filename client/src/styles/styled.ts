@@ -40,10 +40,20 @@ export interface Theme {
       color: string;
       background: string;
     };
+    speed: number;
   };
 
   link: {
     primary: string;
+  };
+
+  dotMenu: {
+    background: string;
+    border: string;
+    item: {
+      color: string;
+      background: string;
+    }
   };
 
   toast: {

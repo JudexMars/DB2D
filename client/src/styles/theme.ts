@@ -3,7 +3,7 @@ import { Theme } from "./styled";
 // eslint-disable-next-line import/prefer-default-export
 export const baseTheme: Theme = {
   colors: {
-    background: "#00000",
+    background: "#FFFFFF",
     border: "#E1E1E1",
     shadow: "rgba(0, 0, 0, 0.10)",
     font: "#333333",
@@ -43,13 +43,23 @@ export const baseTheme: Theme = {
       color: "#919197",
       background: "#E1E1E1",
     },
+    speed: 100,
   },
 
   link: {
     primary: "#677FFF",
   },
 
+  dotMenu: {
+    background: "#FFFFFF",
+    border: "#989898",
+    item: {
+      color: "#000000",
+      background: "#F2F2F2",
+    },
+  },
+
   toast: {
-    background: "rgba(255, 255, 255, 0.7)",
+    background: "#FFFFFF",
   },
 };

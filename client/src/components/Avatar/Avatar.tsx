@@ -6,8 +6,6 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 150px;
 `;
 
 export enum AvatarVariant {
@@ -23,6 +21,7 @@ interface StyledImgProps {
 
 const StyledImg = styled.img<StyledImgProps>`
   width: 100%;
+  pointer-events: none;
 
   ${({ theme, $variant }) => css`
     border-radius: ${theme.avatar.borderRadius[$variant]};
